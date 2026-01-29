@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的榮耀徽章全覽 | SWAG</title>
+    <style>
+        :root {
+            --primary-bg: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --accent-color: #f43f5e;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --glass-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--primary-bg);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(244, 63, 94, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(56, 189, 248, 0.1) 0%, transparent 40%);
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        /* 多語系切換按鈕 */
+        .lang-switcher {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            display: flex;
+            gap: 8px;
+        }
+
+        .lang-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 12px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover, .lang-btn.active {
+            background: var(--accent-color);
+            border-color: var(--accent-color);
+        }
+
+        /* 標題區域 */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(to right, #fff, #94a3b8);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 12px;
+        }
+
+        .header p {
+            color: var(--text-dim);
+            font-size: 1.1rem;
+        }
+
+        /* 內容區域 */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* 徽章網格 */
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 24px;
+        }
+
+        /* 徽章卡片 */
+        .badge-card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(16px);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        .badge-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 30px rgba(244, 63, 94, 0.2);
+        }
+
+        .badge-img {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 16px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+
+        .badge-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-main);
+            display: block;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* 狀態提示 */
+        .status-msg {
+            text-align: center;
+            padding: 100px 20px;
+            font-size: 1.2rem;
+            color: var(--text-dim);
+        }
+
+        /* 骨架屏動畫 */
+        .skeleton {
+            background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+            border-radius: 12px;
+        }
+
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 響應式調整 */
+        @media (max-width: 480px) {
+            .badge-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+            .header h1 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="lang-switcher">
+        <button class="lang-btn" onclick="changeLang('zh-hant')">繁中</button>
+        <button class="lang-btn" onclick="changeLang('zh-hans')">简中</button>
+        <button class="lang-btn" onclick="changeLang('en')">EN</button>
+        <button class="lang-btn" onclick="changeLang('ja')">JP</button>
+    </div>
+
+    <div class="header">
+        <h1 id="ui-title">我的榮耀徽章全覽</h1>
+        <p id="ui-subtitle">本頁面呈現您帳號的所有獲得之直播間徽章</p>
+    </div>
+
+    <div class="container" id="main-container">
+        <!-- 內容會透過 JavaScript 動態渲染 -->
+        <div id="badge-display" class="badge-grid"></div>
+    </div>
+
+    <script>
+        const CONFIG = {
+            apiBase: 'https://swag-badge-api-905468082258.asia-east1.run.app/api/badges',
+            imgBase: 'https://public.swag.live/badges/',
+            transBase: 'https://api.swag.live/translations'
+        };
+
+        const I18N = {
+            'zh-hant': { title: "我的榮耀徽章全覽", subtitle: "本頁面呈現您帳號的所有獲得之直播間徽章", loginReq: "請登入後查看帳號徽章", noBadge: "尚無符合條件的徽章" },
+            'zh-hans': { title: "我的荣耀徽章全览", subtitle: "本页面呈現您账号的所有获得之直播间徽章", loginReq: "请登录后查看账号徽章", noBadge: "尚无符合条件的徽章" },
+            'en': { title: "My Glory Badges", subtitle: "Overview of all your acquired stream badges", loginReq: "Please login to view your badges", noBadge: "No qualified badges found" },
+            'ja': { title: "マイバッジ一覧", subtitle: "獲得したすべてのライブルームバッジを表示します", loginReq: "ログインしてバッジを確認してください", noBadge: "該当するバッジがありません" }
+        };
+
+        let currentLang = 'zh-hant';
+
+        // 1. 取得 User ID (從 URL 參數)
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('user_id');
+
+        function changeLang(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.innerText.toLowerCase().includes(lang.split('-')[1] || lang));
+            });
+            updateUIStrings();
+            if(userId) init();
+        }
+
+        function updateUIStrings() {
+            const t = I18N[currentLang];
+            document.getElementById('ui-title').innerText = t.title;
+            document.getElementById('ui-subtitle').innerText = t.subtitle;
+        }
+
+        // 2. 骨架屏渲染
+        function renderSkeletons() {
+            const grid = document.getElementById('badge-display');
+            grid.innerHTML = Array(8).fill(0).map(() => `
+                <div class="badge-card">
+                    <div class="badge-img skeleton"></div>
+                    <div class="badge-name skeleton" style="height:14px; width:80%; margin: 0 auto;"></div>
+                </div>
+            `).join('');
+        }
+
+        // 3. 主要邏輯
+        async function init() {
+            const display = document.getElementById('badge-display');
+            
+            if (!userId) {
+                display.parentNode.innerHTML = `<div class="status-msg">${I18N[currentLang].loginReq}</div>`;
+                return;
+            }
+
+            renderSkeletons();
+
+            try {
+                // 抓取後端 API
+                const res = await fetch(`${CONFIG.apiBase}?user_id=${userId}`);
+                const data = await res.json();
+                
+                // 過濾開頭為 campaign_ 的徽章
+                const campaignBadges = (data.badges || []).filter(b => b.startsWith('campaign_'));
+
+                if (campaignBadges.length === 0) {
+                    display.innerHTML = `<div class="status-msg" style="grid-column: 1/-1;">${I18N[currentLang].noBadge}</div>`;
+                    return;
+                }
+
+                // 取得所有徽章的翻譯
+                const badgeData = await Promise.all(campaignBadges.map(async (id) => {
+                    try {
+                        const tRes = await fetch(`${CONFIG.transBase}?lang=${currentLang}&key=badge_${id}`);
+                        const tData = await tRes.json();
+                        return { id, name: tData.translation || id };
+                    } catch {
+                        return { id, name: id };
+                    }
+                }));
+
+                // 渲染網格
+                display.innerHTML = badgeData.map(badge => `
+                    <div class="badge-card">
+                        <img class="badge-img" src="${CONFIG.imgBase}${badge.id}.svg" onerror="this.src='https://public.swag.live/badges/default.svg'" alt="badge">
+                        <span class="badge-name">${badge.name}</span>
+                    </div>
+                `).join('');
+
+            } catch (err) {
+                console.error(err);
+                display.innerHTML = `<div class="status-msg">System Error. Please try again later.</div>`;
+            }
+        }
+
+        // 啟動
+        updateUIStrings();
+        init();
+    </script>
+</body>
+</html>
