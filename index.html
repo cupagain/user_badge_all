@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>榮耀徽章全覽 | SWAG Premium</title>
+    <title>我的榮耀徽章 | SWAG</title>
     
-    <!-- PWA Setup -->
+    <!-- PWA & Modern Fonts -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@600;800&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-deep: #020617;
-            --accent-primary: #ff3366; /* SWAG Pink */
-            --accent-glow: rgba(255, 51, 102, 0.4);
-            --glass: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --text-gold: linear-gradient(135deg, #fde047 0%, #fbbf24 100%);
+            --bg-deep: #050810;
+            --accent: #ff2d55;
+            --glass: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-secondary: #94a3b8;
         }
 
         * {
@@ -29,42 +29,39 @@
 
         body {
             background-color: var(--bg-deep);
-            color: #fff;
-            font-family: 'Noto Sans TC', sans-serif;
+            color: var(--text-main);
+            /* 使用更現代的字體組合 */
+            font-family: 'Inter', 'Outfit', -apple-system, sans-serif;
             min-height: 100vh;
-            padding-bottom: 50px;
+            padding-bottom: env(safe-area-inset-bottom);
             overflow-x: hidden;
         }
 
-        /* 動態流體背景 */
-        .bg-glow {
+        /* 華麗流體背景 */
+        .bg-gradient {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
             background: 
-                radial-gradient(circle at 20% 30%, rgba(255, 51, 102, 0.15) 0%, transparent 40%),
-                radial-gradient(circle at 80% 70%, rgba(56, 189, 248, 0.1) 0%, transparent 40%);
-            filter: blur(80px);
+                radial-gradient(circle at 10% 10%, rgba(255, 45, 85, 0.12) 0%, transparent 40%),
+                radial-gradient(circle at 90% 90%, rgba(0, 122, 255, 0.1) 0%, transparent 40%);
         }
 
-        /* 導覽列 */
-        .nav-bar {
-            padding: calc(20px + env(safe-area-inset-top)) 20px 20px;
+        /* 頂部功能列 */
+        .top-nav {
+            padding: calc(15px + env(safe-area-inset-top)) 20px 10px;
             display: flex;
             justify-content: flex-end;
-            gap: 10px;
+            gap: 12px;
         }
 
         .lang-btn {
             background: var(--glass);
             border: 1px solid var(--glass-border);
-            color: #94a3b8;
-            padding: 6px 14px;
-            border-radius: 100px;
-            font-size: 12px;
+            color: var(--text-secondary);
+            padding: 8px 16px;
+            border-radius: 12px;
+            font-size: 14px;
             font-weight: 600;
             backdrop-filter: blur(10px);
         }
@@ -75,269 +72,258 @@
             border-color: #fff;
         }
 
-        /* 英雄區：徽章計數 */
-        .hero-section {
+        /* 英雄統計區 */
+        .hero {
             text-align: center;
-            padding: 20px;
-            margin-bottom: 30px;
+            padding: 20px 24px 40px;
         }
 
-        .count-label {
-            font-size: 16px;
-            color: #94a3b8;
-            letter-spacing: 2px;
+        .label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 18px;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
             text-transform: uppercase;
+            font-weight: 600;
         }
 
-        .big-number {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 80px;
+        .count-num {
+            font-family: 'Outfit', sans-serif;
+            font-size: 90px;
             font-weight: 800;
-            line-height: 1;
-            margin: 10px 0;
-            background: linear-gradient(180deg, #fff 30%, #64748b 100%);
+            background: linear-gradient(180deg, #FFFFFF 0%, #64748B 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.2));
+            line-height: 1;
+            margin: 10px 0;
+            filter: drop-shadow(0 0 20px rgba(255,255,255,0.15));
+        }
+
+        .main-title {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
         }
 
         .sub-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: #f8fafc;
-        }
-
-        /* VIP 權益區 */
-        .vip-notice-card {
-            max-width: 350px;
-            margin: 0 auto 40px;
-            padding: 16px;
-            background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(217, 119, 6, 0.05) 100%);
-            border: 1px solid rgba(251, 191, 36, 0.3);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            animation: pulse 3s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { border-color: rgba(251, 191, 36, 0.3); }
-            50% { border-color: rgba(251, 191, 36, 0.6); box-shadow: 0 0 15px rgba(251, 191, 36, 0.1); }
-        }
-
-        .vip-icon { font-size: 24px; }
-        .vip-text { font-size: 13px; color: #fbbf24; line-height: 1.5; font-weight: 500; }
-
-        /* 徽章網格 */
-        .badge-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(115px, 1fr));
-            gap: 16px;
-            padding: 0 16px;
-            max-width: 900px;
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            max-width: 80%;
             margin: 0 auto;
         }
 
-        .badge-link { text-decoration: none; }
+        /* VIP 權益區 (加強版) */
+        .vip-card {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(217, 119, 6, 0.05) 100%);
+            border: 1.5px solid rgba(251, 191, 36, 0.4);
+            border-radius: 20px;
+            margin: 0 24px 40px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
 
-        .badge-card {
+        .vip-icon { font-size: 30px; }
+        .vip-msg {
+            font-size: 15px;
+            color: #fbbf24;
+            line-height: 1.5;
+            font-weight: 600;
+        }
+
+        /* 徽章網格 - 解決左右不對稱 */
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 手機端嚴格對分 */
+            gap: 20px;
+            padding: 0 24px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* 桌面端適配 */
+        @media (min-width: 768px) {
+            .badge-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+        }
+
+        .badge-link { text-decoration: none; width: 100%; }
+
+        .badge-item {
             background: var(--glass);
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
-            padding: 20px 10px;
+            border-radius: 28px;
+            padding: 24px 12px;
             text-align: center;
             backdrop-filter: blur(20px);
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             height: 100%;
-            position: relative;
-            overflow: hidden;
         }
 
-        .badge-card::before {
-            content: '';
-            position: absolute;
-            top: -50%; left: -50%; width: 200%; height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
-            opacity: 0; transition: 0.4s;
+        .badge-item:active {
+            transform: scale(0.95);
+            background: rgba(255, 255, 255, 0.08);
         }
-
-        .badge-card:hover {
-            transform: translateY(-10px) scale(1.05);
-            background: rgba(255, 255, 255, 0.07);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .badge-card:hover::before { opacity: 1; }
 
         .badge-img {
-            width: 75px;
-            height: 75px;
-            margin-bottom: 15px;
-            filter: drop-shadow(0 8px 15px rgba(0,0,0,0.4));
-            z-index: 1;
+            width: 85px;
+            height: 85px;
+            margin-bottom: 18px;
+            filter: drop-shadow(0 12px 20px rgba(0,0,0,0.5));
+            object-fit: contain;
         }
 
         .badge-name {
-            font-size: 13px;
-            font-weight: 600;
-            color: #e2e8f0;
+            font-size: 16px; /* 字體調大 */
+            font-weight: 700;
+            color: #f1f5f9;
             line-height: 1.4;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            height: 36px;
+            word-break: break-all;
         }
 
-        /* 骨架屏 */
+        /* 骨架動畫 */
         .skeleton {
-            background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+            background: linear-gradient(90deg, #0f172a 25%, #1e293b 50%, #0f172a 75%);
             background-size: 200% 100%;
-            animation: skeleton-move 1.5s infinite;
+            animation: shimme 1.5s infinite linear;
+            border-radius: 16px;
         }
 
-        @keyframes skeleton-move {
+        @keyframes shimme {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
         }
 
-        .status-msg {
+        .empty-state {
+            grid-column: 1 / -1;
             text-align: center;
-            padding: 100px 20px;
-            color: #64748b;
+            padding: 60px 0;
+            color: var(--text-secondary);
             font-size: 18px;
-        }
-
-        @media (max-width: 400px) {
-            .badge-grid { grid-template-columns: repeat(2, 1fr); }
-            .big-number { font-size: 60px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="bg-glow"></div>
+    <div class="bg-gradient"></div>
 
-    <nav class="nav-bar">
-        <button class="lang-btn active" id="btn-zh-hant" onclick="changeLang('zh-hant')">繁中</button>
-        <button class="lang-btn" id="btn-en" onclick="changeLang('en')">EN</button>
-        <button class="lang-btn" id="btn-ja" onclick="changeLang('ja')">JP</button>
+    <nav class="top-nav">
+        <button class="lang-btn active" id="btn-zh-hant" onclick="setLanguage('zh-hant')">繁中</button>
+        <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">EN</button>
+        <button class="lang-btn" id="btn-ja" onclick="setLanguage('ja')">JP</button>
     </nav>
 
-    <div class="hero-section">
-        <p class="count-label" id="ui-label">My Collection</p>
-        <div class="big-number" id="ui-count">0</div>
-        <h1 class="sub-title" id="ui-title">我的榮耀徽章全覽</h1>
-        <p style="color: #64748b; margin-top: 8px; font-size: 14px;" id="ui-subtitle">呈現您帳號獲得的所有直播間徽章</p>
-    </div>
+    <header class="hero">
+        <p class="label" id="ui-label">My Collection</p>
+        <div class="count-num" id="ui-count">0</div>
+        <h1 class="main-title" id="ui-title">我的榮耀徽章全覽</h1>
+        <p class="sub-title" id="ui-subtitle">呈現您帳號獲得的所有直播間徽章</p>
+    </header>
 
-    <!-- VIP Level 60 Notice -->
-    <div class="vip-notice-card" id="vip-card" style="display: none;">
+    <div class="vip-card" id="vip-banner" style="display: none;">
         <div class="vip-icon">💎</div>
-        <div class="vip-text" id="ui-vip-text">VIP Level 60 以上，可自由挑選徽章顯示於帳號，系統將自動為您進行更換</div>
+        <div class="vip-msg" id="ui-vip">VIP Level 60 以上，可自由挑選徽章顯示於帳號，系統將自動為您進行更換</div>
     </div>
 
-    <div class="badge-grid" id="badge-display"></div>
+    <main class="badge-grid" id="badge-container"></main>
 
     <script>
-        const CONFIG = {
-            apiBase: 'https://swag-badge-api-905468082258.asia-east1.run.app/api/badges',
-            imgBase: 'https://public.swag.live/badges/',
-            transBase: 'https://api.swag.live/translations',
-            jumpUrl: 'https://swag.live/dashboard/badges'
-        };
+        const API_BASE = 'https://swag-badge-api-905468082258.asia-east1.run.app/api/badges';
+        const IMG_BASE = 'https://public.swag.live/badges/';
+        const TRANS_BASE = 'https://api.swag.live/translations';
+        const JUMP_URL = 'https://swag.live/dashboard/badges';
 
         const I18N = {
-            'zh-hant': { label: "徽章總數", title: "我的榮耀徽章全覽", subtitle: "呈現您帳號獲得的所有直播間徽章", vip: "VIP Level 60 以上，可自由挑選徽章顯示於帳號，系統將自動為您進行更換", login: "請登入後查看帳號徽章" },
-            'en': { label: "Total Badges", title: "Honor Collection", subtitle: "All your acquired livestream badges", vip: "VIP Level 60+ can customize displayed badges; system updates automatically.", login: "Please login to view" },
-            'ja': { label: "バッジ総数", title: "栄光のバッジ一覧", subtitle: "獲得したすべてのバッジを表示しています", vip: "VIPレベル60以上はバッジを自由に選択でき、システムが自動的に更新します。", login: "ログインしてください" }
+            'zh-hant': { label: "徽章總數", title: "我的榮耀徽章全覽", subtitle: "呈現您帳號獲得的所有直播間徽章", vip: "VIP Level 60 以上，可自由挑選徽章顯示於帳號，系統將自動更換", login: "請先登入帳號" },
+            'en': { label: "Total Badges", title: "Honor Gallery", subtitle: "All your exclusive stream badges in one place", vip: "VIP Level 60+ can customize badge display; system syncs automatically.", login: "Please login first" },
+            'ja': { label: "バッジ総数", title: "栄光のコレクション", subtitle: "獲得したすべてのライブルームバッジを表示します", vip: "VIP 60以上はバッジ選択が可能で、自動的に更新されます。", login: "ログインしてください" }
         };
 
         let currentLang = 'zh-hant';
         const userId = new URLSearchParams(window.location.search).get('user_id');
 
-        function changeLang(lang) {
+        function setLanguage(lang) {
             currentLang = lang;
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.toggle('active', btn.id === `btn-${lang}`));
-            updateUIStrings();
-            if(userId) loadData();
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.id === `btn-${lang}`));
+            updateUI();
+            if(userId) fetchData();
         }
 
-        function updateUIStrings(count = 0) {
+        function updateUI(count = 0) {
             const t = I18N[currentLang];
-            document.getElementById('ui-label').innerText = t.label;
-            document.getElementById('ui-title').innerText = t.title;
-            document.getElementById('ui-subtitle').innerText = t.subtitle;
-            document.getElementById('ui-vip-text').innerText = t.vip;
-            document.getElementById('ui-count').innerText = count;
+            document.getElementById('ui-label').textContent = t.label;
+            document.getElementById('ui-title').textContent = t.title;
+            document.getElementById('ui-subtitle').textContent = t.subtitle;
+            document.getElementById('ui-vip').textContent = t.vip;
+            document.getElementById('ui-count').textContent = count;
         }
 
-        // 智慧排序演算法
-        function smartSort(badges) {
-            return badges.sort((a, b) => {
-                // 提取前綴與數字 (例如 campaign_vip_dorisvsvs_1 -> ['campaign_vip_dorisvsvs', '1'])
-                const regex = /^(.*?)([0-9]*)$/;
-                const matchA = a.match(regex);
-                const matchB = b.match(regex);
-                
-                if (matchA[1] === matchB[1]) {
-                    // 如果前綴相同，按數字大小排
-                    return (parseInt(matchA[2]) || 0) - (parseInt(matchB[2]) || 0);
-                }
-                // 否則按字母序排，確保 1111 系列聚在一起
-                return a.localeCompare(b);
-            });
+        // 排序算法：相似命名靠近、數字依序
+        function badgeSorter(a, b) {
+            const pattern = /^(.*?)([0-9]*)$/;
+            const mA = a.match(pattern);
+            const mB = b.match(pattern);
+            if (mA[1] === mB[1]) return (parseInt(mA[2]) || 0) - (parseInt(mB[2]) || 0);
+            return a.localeCompare(b);
         }
 
-        async function loadData() {
-            const display = document.getElementById('badge-display');
+        async function fetchData() {
+            const container = document.getElementById('badge-container');
             if (!userId) {
-                display.innerHTML = `<div class="status-msg">${I18N[currentLang].login}</div>`;
+                container.innerHTML = `<div class="empty-state">${I18N[currentLang].login}</div>`;
                 return;
             }
 
-            // 骨架屏
-            display.innerHTML = Array(8).fill(0).map(() => `
-                <div class="badge-card"><div class="badge-img skeleton" style="border-radius:50%"></div><div class="skeleton" style="height:15px; width:60%; margin:0 auto"></div></div>
+            // 骨架屏渲染
+            container.innerHTML = Array(6).fill(0).map(() => `
+                <div class="badge-item"><div class="badge-img skeleton"></div><div class="skeleton" style="height:20px; width:70%;"></div></div>
             `).join('');
 
             try {
-                const res = await fetch(`${CONFIG.apiBase}?user_id=${userId}`);
+                const res = await fetch(`${API_BASE}?user_id=${userId}`);
                 const data = await res.json();
                 
-                let badges = (data.badges || []).filter(b => b.startsWith('campaign_'));
-                
-                // 執行智慧排序
-                badges = smartSort(badges);
+                let badgeIds = (data.badges || []).filter(id => id.startsWith('campaign_'));
+                badgeIds.sort(badgeSorter);
 
-                updateUIStrings(badges.length);
-                document.getElementById('vip-card').style.display = 'flex';
+                updateUI(badgeIds.length);
+                document.getElementById('vip-banner').style.display = 'flex';
 
-                const badgeData = await Promise.all(badges.map(async (id) => {
+                const fullData = await Promise.all(badgeIds.map(async (id) => {
                     const key = `badge_${id}`;
                     try {
-                        const tRes = await fetch(`${CONFIG.transBase}?lang=${currentLang}&key=${key}`);
+                        const tRes = await fetch(`${TRANS_BASE}?lang=${currentLang}&key=${key}`);
                         const tJson = await tRes.json();
                         return { id, name: tJson[key] || id };
                     } catch { return { id, name: id }; }
                 }));
 
-                display.innerHTML = badgeData.map(badge => `
-                    <a href="${CONFIG.jumpUrl}" target="_blank" class="badge-link">
-                        <div class="badge-card">
-                            <img class="badge-img" src="${CONFIG.imgBase}${badge.id}.svg" onerror="this.src='https://public.swag.live/badges/default.svg'">
-                            <div class="badge-name">${badge.name}</div>
+                container.innerHTML = fullData.map(b => `
+                    <a href="${JUMP_URL}" target="_blank" class="badge-link">
+                        <div class="badge-item">
+                            <img class="badge-img" src="${IMG_BASE}${b.id}.svg" onerror="this.src='${IMG_BASE}default.svg'">
+                            <span class="badge-name">${b.name}</span>
                         </div>
                     </a>
                 `).join('');
 
             } catch (err) {
-                display.innerHTML = `<div class="status-msg">Oops! Data load error.</div>`;
+                container.innerHTML = `<div class="empty-state">Data loading failed.</div>`;
             }
         }
 
-        changeLang('zh-hant');
+        // 初始化
+        setLanguage('zh-hant');
     </script>
 </body>
 </html>
