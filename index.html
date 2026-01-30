@@ -5,325 +5,290 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>我的榮耀徽章 | SWAG</title>
     
-    <!-- PWA & Modern Fonts -->
+    <!-- Modern Web Setup -->
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Outfit:wght@600;700&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            --bg-deep: #050810;
-            --accent: #ff2d55;
+            --bg-deep: #05070a;
+            --accent-pink: #ff2d55;
+            --accent-gold: #fbbf24;
             --glass: rgba(255, 255, 255, 0.04);
             --glass-border: rgba(255, 255, 255, 0.1);
             --text-main: #ffffff;
-            --text-secondary: #94a3b8;
+            --text-dim: #94a3b8;
         }
 
         * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            margin: 0; padding: 0; box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
             background-color: var(--bg-deep);
+            background-image: 
+                radial-gradient(circle at 50% -20%, rgba(255, 45, 85, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 0% 100%, rgba(0, 122, 255, 0.05) 0%, transparent 40%);
             color: var(--text-main);
-            /* 使用更現代的字體組合 */
-            font-family: 'Inter', 'Outfit', -apple-system, sans-serif;
+            font-family: 'Inter', sans-serif;
             min-height: 100vh;
-            padding-bottom: env(safe-area-inset-bottom);
+            padding-bottom: 60px;
             overflow-x: hidden;
         }
 
-        /* 華麗流體背景 */
-        .bg-gradient {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1;
-            background: 
-                radial-gradient(circle at 10% 10%, rgba(255, 45, 85, 0.12) 0%, transparent 40%),
-                radial-gradient(circle at 90% 90%, rgba(0, 122, 255, 0.1) 0%, transparent 40%);
-        }
-
-        /* 頂部功能列 */
+        /* 導覽列 */
         .top-nav {
             padding: calc(15px + env(safe-area-inset-top)) 20px 10px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 12px;
+            display: flex; justify-content: flex-end; gap: 10px;
         }
 
         .lang-btn {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            color: var(--text-secondary);
-            padding: 8px 16px;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            backdrop-filter: blur(10px);
+            background: var(--glass); border: 1px solid var(--glass-border);
+            color: var(--text-dim); padding: 8px 16px; border-radius: 12px;
+            font-size: 14px; font-weight: 600; backdrop-filter: blur(10px); cursor: pointer;
         }
 
-        .lang-btn.active {
-            background: #fff;
-            color: #000;
-            border-color: #fff;
-        }
+        .lang-btn.active { background: #fff; color: #000; border-color: #fff; }
 
-        /* 英雄統計區 */
+        /* 標題區塊 */
         .hero {
             text-align: center;
-            padding: 20px 24px 40px;
-        }
-
-        .label {
-            font-family: 'Outfit', sans-serif;
-            font-size: 18px;
-            letter-spacing: 0.1em;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            font-weight: 600;
-        }
-
-        .count-num {
-            font-family: 'Outfit', sans-serif;
-            font-size: 90px;
-            font-weight: 800;
-            background: linear-gradient(180deg, #FFFFFF 0%, #64748B 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            line-height: 1;
-            margin: 10px 0;
-            filter: drop-shadow(0 0 20px rgba(255,255,255,0.15));
+            padding: 40px 24px 30px;
         }
 
         .main-title {
-            font-size: 28px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
             font-weight: 800;
-            margin-bottom: 8px;
-            letter-spacing: -0.5px;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+            background: linear-gradient(180deg, #FFFFFF 0%, #cbd5e1 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
-        .sub-title {
-            font-size: 16px;
-            color: var(--text-secondary);
-            line-height: 1.6;
-            max-width: 80%;
-            margin: 0 auto;
-        }
-
-        /* VIP 權益區 (加強版) */
-        .vip-card {
-            background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(217, 119, 6, 0.05) 100%);
-            border: 1.5px solid rgba(251, 191, 36, 0.4);
-            border-radius: 20px;
-            margin: 0 24px 40px;
-            padding: 20px;
-            display: flex;
+        /* 徽章統計氣泡 */
+        .count-badge {
+            display: inline-flex;
             align-items: center;
-            gap: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--glass-border);
+            padding: 8px 24px;
+            border-radius: 100px;
+            gap: 12px;
+            margin-bottom: 12px;
         }
 
-        .vip-icon { font-size: 30px; }
-        .vip-msg {
-            font-size: 15px;
-            color: #fbbf24;
-            line-height: 1.5;
-            font-weight: 600;
+        .count-label { color: var(--text-dim); font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+
+        .count-num {
+            font-family: 'Outfit', sans-serif;
+            font-size: 36px; /* 調整為明顯但不過大 */
+            font-weight: 700;
+            color: var(--accent-pink);
+            line-height: 1;
         }
 
-        /* 徽章網格 - 解決左右不對稱 */
+        .sub-title { font-size: 16px; color: var(--text-dim); max-width: 300px; margin: 0 auto; line-height: 1.5; }
+
+        /* VIP 區塊 - 電腦版居中優化 */
+        .vip-container {
+            display: flex; justify-content: center; width: 100%; padding: 0 24px; margin-bottom: 40px;
+        }
+
+        .vip-banner {
+            background: linear-gradient(90deg, rgba(251, 191, 36, 0.1) 0%, rgba(217, 119, 6, 0.05) 100%);
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            border-radius: 24px;
+            padding: 16px 24px;
+            display: flex; align-items: center; gap: 16px;
+            max-width: 600px; /* 電腦版限制寬度 */
+            width: 100%;
+        }
+
+        .vip-img { width: 44px; height: 44px; flex-shrink: 0; object-fit: contain; }
+
+        .vip-msg { font-size: 15px; color: var(--accent-gold); font-weight: 600; line-height: 1.4; text-align: left; }
+
+        /* 徽章網格 */
         .badge-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 手機端嚴格對分 */
-            gap: 20px;
-            padding: 0 24px;
-            max-width: 1000px;
-            margin: 0 auto;
+            grid-template-columns: repeat(2, 1fr); /* 手機端嚴格 50/50 */
+            gap: 16px; padding: 0 20px;
+            max-width: 1100px; margin: 0 auto;
         }
 
-        /* 桌面端適配 */
         @media (min-width: 768px) {
-            .badge-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+            .badge-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 24px; }
         }
 
-        .badge-link { text-decoration: none; width: 100%; }
+        /* 徽章卡片與 CTA 動畫 */
+        .badge-link { text-decoration: none; display: block; height: 100%; }
 
-        .badge-item {
+        .badge-card {
             background: var(--glass);
             border: 1px solid var(--glass-border);
-            border-radius: 28px;
+            border-radius: 32px;
             padding: 24px 12px;
             text-align: center;
-            backdrop-filter: blur(20px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            height: 100%;
+            backdrop-filter: blur(10px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; flex-direction: column; align-items: center;
+            position: relative; overflow: hidden; height: 100%;
         }
 
-        .badge-item:active {
-            transform: scale(0.95);
+        /* 點擊引導：動態邊框效果 */
+        .badge-card::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: 32px; border: 2px solid transparent;
+            transition: 0.3s;
+        }
+
+        .badge-card:hover {
+            transform: translateY(-8px);
             background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+        }
+
+        .badge-card:hover::after {
+            border-color: var(--accent-pink);
+            box-shadow: inset 0 0 15px rgba(255, 45, 85, 0.2);
         }
 
         .badge-img {
-            width: 85px;
-            height: 85px;
-            margin-bottom: 18px;
-            filter: drop-shadow(0 12px 20px rgba(0,0,0,0.5));
-            object-fit: contain;
+            width: 80px; height: 80px; margin-bottom: 16px;
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3));
+            transition: 0.4s;
         }
+
+        .badge-card:hover .badge-img { transform: scale(1.1) rotate(5deg); }
 
         .badge-name {
-            font-size: 16px; /* 字體調大 */
-            font-weight: 700;
-            color: #f1f5f9;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            word-break: break-all;
+            font-size: 16px; font-weight: 700; color: #f1f5f9;
+            line-height: 1.3; margin-bottom: 8px;
+            display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
         }
+
+        .cta-hint {
+            font-size: 11px; font-weight: 800; color: var(--accent-pink);
+            text-transform: uppercase; letter-spacing: 1px; opacity: 0;
+            transition: 0.3s; transform: translateY(5px);
+        }
+
+        .badge-card:hover .cta-hint { opacity: 1; transform: translateY(0); }
 
         /* 骨架動畫 */
-        .skeleton {
-            background: linear-gradient(90deg, #0f172a 25%, #1e293b 50%, #0f172a 75%);
-            background-size: 200% 100%;
-            animation: shimme 1.5s infinite linear;
-            border-radius: 16px;
-        }
+        .skeleton { background: linear-gradient(90deg, #0f1218 25%, #1e242e 50%, #0f1218 75%); background-size: 200% 100%; animation: loading 1.5s infinite linear; border-radius: 20px; }
+        @keyframes loading { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-        @keyframes shimme {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-
-        .empty-state {
-            grid-column: 1 / -1;
-            text-align: center;
-            padding: 60px 0;
-            color: var(--text-secondary);
-            font-size: 18px;
-        }
+        .empty-msg { grid-column: 1/-1; text-align: center; padding: 100px 0; color: var(--text-dim); }
     </style>
 </head>
 <body>
 
-    <div class="bg-gradient"></div>
-
-    <nav class="top-nav">
-        <button class="lang-btn active" id="btn-zh-hant" onclick="setLanguage('zh-hant')">繁中</button>
-        <button class="lang-btn" id="btn-en" onclick="setLanguage('en')">EN</button>
-        <button class="lang-btn" id="btn-ja" onclick="setLanguage('ja')">JP</button>
-    </nav>
+    <div class="top-nav">
+        <button class="lang-btn active" id="btn-zh-hant" onclick="setLang('zh-hant')">繁中</button>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" id="btn-ja" onclick="setLang('ja')">JP</button>
+    </div>
 
     <header class="hero">
-        <p class="label" id="ui-label">My Collection</p>
-        <div class="count-num" id="ui-count">0</div>
+        <div class="count-badge">
+            <span class="count-label" id="ui-label">Count</span>
+            <span class="count-num" id="ui-count">0</span>
+        </div>
         <h1 class="main-title" id="ui-title">我的榮耀徽章全覽</h1>
         <p class="sub-title" id="ui-subtitle">呈現您帳號獲得的所有直播間徽章</p>
     </header>
 
-    <div class="vip-card" id="vip-banner" style="display: none;">
-        <div class="vip-icon">💎</div>
-        <div class="vip-msg" id="ui-vip">VIP Level 60 以上，可自由挑選徽章顯示於帳號，系統將自動為您進行更換</div>
+    <div class="vip-container">
+        <div class="vip-banner" id="vip-area" style="display: none;">
+            <img src="https://public.swag.live/notifications/custom/EL/vip_lv60up.png" class="vip-img" alt="VIP">
+            <p class="vip-msg" id="ui-vip">VIP Level 60 以上，可自由挑選徽章顯示於帳號，系統將自動為您進行更換</p>
+        </div>
     </div>
 
-    <main class="badge-grid" id="badge-container"></main>
+    <main class="badge-grid" id="badge-display"></main>
 
     <script>
-        const API_BASE = 'https://swag-badge-api-905468082258.asia-east1.run.app/api/badges';
-        const IMG_BASE = 'https://public.swag.live/badges/';
-        const TRANS_BASE = 'https://api.swag.live/translations';
-        const JUMP_URL = 'https://swag.live/dashboard/badges';
-
-        const I18N = {
-            'zh-hant': { label: "徽章總數", title: "我的榮耀徽章全覽", subtitle: "呈現您帳號獲得的所有直播間徽章", vip: "VIP Level 60 以上，可自由挑選徽章顯示於帳號，系統將自動更換", login: "請先登入帳號" },
-            'en': { label: "Total Badges", title: "Honor Gallery", subtitle: "All your exclusive stream badges in one place", vip: "VIP Level 60+ can customize badge display; system syncs automatically.", login: "Please login first" },
-            'ja': { label: "バッジ総数", title: "栄光のコレクション", subtitle: "獲得したすべてのライブルームバッジを表示します", vip: "VIP 60以上はバッジ選択が可能で、自動的に更新されます。", login: "ログインしてください" }
+        const CONFIG = {
+            api: 'https://swag-badge-api-905468082258.asia-east1.run.app/api/badges',
+            img: 'https://public.swag.live/badges/',
+            trans: 'https://api.swag.live/translations',
+            jump: 'https://swag.live/dashboard/badges'
         };
 
-        let currentLang = 'zh-hant';
+        const I18N = {
+            'zh-hant': { label: "徽章總數", title: "我的榮耀徽章全覽", subtitle: "呈現您帳號獲得的所有直播間徽章", vip: "VIP Level 60 以上，可自由挑選徽章顯示於帳號，系統將自動更換", detail: "點擊查看詳情", login: "請登入查看徽章" },
+            'en': { label: "Total", title: "Glory Badge Collection", subtitle: "Exclusive stream badges you've earned", vip: "VIP Level 60+ can customize badge display; system syncs automatically.", detail: "Click for details", login: "Login to view badges" },
+            'ja': { label: "合計", title: "栄光のバッジ一覧", subtitle: "獲得したすべてのバッジを表示しています", vip: "VIP 60以上はバッジ選択が可能で、自動的に更新されます。", detail: "詳細を見る", login: "ログインしてください" }
+        };
+
+        let lang = 'zh-hant';
         const userId = new URLSearchParams(window.location.search).get('user_id');
 
-        function setLanguage(lang) {
-            currentLang = lang;
-            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.id === `btn-${lang}`));
+        function setLang(l) {
+            lang = l;
+            document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.id === `btn-${l}`));
             updateUI();
-            if(userId) fetchData();
+            if(userId) load();
         }
 
-        function updateUI(count = 0) {
-            const t = I18N[currentLang];
+        function updateUI(n = 0) {
+            const t = I18N[lang];
             document.getElementById('ui-label').textContent = t.label;
             document.getElementById('ui-title').textContent = t.title;
             document.getElementById('ui-subtitle').textContent = t.subtitle;
             document.getElementById('ui-vip').textContent = t.vip;
-            document.getElementById('ui-count').textContent = count;
+            document.getElementById('ui-count').textContent = n;
         }
 
-        // 排序算法：相似命名靠近、數字依序
-        function badgeSorter(a, b) {
-            const pattern = /^(.*?)([0-9]*)$/;
-            const mA = a.match(pattern);
-            const mB = b.match(pattern);
-            if (mA[1] === mB[1]) return (parseInt(mA[2]) || 0) - (parseInt(mB[2]) || 0);
-            return a.localeCompare(b);
+        function sortBadges(arr) {
+            const regex = /^(.*?)([0-9]*)$/;
+            return arr.sort((a, b) => {
+                const ma = a.match(regex), mb = b.match(regex);
+                if (ma[1] === mb[1]) return (parseInt(ma[2]) || 0) - (parseInt(mb[2]) || 0);
+                return a.localeCompare(b);
+            });
         }
 
-        async function fetchData() {
-            const container = document.getElementById('badge-container');
-            if (!userId) {
-                container.innerHTML = `<div class="empty-state">${I18N[currentLang].login}</div>`;
-                return;
-            }
+        async function load() {
+            const grid = document.getElementById('badge-display');
+            if (!userId) { grid.innerHTML = `<div class="empty-msg">${I18N[lang].login}</div>`; return; }
 
-            // 骨架屏渲染
-            container.innerHTML = Array(6).fill(0).map(() => `
-                <div class="badge-item"><div class="badge-img skeleton"></div><div class="skeleton" style="height:20px; width:70%;"></div></div>
-            `).join('');
+            grid.innerHTML = Array(6).fill(0).map(() => `<div class="badge-card"><div class="badge-img skeleton"></div><div class="skeleton" style="height:18px; width:70%;"></div></div>`).join('');
 
             try {
-                const res = await fetch(`${API_BASE}?user_id=${userId}`);
+                const res = await fetch(`${CONFIG.api}?user_id=${userId}`);
                 const data = await res.json();
-                
-                let badgeIds = (data.badges || []).filter(id => id.startsWith('campaign_'));
-                badgeIds.sort(badgeSorter);
+                let ids = (data.badges || []).filter(i => i.startsWith('campaign_'));
+                ids = sortBadges(ids);
 
-                updateUI(badgeIds.length);
-                document.getElementById('vip-banner').style.display = 'flex';
+                updateUI(ids.length);
+                document.getElementById('vip-area').style.display = 'flex';
 
-                const fullData = await Promise.all(badgeIds.map(async (id) => {
-                    const key = `badge_${id}`;
+                const list = await Promise.all(ids.map(async (id) => {
+                    const k = `badge_${id}`;
                     try {
-                        const tRes = await fetch(`${TRANS_BASE}?lang=${currentLang}&key=${key}`);
+                        const tRes = await fetch(`${CONFIG.trans}?lang=${lang}&key=${k}`);
                         const tJson = await tRes.json();
-                        return { id, name: tJson[key] || id };
+                        return { id, name: tJson[k] || id };
                     } catch { return { id, name: id }; }
                 }));
 
-                container.innerHTML = fullData.map(b => `
-                    <a href="${JUMP_URL}" target="_blank" class="badge-link">
-                        <div class="badge-item">
-                            <img class="badge-img" src="${IMG_BASE}${b.id}.svg" onerror="this.src='${IMG_BASE}default.svg'">
+                grid.innerHTML = list.map(b => `
+                    <a href="${CONFIG.jump}" target="_blank" class="badge-link">
+                        <div class="badge-card">
+                            <img class="badge-img" src="${CONFIG.img}${b.id}.svg" onerror="this.src='${CONFIG.img}default.svg'">
                             <span class="badge-name">${b.name}</span>
+                            <span class="cta-hint">${I18N[lang].detail}</span>
                         </div>
                     </a>
                 `).join('');
-
-            } catch (err) {
-                container.innerHTML = `<div class="empty-state">Data loading failed.</div>`;
-            }
+            } catch { grid.innerHTML = `<div class="empty-msg">Error loading.</div>`; }
         }
 
-        // 初始化
-        setLanguage('zh-hant');
+        setLang('zh-hant');
     </script>
 </body>
 </html>
