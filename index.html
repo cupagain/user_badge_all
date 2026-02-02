@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>我的榮耀徽章 | SWAG Collection</title>
+    <title>我的榮耀徽章 | SWAG Premium</title>
     
     <!-- Premium Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@600;800&display=swap" rel="stylesheet">
@@ -80,7 +80,7 @@
         .request-btn.ready { background: var(--accent-gold); color: #000; cursor: pointer; box-shadow: 0 8px 20px rgba(251, 191, 36, 0.3); }
         .request-btn.submitting { opacity: 0.7; cursor: wait; }
 
-        /* 徽章網格 - 絕對 50/50 */
+        /* 徽章網格 - 絕對 50/50 對稱 */
         .badge-grid {
             display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;
             padding: 0 20px; max-width: 1000px; margin: 0 auto;
@@ -94,16 +94,20 @@
             display: flex; flex-direction: column; align-items: center; height: 100%; cursor: pointer;
             position: relative;
         }
+        .badge-item:hover { border-color: rgba(255, 255, 255, 0.3); }
         .badge-item.selected { border-color: var(--accent-gold); background: rgba(251, 191, 36, 0.1); transform: scale(1.05); box-shadow: 0 0 30px rgba(251, 191, 36, 0.2); }
         .badge-item.selected::after { content: '✓'; position: absolute; top: 12px; right: 15px; color: var(--accent-gold); font-weight: 900; font-size: 18px; }
 
-        .badge-img { width: 80px; height: 80px; margin-bottom: 20px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4)); }
+        .badge-img { width: 80px; height: 80px; margin-bottom: 20px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4)); transition: 0.3s; }
+        .badge-item.selected .badge-img { filter: drop-shadow(0 0 10px rgba(251, 191, 36, 0.5)); }
+
         .badge-name { font-size: 16px; font-weight: 700; color: #f8fafc; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-all; }
 
         /* 骨架屏 */
         .skeleton { background: linear-gradient(90deg, #0f1218 25%, #1e242e 50%, #0f1218 75%); background-size: 200% 100%; animation: load 1.5s infinite linear; border-radius: 20px; }
         @keyframes load { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
+        /* 底部提示 */
         .bottom-hint {
             position: fixed; bottom: 0; left: 0; right: 0; padding: 15px;
             background: rgba(5, 8, 16, 0.95); backdrop-filter: blur(10px);
@@ -166,7 +170,8 @@
 
         const I18N = {
             'zh-hant': { lbl_c: "徽章總數", lbl_l: "用戶等級", title: "我的榮耀徽章全覽", subtitle: "點擊徽章即可進行選取並申請更換", lock: "權限未開啟 (限 Lv.60)", unlock: "權限已就緒", select_first: "請先選取一個徽章", ready_to_go: "已選取：{name}", btn: "更換需求", sending: "傳送中...", success: "✅ 更換需求已成功送出！", cooldown: "⏳ 24 小時內僅能申請一次，請稍後再試。", err: "❌ 申請失敗：" },
-            'en': { lbl_c: "Total", lbl_l: "Level", title: "Honor Badge Gallery", subtitle: "Select a badge to request change", lock: "Locked (Lv.60 Required)", unlock: "Permission Ready", select_first: "Please select a badge", ready_to_go: "Selected: {name}", btn: "REQUEST", sending: "Sending...", success: "✅ Request sent successfully!", cooldown: "⏳ 24h cooldown in effect.", err: "❌ Failed: " }
+            'en': { lbl_c: "Total", lbl_l: "Level", title: "Honor Badge Gallery", subtitle: "Select a badge to request change", lock: "Locked (Lv.60 Required)", unlock: "Permission Ready", select_first: "Please select a badge", ready_to_go: "Selected: {name}", btn: "REQUEST", sending: "Sending...", success: "✅ Request sent successfully!", cooldown: "⏳ 24h cooldown in effect.", err: "❌ Failed: " },
+            'ja': { lbl_c: "バッジ總數", lbl_l: "レベル", title: "栄光のバッジ一覧", subtitle: "バッジを選択して交換を申請します", lock: "権限未開放 (Lv.60が必要)", unlock: "準備完了", select_first: "バッジを選択してください", ready_to_go: "選択中：{name}", btn: "リクエスト", success: "リクエストが送信されました！" }
         };
 
         let state = { lang: 'zh-hant', userLevel: 0, selectedBadge: null, badgeList: [], isSubmitting: false };
@@ -268,6 +273,7 @@
                 statusLabel.innerHTML = `<span class="tag-dot" style="background: #64748b;"></span><span style="color: #64748b;">${t.lock}</span>`;
                 reqBtn.classList.remove('ready');
                 reqBtn.disabled = true;
+                hint.classList.remove('show');
             }
         }
 
@@ -293,10 +299,10 @@
                 } else if (response.status === 429) {
                     alert(t.cooldown);
                 } else {
-                    alert(t.err + (result.error || "Unknown"));
+                    alert(t.err + (result.error || "Unknown Error"));
                 }
             } catch (err) {
-                alert("Network Error.");
+                alert("❌ Network Error: 伺服器連線失敗。");
             } finally {
                 state.isSubmitting = false;
                 btn.classList.remove('submitting');
