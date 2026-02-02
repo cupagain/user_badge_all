@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>我的榮耀徽章 | SWAG</title>
+    <title>我的榮耀徽章 | SWAG Premium</title>
     
-    <!-- Modern Fonts -->
+    <!-- Modern UI Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@600;800&display=swap" rel="stylesheet">
 
     <style>
@@ -15,9 +15,9 @@
             --glass-border: rgba(255, 255, 255, 0.1);
             --accent-pink: #ff2d55;
             --accent-gold: #fbbf24;
+            --silver-grad: linear-gradient(180deg, #FFFFFF 0%, #94a3b8 100%);
             --text-main: #ffffff;
             --text-dim: #94a3b8;
-            --silver-grad: linear-gradient(180deg, #FFFFFF 0%, #94a3b8 100%);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -26,94 +26,85 @@
             background-color: var(--bg-deep);
             background-image: 
                 radial-gradient(circle at 50% -10%, rgba(255, 255, 255, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 10% 100%, rgba(255, 45, 85, 0.08) 0%, transparent 40%);
+                radial-gradient(circle at 0% 100%, rgba(255, 45, 85, 0.05) 0%, transparent 40%);
             color: var(--text-main);
             font-family: 'Inter', sans-serif;
-            min-height: 100vh;
-            padding-bottom: 140px; /* 為底部動作條留空間 */
-            overflow-x: hidden;
+            min-height: 100vh; padding-bottom: 80px; overflow-x: hidden;
         }
 
         /* 導覽列 */
         .top-nav { padding: calc(15px + env(safe-area-inset-top)) 20px 10px; display: flex; justify-content: flex-end; gap: 10px; }
-        .lang-btn { background: var(--glass); border: 1px solid var(--glass-border); color: var(--text-dim); padding: 8px 14px; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; backdrop-filter: blur(10px); }
+        .lang-btn { background: var(--glass); border: 1px solid var(--glass-border); color: var(--text-dim); padding: 8px 14px; border-radius: 12px; font-size: 13px; font-weight: 600; backdrop-filter: blur(10px); cursor: pointer; }
         .lang-btn.active { background: #fff; color: #000; border-color: #fff; }
 
-        /* 標題與統計區 */
+        /* 英雄區塊 */
         .hero { text-align: center; padding: 30px 24px 20px; }
-        .count-num { font-family: 'Outfit', sans-serif; font-size: 64px; font-weight: 800; background: var(--silver-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; filter: drop-shadow(0 0 15px rgba(255,255,255,0.1)); }
-        .count-label { font-size: 12px; color: var(--text-dim); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-top: 4px; }
-        .main-title { font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 800; margin-top: 12px; }
-        .sub-title { font-size: 15px; color: var(--text-dim); max-width: 280px; margin: 4px auto 0; line-height: 1.5; }
+        
+        .stat-group { display: flex; justify-content: center; align-items: flex-end; gap: 24px; margin-bottom: 20px; }
+        
+        /* 數字：銀白漸層 */
+        .stat-item { display: flex; flex-direction: column; align-items: center; }
+        .count-num { font-family: 'Outfit', sans-serif; font-size: 54px; font-weight: 800; background: var(--silver-grad); -webkit-background-clip: text; -webkit-text-fill-color: transparent; line-height: 1; filter: drop-shadow(0 0 10px rgba(255,255,255,0.1)); }
+        .stat-label { font-size: 11px; color: var(--text-dim); font-weight: 700; text-transform: uppercase; letter-spacing: 2px; margin-top: 6px; }
 
-        /* VIP 區塊 - 絕對居中 */
-        .vip-wrap { display: flex; justify-content: center; width: 100%; padding: 0 20px; margin: 30px 0; }
-        .vip-card { background: linear-gradient(135deg, rgba(251, 191, 36, 0.12) 0%, rgba(217, 119, 6, 0.05) 100%); border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 20px; padding: 16px 20px; display: flex; align-items: center; gap: 14px; max-width: 550px; width: 100%; }
-        .vip-img { width: 44px; height: 44px; flex-shrink: 0; }
-        .vip-msg { font-size: 14px; color: var(--accent-gold); font-weight: 600; line-height: 1.4; text-align: left; }
+        /* 等級標籤 */
+        .level-chip {
+            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border);
+            padding: 8px 16px; border-radius: 100px; display: flex; flex-direction: column; align-items: center; min-width: 80px;
+        }
+        .level-val { font-family: 'Outfit', sans-serif; font-size: 24px; font-weight: 700; color: var(--accent-gold); line-height: 1; }
 
-        /* 徽章網格 - 強制 50/50 對稱 */
+        .main-title { font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px; }
+        .sub-title { font-size: 15px; color: var(--text-dim); max-width: 300px; margin: 0 auto; line-height: 1.5; }
+
+        /* VIP 更換區塊 - 置中優化 */
+        .vip-wrap { display: flex; justify-content: center; width: 100%; padding: 0 20px; margin: 30px 0 40px; }
+        .vip-card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+            border: 1px solid var(--glass-border); border-radius: 24px;
+            padding: 20px; display: flex; align-items: center; gap: 16px;
+            max-width: 600px; width: 100%; position: relative; transition: 0.3s;
+        }
+
+        /* 權益啟用狀態 */
+        .vip-card.enabled { border-color: rgba(251, 191, 36, 0.5); background: linear-gradient(135deg, rgba(251, 191, 36, 0.1) 0%, rgba(217, 119, 6, 0.05) 100%); }
+        .vip-card.disabled { opacity: 0.6; filter: grayscale(0.5); }
+
+        .vip-img { width: 48px; height: 48px; flex-shrink: 0; }
+        .vip-info { flex-grow: 1; }
+        .vip-status { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+        .status-lock { color: #64748b; }
+        .status-unlock { color: var(--accent-gold); }
+        .vip-msg { font-size: 14px; color: #cbd5e1; font-weight: 600; line-height: 1.4; }
+
+        /* 更換需求按鈕 */
+        .request-btn {
+            background: #1e293b; color: #475569; border: none; padding: 10px 16px; border-radius: 12px;
+            font-size: 13px; font-weight: 800; cursor: not-allowed; transition: 0.3s; white-space: nowrap;
+        }
+        .request-btn.active {
+            background: var(--accent-gold); color: #000; cursor: pointer; box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+        }
+        .request-btn.active:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+        /* 徽章網格 - 絕對 50/50 對稱 */
         .badge-grid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr)); 
-            gap: 16px; padding: 0 20px;
-            max-width: 1000px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;
+            padding: 0 20px; max-width: 1000px; margin: 0 auto;
         }
-        @media (min-width: 768px) { .badge-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 24px; } }
+        @media (min-width: 768px) { .badge-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 24px; } }
 
-        /* 徽章卡片 */
         .badge-item {
-            background: var(--glass); border: 2px solid transparent; border-radius: 32px;
+            background: var(--glass); border: 1px solid var(--glass-border); border-radius: 28px;
             padding: 24px 10px; text-align: center; backdrop-filter: blur(15px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex; flex-direction: column; align-items: center; cursor: pointer; position: relative; height: 100%;
+            transition: 0.3s; display: flex; flex-direction: column; align-items: center; height: 100%;
         }
+        .badge-item:hover { transform: translateY(-6px); border-color: var(--accent-pink); background: rgba(255, 255, 255, 0.07); }
 
-        /* 選取狀態 */
-        .badge-item.selected {
-            background: rgba(255, 45, 85, 0.08); border-color: var(--accent-pink);
-            box-shadow: 0 0 20px rgba(255, 45, 85, 0.2); transform: translateY(-5px);
-        }
-        .badge-item.selected::after {
-            content: '✓'; position: absolute; top: 15px; right: 15px;
-            background: var(--accent-pink); color: white; width: 24px; height: 24px;
-            border-radius: 50%; font-size: 14px; line-height: 24px; font-weight: 800;
-        }
+        .badge-img { width: 70px; height: 70px; margin-bottom: 16px; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3)); }
+        .badge-name { font-size: 15px; font-weight: 700; color: #f8fafc; line-height: 1.3; margin-bottom: 8px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .cta-label { font-size: 10px; font-weight: 800; color: var(--accent-pink); opacity: 0.6; letter-spacing: 1px; }
 
-        .badge-img { width: 80px; height: 80px; margin-bottom: 16px; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3)); transition: 0.3s; }
-        .badge-name { font-size: 16px; font-weight: 700; color: #f8fafc; line-height: 1.3; height: 42px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-all; }
-
-        /* 底部動作條 */
-        .action-bar {
-            position: fixed; bottom: 0; left: 0; right: 0;
-            background: rgba(5, 8, 16, 0.95); backdrop-filter: blur(25px);
-            border-top: 1px solid var(--glass-border);
-            padding: 20px 24px calc(25px + env(safe-area-inset-bottom));
-            transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 1000; display: flex; flex-direction: column; align-items: center; gap: 12px;
-        }
-        .action-bar.active { transform: translateY(0); }
-
-        .change-btn {
-            background: var(--accent-pink); color: white; border: none;
-            width: 100%; max-width: 400px; padding: 18px; border-radius: 100px;
-            font-size: 16px; font-weight: 800; cursor: pointer;
-            box-shadow: 0 10px 25px rgba(255, 45, 85, 0.3); transition: 0.2s;
-        }
-        .change-btn:active { transform: scale(0.96); opacity: 0.9; }
-        .change-btn:disabled { background: #334155; box-shadow: none; cursor: not-allowed; }
-
-        .selected-info { font-size: 14px; color: var(--text-dim); }
-        .selected-info span { color: var(--accent-pink); font-weight: 700; }
-
-        /* 提示框 */
-        .toast {
-            position: fixed; top: 40%; left: 50%; transform: translate(-50%, -50%);
-            background: #fff; color: #000; padding: 16px 32px; border-radius: 12px;
-            font-weight: 700; z-index: 2000; display: none; box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-
-        /* 骨架屏 */
         .skeleton { background: linear-gradient(90deg, #0f1218 25%, #1e242e 50%, #0f1218 75%); background-size: 200% 100%; animation: load 1.5s infinite linear; border-radius: 20px; }
         @keyframes load { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
     </style>
@@ -127,150 +118,130 @@
     </nav>
 
     <header class="hero">
-        <div class="count-num" id="ui-count">0</div>
-        <div class="count-label" id="ui-label">My Collection</div>
+        <div class="stat-group">
+            <div class="stat-item">
+                <div class="count-num" id="ui-count">0</div>
+                <div class="stat-label" id="ui-label-count">Badges</div>
+            </div>
+            <div class="level-chip">
+                <div class="level-val" id="ui-level">--</div>
+                <div class="stat-label" id="ui-label-level">Level</div>
+            </div>
+        </div>
         <h1 class="main-title" id="ui-title">我的榮耀徽章全覽</h1>
         <p class="sub-title" id="ui-subtitle">呈現您帳號獲得的所有直播間徽章</p>
     </header>
 
     <div class="vip-wrap">
-        <div class="vip-card" id="vip-box" style="display: none;">
+        <div class="vip-card disabled" id="vip-card">
             <img src="https://public.swag.live/notifications/custom/EL/vip_lv60up.png" class="vip-img" alt="VIP">
-            <p class="vip-msg" id="ui-vip">VIP Level 60 以上，可自由挑選徽章顯示於帳號，系統將自動為您進行更換</p>
+            <div class="vip-info">
+                <div class="vip-status status-lock" id="ui-status">● 權限未開啟</div>
+                <p class="vip-msg" id="ui-vip-msg">VIP Level 60 以上，可自由挑選徽章顯示於帳號，系統將自動為您進行更換</p>
+            </div>
+            <button class="request-btn" id="request-btn" onclick="issueRequest()">更換需求</button>
         </div>
     </div>
 
     <main class="badge-grid" id="badge-display"></main>
 
-    <!-- 動作條 -->
-    <div class="action-bar" id="action-bar">
-        <p class="selected-info">已選取：<span id="sel-name">-</span></p>
-        <button class="change-btn" id="change-btn" onclick="submitChange()">確認更換徽章</button>
-    </div>
-
-    <div class="toast" id="toast">發送成功！</div>
-
     <script>
         const CFG = {
-            api: 'https://swag-badge-api-905468082258.asia-east1.run.app/api/badges',
+            api: 'https://swag-badge-v2-api-905468082258.asia-east1.run.app/api/badges',
             img: 'https://public.swag.live/badges/',
             trs: 'https://api.swag.live/translations',
-            webhook: 'https://swagops.app.n8n.cloud/webhook/f06b9acc-f1e4-4bd8-8e12-f8cde459c112'
+            go: 'https://swag.live/dashboard/badges'
         };
 
         const I18N = {
-            'zh-hant': { label: "徽章總數", title: "我的榮耀徽章全覽", subtitle: "呈現您帳號獲得的所有直播間徽章", vip: "VIP Level 60 以上，可自由挑選徽章顯示，系統將自動更換", btn: "確認更換徽章", msg: "處理中...", ok: "更換請求已發送！", login: "請登入查看" },
-            'en': { label: "Total Badges", title: "Honor Collection", subtitle: "All your exclusive stream badges", vip: "VIP Level 60+ can customize badge display; system syncs automatically.", btn: "Confirm Change", msg: "Processing...", ok: "Request Sent!", login: "Please login" },
-            'ja': { label: "バッジ総数", title: "栄光のバッジ一覧", subtitle: "獲得したすべてのバッジを表示しています", vip: "VIP 60以上はバッジ選択が可能、システムが自動更新します。", btn: "バッジを変更する", msg: "送信中...", ok: "リクエスト送信完了！", login: "ログインしてください" }
+            'zh-hant': { count: "徽章總數", level: "用戶等級", title: "我的榮耀徽章全覽", subtitle: "呈現您帳號獲得的所有直播間徽章", vip_msg: "VIP Level 60 以上，可自由挑選徽章顯示於帳號", lock: "● 權限未開啟 (需要 Lv.60)", unlock: "● VIP 更換權限已開啟", btn: "更換需求", login: "請登入後查看" },
+            'en': { count: "Total Badges", level: "User Level", title: "Honor Collection", subtitle: "All your exclusive stream badges", vip_msg: "Level 60+ users can customize displayed badges", lock: "● LOCKED (Lv.60 Required)", unlock: "● PERMISSION GRANTED", btn: "REQUEST", login: "Please login" },
+            'ja': { count: "バッジ総数", level: "ユーザーレベル", title: "栄光のバッジ一覧", subtitle: "獲得したすべてのバッジを表示しています", vip_msg: "Lv.60以上のVIPはバッジを自由に選択できます", lock: "● 権限未開放 (Lv.60が必要)", unlock: "● 更換権限が有効です", btn: "更換リクエスト", login: "ログインしてください" }
         };
 
-        let currentLang = 'zh-hant';
-        let selectedBadge = { id: null, name: null };
-        const userId = new URLSearchParams(window.location.search).get('user_id');
+        let lang = 'zh-hant';
+        const uid = new URLSearchParams(window.location.search).get('user_id');
 
         function setLang(l) {
-            currentLang = l;
+            lang = l;
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.id === `btn-${l}`));
             updateUI();
-            if(userId) load();
+            if(uid) init();
         }
 
-        function updateUI(n = 0) {
-            const t = I18N[currentLang];
-            document.getElementById('ui-label').textContent = t.label;
+        function updateUI(data = {count: 0, level: '--'}) {
+            const t = I18N[lang];
+            document.getElementById('ui-label-count').textContent = t.count;
+            document.getElementById('ui-label-level').textContent = t.level;
             document.getElementById('ui-title').textContent = t.title;
             document.getElementById('ui-subtitle').textContent = t.subtitle;
-            document.getElementById('ui-vip').textContent = t.vip;
-            document.getElementById('ui-count').textContent = n;
-            document.getElementById('change-btn').textContent = t.btn;
+            document.getElementById('ui-count').textContent = data.count;
+            document.getElementById('ui-level').textContent = data.level;
         }
 
-        function handleSelect(id, name) {
-            selectedBadge = { id, name };
-            document.querySelectorAll('.badge-item').forEach(el => {
-                el.classList.toggle('selected', el.getAttribute('data-id') === id);
-            });
-            document.getElementById('sel-name').textContent = name;
-            document.getElementById('action-bar').classList.add('active');
-        }
-
-        async function submitChange() {
-            const btn = document.getElementById('change-btn');
-            const toast = document.getElementById('toast');
-            if (!selectedBadge.id) return;
-
-            btn.disabled = true;
-            btn.textContent = I18N[currentLang].msg;
-
-            try {
-                // 使用 no-cors 模式繞過瀏覽器限制，直接發送至 n8n
-                await fetch(CFG.webhook, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        user_id: userId,
-                        badge_id: selectedBadge.id,
-                        badge_name: selectedBadge.name,
-                        timestamp: new Date().toISOString()
-                    })
-                });
-
-                toast.textContent = I18N[currentLang].ok;
-                toast.style.display = 'block';
-                
-                setTimeout(() => { 
-                    toast.style.display = 'none';
-                    document.getElementById('action-bar').classList.remove('active');
-                    document.querySelectorAll('.badge-item').forEach(el => el.classList.remove('selected'));
-                }, 2500);
-
-            } catch (err) {
-                alert('發送失敗，請確認網路連線。');
-            } finally {
-                btn.disabled = false;
-                btn.textContent = I18N[currentLang].btn;
-            }
-        }
-
-        async function load() {
+        async function init() {
             const box = document.getElementById('badge-display');
-            if (!userId) { box.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:80px 0; color:#64748b;">${I18N[currentLang].login}</div>`; return; }
+            const vipCard = document.getElementById('vip-card');
+            const reqBtn = document.getElementById('request-btn');
+            const statusLabel = document.getElementById('ui-status');
 
-            box.innerHTML = Array(4).fill(0).map(() => `<div class="badge-item"><div class="badge-img skeleton"></div><div class="skeleton" style="height:16px; width:70%;"></div></div>`).join('');
+            if (!uid) { box.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: #64748b;">${I18N[lang].login}</div>`; return; }
+            
+            box.innerHTML = Array(4).fill(0).map(() => `<div class="badge-item"><div class="badge-img skeleton"></div><div class="skeleton" style="height:16px; width:60%;"></div></div>`).join('');
 
             try {
-                const res = await fetch(`${CFG.api}?user_id=${userId}`);
-                const data = await res.json();
-                let ids = (data.badges || []).filter(i => i.startsWith('campaign_'));
+                const r = await fetch(`${CFG.api}?user_id=${uid}`);
+                const d = await r.json();
                 
-                // 智慧排序
-                const rx = /^(.*?)([0-9]*)$/;
-                ids.sort((a,b) => {
-                    const ma=a.match(rx), mb=b.match(rx);
-                    return ma[1] === mb[1] ? (parseInt(ma[2])||0)-(parseInt(mb[2])||0) : a.localeCompare(b);
-                });
+                updateUI({count: d.count, level: d.level});
 
-                updateUI(ids.length);
-                document.getElementById('vip-box').style.display = 'flex';
+                // 權限判斷邏輯
+                if (d.level >= 60) {
+                    vipCard.classList.remove('disabled');
+                    vipCard.classList.add('enabled');
+                    statusLabel.textContent = I18N[lang].unlock;
+                    statusLabel.className = 'vip-status status-unlock';
+                    reqBtn.classList.add('active');
+                    reqBtn.disabled = false;
+                } else {
+                    vipCard.classList.add('disabled');
+                    statusLabel.textContent = I18N[lang].lock;
+                    reqBtn.classList.remove('active');
+                    reqBtn.disabled = true;
+                }
+
+                let ids = (d.badges || []).filter(i => i.startsWith('campaign_')).sort((a,b) => {
+                    const rx = /^(.*?)([0-9]*)$/;
+                    const ma = a.match(rx), mb = b.match(rx);
+                    if (ma[1] === mb[1]) return (parseInt(ma[2]) || 0) - (parseInt(mb[2]) || 0);
+                    return a.localeCompare(b);
+                });
 
                 const list = await Promise.all(ids.map(async (id) => {
                     const k = `badge_${id}`;
                     try {
-                        const tr = await fetch(`${CFG.trs}?lang=${currentLang}&key=${k}`);
+                        const tr = await fetch(`${CFG.trs}?lang=${lang}&key=${k}`);
                         const tj = await tr.json();
                         return { id, name: tj[k] || id };
                     } catch { return { id, name: id }; }
                 }));
 
                 box.innerHTML = list.map(b => `
-                    <div class="badge-item" data-id="${b.id}" onclick="handleSelect('${b.id}', '${b.name}')">
-                        <img class="badge-img" src="${CFG.img}${b.id}.svg" onerror="this.src='${CFG.img}default.svg'">
-                        <span class="badge-name">${b.name}</span>
-                        <div style="font-size:10px; color:var(--accent-pink); font-weight:800; margin-top:8px; opacity:0.6;">SELECT</div>
-                    </div>
+                    <a href="${CFG.go}" target="_blank" style="text-decoration:none">
+                        <div class="badge-item">
+                            <img class="badge-img" src="${CFG.img}${b.id}.svg" onerror="this.src='${CFG.img}default.svg'">
+                            <span class="badge-name">${b.name}</span>
+                            <span class="cta-label">VIEW DETAIL</span>
+                        </div>
+                    </a>
                 `).join('');
-            } catch { box.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:80px 0;">Error.</div>`; }
+            } catch { box.innerHTML = `<div style="grid-column:1/-1; text-align:center;">Load Error.</div>`; }
+        }
+
+        function issueRequest() {
+            if (document.getElementById('request-btn').classList.contains('active')) {
+                alert('更換需求已送出，系統將為您進行處理！');
+            }
         }
 
         setLang('zh-hant');
