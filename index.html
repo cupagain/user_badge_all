@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>帳號徽章更換 | SWAG Collection</title>
+    <title>帳號徽章更換 | SWAG Premium</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
 
@@ -23,13 +23,9 @@
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
-            background-color: var(--bg);
-            color: #fff;
-            font-family: var(--font-body);
+            background-color: var(--bg); color: #fff; font-family: var(--font-body);
             background-image: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 50%);
-            min-height: 100vh;
-            padding-bottom: 150px;
-            overflow-x: hidden;
+            min-height: 100vh; padding-bottom: 150px; overflow-x: hidden;
         }
 
         /* 1. 閃耀標題與立體統計 */
@@ -48,7 +44,7 @@
         .stats-label { color: var(--ice-blue); font-size: 13px; font-weight: 800; text-transform: uppercase; }
         .stats-val { color: #fff; font-size: 24px; font-weight: 900; font-family: var(--font-head); }
 
-        /* 2. 控制卡片佈局 */
+        /* 2. 整合式身份卡片 */
         .control-section { max-width: 600px; margin: 0 auto 30px; padding: 0 16px; }
         .auth-card { 
             background: var(--glass-deep); border: 1px solid var(--glass-border); border-radius: 28px; 
@@ -56,34 +52,31 @@
         }
         .auth-card.vip-active { border-color: rgba(251, 191, 36, 0.4); }
 
-        .card-row-1 { margin-bottom: 12px; }
-        .feat-title { font-family: var(--font-head); font-size: 22px; font-weight: 800; color: #fff; }
-
-        .card-row-2 { border-bottom: 1px solid var(--glass-border); padding-bottom: 18px; margin-bottom: 22px; }
+        .card-header { border-bottom: 1px solid var(--glass-border); padding-bottom: 18px; margin-bottom: 22px; }
+        .feat-title { font-family: var(--font-head); font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 8px; display: block; }
+        
         .vip-desc-line { font-size: 13.5px; color: #cbd5e1; font-weight: 600; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
-        .lvl-60-box { border: 1px solid var(--gold); padding: 0 6px; border-radius: 4px; color: var(--gold); font-family: var(--font-head); font-weight: 800; }
+        .lvl-box { border: 1px solid var(--gold); padding: 0 8px; border-radius: 4px; color: var(--gold); font-family: var(--font-head); font-weight: 800; }
 
-        /* 第三排數據垂直與水平對齊 */
-        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; align-items: start; }
+        /* 新版等級資訊流：垂直排列，水平對齊 */
+        .info-stack { display: flex; flex-direction: column; gap: 16px; }
         
-        .info-box-left { display: flex; flex-direction: column; }
-        .info-box-left label { font-size: 13px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; margin-bottom: 12px; display: block; height: 26px; line-height: 26px; }
-        .val-lvl { font-family: var(--font-head); font-size: 44px; font-weight: 900; color: var(--gold); line-height: 1; }
-        
-        .info-box-right { display: flex; flex-direction: column; align-items: flex-end; height: 100%; }
-        
-        /* 立即升級：與左側 Label 同高度垂直置中/對齊 */
-        .upgrade-cta { 
-            background: linear-gradient(135deg, var(--pink) 0%, #ff5e7e 100%);
-            color: #fff; font-size: 12px; font-weight: 800; padding: 0 14px; border-radius: 8px;
-            text-decoration: none; display: none; box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
-            height: 26px; line-height: 26px; /* 確保與 Label 等高 */
-            margin-bottom: 12px; 
-        }
+        /* 第一行：我的 VIP 等級 (放大整行) */
+        .info-row-primary { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 800; color: #fff; }
+        .val-lvl-large { font-size: 26px; } /* 金框內數字略大 */
 
-        /* 狀態：在按鈕下方，對應左側大數字 */
-        .val-status { font-size: 18px; font-weight: 800; color: #64748b; height: 44px; display: flex; align-items: center; }
+        /* 第二行：符合資格/未達標 + 立即升級 */
+        .info-row-secondary { display: flex; align-items: center; gap: 12px; }
+        .val-status { font-size: 17px; font-weight: 800; color: #64748b; line-height: 1; }
         .val-status.unlocked { color: var(--gold); }
+        
+        /* 行內升級按鈕 */
+        .upgrade-cta-inline { 
+            background: linear-gradient(135deg, var(--pink) 0%, #ff5e7e 100%);
+            color: #fff; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 6px;
+            text-decoration: none; display: none; box-shadow: 0 4px 10px rgba(244, 63, 94, 0.3);
+            white-space: nowrap;
+        }
 
         /* 3. 指引與網格 */
         .instruction-area { text-align: center; margin-bottom: 25px; min-height: 52px; padding: 0 20px; }
@@ -93,15 +86,13 @@
 
         .badge-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding: 0 16px; max-width: 1000px; margin: 0 auto; }
         @media (min-width: 768px) { .badge-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); } }
-        
         .badge-item { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 28px; padding: 30px 10px; text-align: center; cursor: pointer; position: relative; transition: 0.3s; }
         .badge-item.selected { border-color: var(--gold); background: rgba(251, 191, 36, 0.12); transform: translateY(-5px); }
         .badge-item.selected::after { content: '✓'; position: absolute; top: 12px; right: 15px; color: var(--gold); font-weight: 900; }
-        
         .badge-img { width: 80px; height: 80px; margin-bottom: 15px; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3)); pointer-events: none; }
         .badge-name { font-size: 15px; font-weight: 700; color: #f1f5f9; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; pointer-events: none; }
 
-        /* 4. 按鈕與頂部工具 */
+        /* 4. 語言與按鈕 */
         .top-nav { position: absolute; top: 15px; right: 15px; z-index: 100; display: flex; gap: 6px; }
         .lang-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: #94a3b8; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
         .lang-btn.active { background: #fff; color: #000; }
@@ -114,28 +105,15 @@
         }
         .confirm-btn.active { background: var(--gold); color: #000; cursor: pointer; box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4); display: inline-block; }
 
-        /* 5. 注意事項修正 (精準對齊、色彩統一) */
+        /* 5. 注意事項條列式修正 */
         .footer { max-width: 600px; margin: 60px auto 0; padding: 30px 20px 150px; border-top: 1px solid var(--glass-border); }
         .notice-list { list-style: none; padding: 0; }
         .notice-item { 
-            font-size: 13.5px; 
-            color: #64748b; 
-            font-weight: 600; 
-            line-height: 1.8; 
-            margin-bottom: 12px; 
-            display: flex; 
-            gap: 10px; 
-            text-align: left; 
-            align-items: flex-start; 
+            font-size: 13.5px; color: #64748b; font-weight: 600; line-height: 1.8; margin-bottom: 12px; 
+            display: flex; gap: 12px; text-align: left; align-items: flex-start; 
         }
         .notice-item::before { 
-            content: "•"; 
-            color: #64748b; 
-            font-weight: 900; 
-            font-size: 18px; 
-            line-height: 1.2; 
-            flex-shrink: 0; 
-            margin-top: 3px; /* 修正對齊文字首行 */
+            content: "•"; color: #64748b; font-weight: 900; font-size: 18px; line-height: 1.2; flex-shrink: 0; margin-top: 3px;
         }
 
         .skeleton { background: linear-gradient(90deg, #0a0c10 25%, #1a1c22 50%, #0a0c10 75%); background-size: 200% 100%; animation: load 1.5s infinite linear; border-radius: 20px; }
@@ -160,27 +138,24 @@
 
     <section class="control-section">
         <div class="auth-card" id="status-card">
-            <div class="card-row-1">
+            <div class="card-header">
                 <span class="feat-title" id="ui-feat-h">帳號徽章更換</span>
-            </div>
-            
-            <div class="card-row-2">
                 <div class="vip-desc-line">
                     <span id="ui-vip-pre">等級至</span>
-                    <span class="lvl-60-box">VIP Level 60</span>
+                    <span class="lvl-box">VIP Level 60</span>
                     <span id="ui-vip-suf">可解鎖徽章更換</span>
                 </div>
             </div>
 
-            <!-- 數據格點：精準對齊 -->
-            <div class="info-grid">
-                <div class="info-box-left">
-                    <label id="lbl-my-lvl">我的 VIP 等級</label>
-                    <div class="val-lvl" id="ui-level">--</div>
+            <!-- 新版等級與狀態資訊流 -->
+            <div class="info-stack">
+                <div class="info-row-primary">
+                    <span id="lbl-my-lvl">我的 VIP 等級：</span>
+                    <span class="lvl-box val-lvl-large" id="ui-level">--</span>
                 </div>
-                <div class="info-box-right">
-                    <a href="https://swag.live/settings/vvip" target="_blank" class="upgrade-cta" id="ui-upgrade">立即升級</a>
+                <div class="info-row-secondary">
                     <div class="val-status" id="ui-auth-status">未達標</div>
+                    <a href="https://swag.live/settings/vvip" target="_blank" class="upgrade-cta-inline" id="ui-upgrade">立即升級</a>
                 </div>
             </div>
         </div>
@@ -218,7 +193,7 @@
 
         const I18N = {
             'zh-hant': { 
-                title:"我的榮耀徽章全覽", total:"徽章總數", my_lvl:"我的 VIP 等級", btn:"確認更換", upgrade: "立即升級",
+                title:"我的榮耀徽章全覽", total:"徽章總數", my_lvl:"我的 VIP 等級：", btn:"確認更換", upgrade: "立即升級",
                 feat_h:"帳號徽章更換", vip_pre: "等級至", vip_suf: "可解鎖徽章更換",
                 lock:"未達標", ok:"符合資格", hint_sel:"請選取下方想更換徽章", hint_ready:"已選取",
                 n1:"本頁面呈現您的帳號所有徽章", n2:"帳號等級達到 VIP Level 60 可解鎖徽章更換", 
@@ -227,7 +202,7 @@
                 login: "請登入後查看徽章", success: "✅ 送出成功", cooldown: "⏳ 請等待至少 20 秒再送出請求"
             },
             'en': { 
-                title:"Glory Badge Gallery", total:"Total", my_lvl:"My VIP Level", btn:"Confirm", upgrade: "Upgrade",
+                title:"Glory Badge Gallery", total:"Total", my_lvl:"My VIP Level: ", btn:"Confirm", upgrade: "Upgrade",
                 feat_h:"Badge Swap", vip_pre: "Reach", vip_suf: "to unlock swap",
                 lock:"Ineligible", ok:"Qualified", hint_sel:"Select a badge below", hint_ready:"Selected",
                 n1:"This page shows all your badges", n2:"Reach VIP Level 60 to unlock swapping",
@@ -236,7 +211,7 @@
                 login: "Please login", success: "✅ Success", cooldown: "⏳ Please wait 20s"
             },
             'ja': { 
-                title:"栄光のバッジ一覧", total:"合計", my_lvl:"私のVIPレベル", btn:"確定", upgrade: "アップグレード",
+                title:"栄光のバッジ一覧", total:"合計", my_lvl:"私のVIPレベル：", btn:"確定", upgrade: "アップグレード",
                 feat_h:"バッジ交換", vip_pre: "レベル", vip_suf: "で資格開放",
                 lock:"未達成", ok:"符合資格", hint_sel:"バッジを選択してください", hint_ready:"選択中",
                 n1:"すべてのバッジを表示しています", n2:"レベル60で交換が開放されます",
