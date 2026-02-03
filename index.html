@@ -17,6 +17,7 @@
             --ice-blue: #38bdf8;
             --font-head: 'Outfit', sans-serif;
             --font-body: 'Inter', sans-serif;
+            --text-dim: #94a3b8;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -55,27 +56,32 @@
         }
         .auth-card.vip-active { border-color: rgba(251, 191, 36, 0.4); }
 
-        /* 第一排：標題 + 立即升級 */
-        .card-row-1 { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+        /* 第一排：標題 */
+        .card-row-1 { margin-bottom: 12px; }
         .feat-title { font-family: var(--font-head); font-size: 22px; font-weight: 800; color: #fff; }
-        .upgrade-cta { 
-            background: linear-gradient(135deg, var(--pink) 0%, #ff5e7e 100%);
-            color: #fff; font-size: 12px; font-weight: 800; padding: 7px 16px; border-radius: 10px;
-            text-decoration: none; display: none; box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
-        }
 
         /* 第二排：等級門檻說明 */
         .card-row-2 { border-bottom: 1px solid var(--glass-border); padding-bottom: 18px; margin-bottom: 22px; }
         .vip-desc-line { font-size: 13.5px; color: #cbd5e1; font-weight: 600; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
         .lvl-60-box { border: 1px solid var(--gold); padding: 0 6px; border-radius: 4px; color: var(--gold); font-family: var(--font-head); font-weight: 800; }
 
-        /* 第三排：數據對齊 (重點修正) */
+        /* 第三排：數據區 (包含立即升級按鈕) */
         .info-grid { display: flex; justify-content: space-between; align-items: flex-end; }
         .info-box { flex: 1; }
-        .info-box label { font-size: 13px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 10px; display: block; }
+        .info-box label { font-size: 13px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; margin-bottom: 10px; display: block; }
+        
+        .lvl-display-row { display: flex; align-items: center; gap: 12px; }
         .val-lvl { font-family: var(--font-head); font-size: 44px; font-weight: 900; color: var(--gold); line-height: 1; }
         
-        .val-status { font-size: 18px; font-weight: 800; color: #64748b; line-height: 1; padding-bottom: 2px; }
+        /* 立即升級按鈕：放在等級右邊 */
+        .upgrade-cta { 
+            background: linear-gradient(135deg, var(--pink) 0%, #ff5e7e 100%);
+            color: #fff; font-size: 12px; font-weight: 800; padding: 6px 14px; border-radius: 8px;
+            text-decoration: none; display: none; box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
+            margin-bottom: 4px; /* 視覺重心微調 */
+        }
+
+        .val-status { font-size: 18px; font-weight: 800; color: #64748b; line-height: 1; padding-bottom: 2px; text-align: right; }
         .val-status.unlocked { color: var(--gold); }
 
         /* 3. 指引與網格 */
@@ -93,7 +99,7 @@
         .badge-img { width: 80px; height: 80px; margin-bottom: 15px; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3)); pointer-events: none; }
         .badge-name { font-size: 15px; font-weight: 700; color: #f1f5f9; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; pointer-events: none; }
 
-        /* 4. 底部按鈕 */
+        /* 4. 頂部語言與底部按鈕 */
         .top-nav { position: absolute; top: 15px; right: 15px; z-index: 100; display: flex; gap: 6px; }
         .lang-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: #94a3b8; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
         .lang-btn.active { background: #fff; color: #000; }
@@ -106,11 +112,29 @@
         }
         .confirm-btn.active { background: var(--gold); color: #000; cursor: pointer; box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4); display: inline-block; }
 
-        /* 5. 注意事項條列式 */
+        /* 5. 注意事項修正 (色彩統一、點點對齊) */
         .footer { max-width: 600px; margin: 60px auto 0; padding: 30px 20px 150px; border-top: 1px solid var(--glass-border); }
         .notice-list { list-style: none; padding: 0; }
-        .notice-item { font-size: 13.5px; color: #64748b; font-weight: 600; line-height: 1.8; margin-bottom: 12px; display: flex; gap: 10px; text-align: left; align-items: flex-start; }
-        .notice-item::before { content: "•"; color: var(--pink); font-weight: 900; font-size: 18px; flex-shrink: 0; }
+        .notice-item { 
+            font-size: 13.5px; 
+            color: #64748b; /* 統一字體顏色 */
+            font-weight: 600; 
+            line-height: 1.8; 
+            margin-bottom: 12px; 
+            display: flex; 
+            gap: 10px; 
+            text-align: left; 
+            align-items: flex-start; 
+        }
+        .notice-item::before { 
+            content: "•"; 
+            color: #64748b; /* 點點顏色與文字統一 */
+            font-weight: 900; 
+            font-size: 18px; 
+            line-height: 1.2; 
+            flex-shrink: 0; 
+            margin-top: 2px; /* 修正對齊關鍵點 */
+        }
 
         .skeleton { background: linear-gradient(90deg, #0a0c10 25%, #1a1c22 50%, #0a0c10 75%); background-size: 200% 100%; animation: load 1.5s infinite linear; border-radius: 20px; }
         @keyframes load { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
@@ -136,7 +160,6 @@
         <div class="auth-card" id="status-card">
             <div class="card-row-1">
                 <span class="feat-title" id="ui-feat-h">帳號徽章更換</span>
-                <a href="https://swag.live/settings/vvip" target="_blank" class="upgrade-cta" id="ui-upgrade">立即升級</a>
             </div>
             
             <div class="card-row-2">
@@ -150,7 +173,10 @@
             <div class="info-grid">
                 <div class="info-box">
                     <label id="lbl-my-lvl">我的 VIP 等級</label>
-                    <div class="val-lvl" id="ui-level">--</div>
+                    <div class="lvl-display-row">
+                        <div class="val-lvl" id="ui-level">--</div>
+                        <a href="https://swag.live/settings/vvip" target="_blank" class="upgrade-cta" id="ui-upgrade">立即升級</a>
+                    </div>
                 </div>
                 <div class="val-status" id="ui-auth-status">未達標</div>
             </div>
@@ -168,7 +194,7 @@
         <ul class="notice-list">
             <li class="notice-item" id="ui-n1">本頁面呈現您的帳號所有徽章</li>
             <li class="notice-item" id="ui-n2">帳號等級達到 VIP Level 60 可解鎖徽章更換</li>
-            <li class="notice-item" id="ui-n3" style="color: var(--pink);">每次更換需等約 20 秒，請勿頻繁送出需求</li>
+            <li class="notice-item" id="ui-n3">每次更換需等約 20 秒，請勿頻繁送出需求</li>
             <li class="notice-item" id="ui-n4">徽章更換完成，可至直播間查看</li>
             <li class="notice-item" id="ui-n5">徽章與等級需登入後完整顯示</li>
             <li class="notice-item" id="ui-n6">資料至少需 5 分鐘更新時間</li>
