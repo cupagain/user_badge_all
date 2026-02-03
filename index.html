@@ -57,10 +57,11 @@
         .vip-desc-line { font-size: 13.5px; color: #cbd5e1; font-weight: 600; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
         .lvl-box { border: 1px solid var(--gold); padding: 0 8px; border-radius: 4px; color: var(--gold); font-family: var(--font-head); font-weight: 800; }
 
-        /* 等級排版：精準底線對齊 */
+        /* 等級排版：精準垂直置中對齊 */
         .info-stack { display: flex; flex-direction: column; gap: 16px; }
-        .info-row-primary { display: flex; align-items: baseline; gap: 8px; font-size: 20px; font-weight: 800; color: #fff; }
-        .val-lvl-plain { font-family: var(--font-head); font-size: 34px; color: var(--gold); line-height: 1; }
+        .info-row-primary { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 800; color: #fff; }
+        /* 稍微縮小等級數字，維持視覺平衡 */
+        .val-lvl-plain { font-family: var(--font-head); font-size: 28px; color: var(--gold); line-height: 1; }
 
         .info-row-secondary { display: flex; align-items: center; gap: 12px; }
         .val-status { font-size: 17px; font-weight: 800; color: #64748b; line-height: 1; }
@@ -94,7 +95,13 @@
         }
         .confirm-btn.active { background: var(--gold); color: #000; cursor: pointer; box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4); display: inline-block; }
 
-        /* 5. 頁面內置 Modal (取代 Alert) */
+        /* 5. 注意事項 */
+        .footer { max-width: 600px; margin: 60px auto 0; padding: 30px 20px 150px; border-top: 1px solid var(--glass-border); }
+        .notice-list { list-style: none; padding: 0; }
+        .notice-item { font-size: 13.5px; color: #64748b; font-weight: 600; line-height: 1.8; margin-bottom: 12px; display: flex; gap: 12px; text-align: left; align-items: flex-start; }
+        .notice-item::before { content: "•"; color: #64748b; font-weight: 900; font-size: 18px; line-height: 1.2; flex-shrink: 0; margin-top: 3px; }
+
+        /* 6. 自定義彈窗 */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
@@ -112,12 +119,6 @@
             background: var(--gold); color: #000; border: none; padding: 12px 0; width: 100%;
             border-radius: 12px; font-weight: 800; font-size: 16px; cursor: pointer;
         }
-
-        /* 6. 注意事項 */
-        .footer { max-width: 600px; margin: 60px auto 0; padding: 30px 20px 150px; border-top: 1px solid var(--glass-border); }
-        .notice-list { list-style: none; padding: 0; }
-        .notice-item { font-size: 13.5px; color: #64748b; font-weight: 600; line-height: 1.8; margin-bottom: 12px; display: flex; gap: 12px; text-align: left; align-items: flex-start; }
-        .notice-item::before { content: "•"; color: #64748b; font-weight: 900; font-size: 18px; line-height: 1.2; flex-shrink: 0; margin-top: 3px; }
 
         .top-nav { position: absolute; top: 15px; right: 15px; z-index: 100; display: flex; gap: 6px; }
         .lang-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: #94a3b8; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
