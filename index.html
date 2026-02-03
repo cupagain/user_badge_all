@@ -58,19 +58,18 @@
         .vip-desc-line { font-size: 13.5px; color: #cbd5e1; font-weight: 600; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
         .lvl-box { border: 1px solid var(--gold); padding: 0 8px; border-radius: 4px; color: var(--gold); font-family: var(--font-head); font-weight: 800; }
 
-        /* 新版等級資訊流：垂直排列，水平對齊 */
+        /* 等級資訊流 */
         .info-stack { display: flex; flex-direction: column; gap: 16px; }
         
-        /* 第一行：我的 VIP 等級 (放大整行) */
-        .info-row-primary { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 800; color: #fff; }
-        .val-lvl-large { font-size: 26px; } /* 金框內數字略大 */
+        /* 第一行：移除金框，改為純文字放大 */
+        .info-row-primary { display: flex; align-items: baseline; gap: 6px; font-size: 20px; font-weight: 800; color: #fff; }
+        .val-lvl-plain { font-family: var(--font-head); font-size: 32px; color: var(--gold); line-height: 1; }
 
         /* 第二行：符合資格/未達標 + 立即升級 */
         .info-row-secondary { display: flex; align-items: center; gap: 12px; }
         .val-status { font-size: 17px; font-weight: 800; color: #64748b; line-height: 1; }
         .val-status.unlocked { color: var(--gold); }
         
-        /* 行內升級按鈕 */
         .upgrade-cta-inline { 
             background: linear-gradient(135deg, var(--pink) 0%, #ff5e7e 100%);
             color: #fff; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 6px;
@@ -92,7 +91,7 @@
         .badge-img { width: 80px; height: 80px; margin-bottom: 15px; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3)); pointer-events: none; }
         .badge-name { font-size: 15px; font-weight: 700; color: #f1f5f9; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; pointer-events: none; }
 
-        /* 4. 語言與按鈕 */
+        /* 4. 語言切換 */
         .top-nav { position: absolute; top: 15px; right: 15px; z-index: 100; display: flex; gap: 6px; }
         .lang-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: #94a3b8; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
         .lang-btn.active { background: #fff; color: #000; }
@@ -105,7 +104,7 @@
         }
         .confirm-btn.active { background: var(--gold); color: #000; cursor: pointer; box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4); display: inline-block; }
 
-        /* 5. 注意事項條列式修正 */
+        /* 5. 注意事項修正 */
         .footer { max-width: 600px; margin: 60px auto 0; padding: 30px 20px 150px; border-top: 1px solid var(--glass-border); }
         .notice-list { list-style: none; padding: 0; }
         .notice-item { 
@@ -147,11 +146,11 @@
                 </div>
             </div>
 
-            <!-- 新版等級與狀態資訊流 -->
+            <!-- 等級資訊流 -->
             <div class="info-stack">
                 <div class="info-row-primary">
                     <span id="lbl-my-lvl">我的 VIP 等級：</span>
-                    <span class="lvl-box val-lvl-large" id="ui-level">--</span>
+                    <span class="val-lvl-plain" id="ui-level">--</span>
                 </div>
                 <div class="info-row-secondary">
                     <div class="val-status" id="ui-auth-status">未達標</div>
