@@ -57,10 +57,9 @@
         .vip-desc-line { font-size: 13.5px; color: #cbd5e1; font-weight: 600; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
         .lvl-box { border: 1px solid var(--gold); padding: 0 8px; border-radius: 4px; color: var(--gold); font-family: var(--font-head); font-weight: 800; }
 
-        /* 等級排版：精準垂直置中對齊 */
+        /* 等級排版：垂直置中對齊 */
         .info-stack { display: flex; flex-direction: column; gap: 16px; }
         .info-row-primary { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 800; color: #fff; }
-        /* 稍微縮小等級數字，維持視覺平衡 */
         .val-lvl-plain { font-family: var(--font-head); font-size: 28px; color: var(--gold); line-height: 1; }
 
         .info-row-secondary { display: flex; align-items: center; gap: 12px; }
@@ -95,13 +94,7 @@
         }
         .confirm-btn.active { background: var(--gold); color: #000; cursor: pointer; box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4); display: inline-block; }
 
-        /* 5. 注意事項 */
-        .footer { max-width: 600px; margin: 60px auto 0; padding: 30px 20px 150px; border-top: 1px solid var(--glass-border); }
-        .notice-list { list-style: none; padding: 0; }
-        .notice-item { font-size: 13.5px; color: #64748b; font-weight: 600; line-height: 1.8; margin-bottom: 12px; display: flex; gap: 12px; text-align: left; align-items: flex-start; }
-        .notice-item::before { content: "•"; color: #64748b; font-weight: 900; font-size: 18px; line-height: 1.2; flex-shrink: 0; margin-top: 3px; }
-
-        /* 6. 自定義彈窗 */
+        /* 5. 自定義彈窗 */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
@@ -115,10 +108,13 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
         .modal-text { font-size: 17px; font-weight: 600; line-height: 1.6; margin-bottom: 25px; color: #fff; }
-        .modal-btn {
-            background: var(--gold); color: #000; border: none; padding: 12px 0; width: 100%;
-            border-radius: 12px; font-weight: 800; font-size: 16px; cursor: pointer;
-        }
+        .modal-btn { background: var(--gold); color: #000; border: none; padding: 12px 0; width: 100%; border-radius: 12px; font-weight: 800; font-size: 16px; cursor: pointer; }
+
+        /* 6. 注意事項 */
+        .footer { max-width: 600px; margin: 60px auto 0; padding: 30px 20px 150px; border-top: 1px solid var(--glass-border); }
+        .notice-list { list-style: none; padding: 0; }
+        .notice-item { font-size: 13.5px; color: #64748b; font-weight: 600; line-height: 1.8; margin-bottom: 12px; display: flex; gap: 12px; text-align: left; align-items: flex-start; }
+        .notice-item::before { content: "•"; color: #64748b; font-weight: 900; font-size: 18px; line-height: 1.2; flex-shrink: 0; margin-top: 3px; }
 
         .top-nav { position: absolute; top: 15px; right: 15px; z-index: 100; display: flex; gap: 6px; }
         .lang-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: #94a3b8; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
@@ -190,7 +186,6 @@
         <button class="confirm-btn" id="confirm-btn" onclick="sendReq()">確認更換</button>
     </div>
 
-    <!-- 自定義彈窗 -->
     <div class="modal-overlay" id="custom-modal">
         <div class="modal-content">
             <div class="modal-text" id="modal-msg">訊息內容</div>
@@ -207,37 +202,25 @@
         };
 
         const I18N = {
-            'zh-hant': { 
-                title:"我的榮耀徽章全覽", total:"徽章總數", my_lvl:"我的 VIP 等級：", btn:"確認更換", upgrade: "立即升級",
-                feat_h:"帳號徽章更換", vip_pre: "等級至", vip_suf: "可解鎖徽章更換",
-                lock:"未達標", ok:"符合資格", hint_sel:"請選取下方想更換徽章", hint_ready:"已選取",
-                n1:"本頁面呈現您的帳號所有徽章", n2:"帳號等級達到 VIP Level 60 可解鎖徽章更換", 
-                n3:"每次更換需等約 20 秒，請勿頻繁送出需求", n4:"徽章更換完成，可至直播間查看",
-                n5:"徽章與等級需登入後完整顯示", n6:"資料至少需 5 分鐘更新時間",
-                login: "請登入後查看徽章", success: "✅ 送出成功", cooldown: "⏳ 請等待至少 20 秒再送出請求"
-            },
-            'en': { 
-                title:"Glory Badge Gallery", total:"Total", my_lvl:"My VIP Level: ", btn:"Confirm", upgrade: "Upgrade",
-                feat_h:"Badge Swap", vip_pre: "Reach", vip_suf: "to unlock swap",
-                lock:"Ineligible", ok:"Qualified", hint_sel:"Select a badge below", hint_ready:"Selected",
-                n1:"This page shows all your badges", n2:"Reach VIP Level 60 to unlock swapping",
-                n3:"Wait 20s between requests. Do not spam.", n4:"Check room after completion.",
-                n5:"Login required for full display", n6:"Allow 5 mins for data updates",
-                login: "Please login", success: "✅ Success", cooldown: "⏳ Please wait 20s"
-            },
-            'ja': { 
-                title:"栄光のバッジ一覧", total:"合計", my_lvl:"私のVIPレベル：", btn:"確定", upgrade: "アップグレード",
-                feat_h:"バッジ交換", vip_pre: "レベル", vip_suf: "で資格開放",
-                lock:"未達成", ok:"符合資格", hint_sel:"バッジを選択してください", hint_ready:"選択中",
-                n1:"すべてのバッジを表示しています", n2:"レベル60で交換が開放されます",
-                n3:"交換には約20秒かかります。頻繁な送信は避けてください。", n4:"完了後、ルームで確認できます。",
-                n5:"表示にはログインが必要です", n6:"データの更新には最大5分かかります",
-                login: "ログインしてください", success: "✅ 送信完了", cooldown: "⏳ 20秒待ってください"
-            }
+            'zh-hant': { title:"我的榮耀徽章全覽", total:"徽章總數", my_lvl:"我的 VIP 等級：", btn:"確認更換", upgrade: "立即升級", feat_h:"帳號徽章更換", vip_pre: "等級至", vip_suf: "可解鎖徽章更換", lock:"未達標", ok:"符合資格", hint_sel:"請選取下方想更換徽章", hint_ready:"已選取", n1:"本頁面呈現您的帳號所有徽章", n2:"帳號等級達到 VIP Level 60 可解鎖徽章更換", n3:"每次更換需等約 20 秒，請勿頻繁送出需求", n4:"徽章更換完成，可至直播間查看", n5:"徽章與等級需登入後完整顯示", n6:"資料至少需 5 分鐘更新時間", login: "請登入後查看徽章", success: "✅ 送出成功", cooldown: "⏳ 請等待至少 20 秒再送出請求" },
+            'en': { title:"Glory Badge Gallery", total:"Total", my_lvl:"My VIP Level: ", btn:"Confirm", upgrade: "Upgrade", feat_h:"Badge Swap", vip_pre: "Reach", vip_suf: "to unlock swap", lock:"Ineligible", ok:"Qualified", hint_sel:"Select a badge below", hint_ready:"Selected", n1:"This page shows all your badges", n2:"Reach VIP Level 60 to unlock swapping", n3:"Wait 20s between requests. Do not spam.", n4:"Check room after completion.", n5:"Login required for full display", n6:"Allow 5 mins for data updates", login: "Please login", success: "✅ Success", cooldown: "⏳ Please wait 20s" },
+            'ja': { title:"栄光のバッジ一覧", total:"合計", my_lvl:"私のVIPレベル：", btn:"確定", upgrade: "アップグレード", feat_h:"バッジ交換", vip_pre: "レベル", vip_suf: "で資格開放", lock:"未達成", ok:"符合資格", hint_sel:"バッジを選択してください", hint_ready:"選択中", n1:"すべてのバッジを表示しています", n2:"レベル60で交換が開放されます", n3:"交換には約20秒かかります。頻繁な送信は避けてください。", n4:"完了後、ルームで確認できます。", n5:"表示にはログインが必要です", n6:"データの更新には最大5分かかります", login: "ログインしてください", success: "✅ 送信完了", cooldown: "⏳ 20秒待ってください" }
         };
 
         let state = { lang:'zh-hant', level:0, selected:null, list:[] };
-        const uid = new URLSearchParams(window.location.search).get('user_id');
+        
+        // --- 核心更新：URL 混淆提取邏輯 ---
+        const getCleanUserId = () => {
+            const rawId = new URLSearchParams(window.location.search).get('user_id');
+            if (!rawId) return null;
+            // 如果長度符合混淆後的長度（原本 24 + 混淆 24 = 48），則進行切片
+            if (rawId.length >= 24 + 12 + 12) {
+                return rawId.substring(12, rawId.length - 12);
+            }
+            return rawId; // 若不符合混淆格式，嘗試直接返回（兼容舊網址）
+        };
+
+        const uid = getCleanUserId();
 
         function showModal(msg) {
             document.getElementById('modal-msg').innerText = msg;
