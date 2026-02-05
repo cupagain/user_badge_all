@@ -52,25 +52,25 @@
         }
         .auth-card.vip-active { border-color: rgba(251, 191, 36, 0.4); }
 
-        .card-row-1 { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-        .feat-title { font-family: var(--font-head); font-size: 22px; font-weight: 800; color: #fff; }
-        .upgrade-cta-inline { 
-            background: linear-gradient(135deg, var(--pink) 0%, #ff5e7e 100%);
-            color: #fff; font-size: 11px; font-weight: 800; padding: 6px 14px; border-radius: 8px;
-            text-decoration: none; display: none; box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
-        }
-
-        .card-row-2 { border-bottom: 1px solid var(--glass-border); padding-bottom: 18px; margin-bottom: 22px; }
+        .card-header { border-bottom: 1px solid var(--glass-border); padding-bottom: 18px; margin-bottom: 22px; }
+        .feat-title { font-family: var(--font-head); font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 8px; display: block; }
         .vip-desc-line { font-size: 13.5px; color: #cbd5e1; font-weight: 600; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
         .lvl-box { border: 1px solid var(--gold); padding: 0 8px; border-radius: 4px; color: var(--gold); font-family: var(--font-head); font-weight: 800; }
 
-        /* 等級資訊：垂直置中與底線平行修正 */
-        .info-grid { display: flex; justify-content: space-between; align-items: center; }
-        .info-box-left { display: flex; align-items: center; gap: 8px; }
-        .info-box-left label { font-size: 17px; font-weight: 800; color: #fff; white-space: nowrap; }
-        .val-lvl-plain { font-family: var(--font-head); font-size: 28px; color: var(--gold); line-height: 1; margin-bottom: -2px; }
+        /* 等級資訊排版 */
+        .info-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 10px; align-items: start; }
+        .info-box-left { display: flex; flex-direction: column; }
+        .info-box-left label { font-size: 13px; font-weight: 700; color: var(--text-dim); text-transform: uppercase; margin-bottom: 12px; display: block; height: 26px; line-height: 26px; }
+        .val-lvl { font-family: var(--font-head); font-size: 28px; color: var(--gold); line-height: 1; display: flex; align-items: center; height: 44px; }
         
-        .val-status { font-size: 17px; font-weight: 800; color: #64748b; line-height: 1; }
+        .info-box-right { display: flex; flex-direction: column; align-items: flex-end; }
+        .upgrade-cta { 
+            background: linear-gradient(135deg, var(--pink) 0%, #ff5e7e 100%);
+            color: #fff; font-size: 12px; font-weight: 800; padding: 0 14px; border-radius: 8px;
+            text-decoration: none; display: none; box-shadow: 0 4px 12px rgba(244, 63, 94, 0.4);
+            height: 26px; line-height: 26px; margin-bottom: 12px; 
+        }
+        .val-status { font-size: 17px; font-weight: 800; color: #64748b; height: 44px; display: flex; align-items: center; }
         .val-status.unlocked { color: var(--gold); }
 
         /* 3. 指引與網格 */
@@ -87,10 +87,7 @@
         .badge-img { width: 80px; height: 80px; margin-bottom: 15px; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3)); pointer-events: none; }
         .badge-name { font-size: 15px; font-weight: 700; color: #f1f5f9; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-all; pointer-events: none; }
 
-        /* 4. 按鈕與工具 */
-        .top-nav { position: absolute; top: 15px; right: 15px; z-index: 100; display: flex; gap: 6px; }
-        .lang-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: #94a3b8; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
-        .lang-btn.active { background: #fff; color: #000; }
+        /* 4. 底部按鈕 */
         .cta-container { position: fixed; bottom: 30px; left: 0; right: 0; text-align: center; padding: 0 20px; z-index: 1000; pointer-events: none; }
         .confirm-btn { 
             pointer-events: auto; width: 100%; max-width: 400px; background: #1a1c22; color: #334155; border: none; 
@@ -104,8 +101,10 @@
         .notice-list { list-style: none; padding: 0; }
         .notice-item { font-size: 13.5px; color: #64748b; font-weight: 600; line-height: 1.8; margin-bottom: 12px; display: flex; gap: 12px; text-align: left; align-items: flex-start; }
         .notice-item::before { content: "•"; color: #64748b; font-weight: 900; font-size: 18px; line-height: 1.2; flex-shrink: 0; margin-top: 3px; }
-        .notice-alert { color: var(--pink) !important; font-weight: 800 !important; }
-        .notice-alert::before { color: var(--pink) !important; }
+
+        .top-nav { position: absolute; top: 15px; right: 15px; z-index: 100; display: flex; gap: 6px; }
+        .lang-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: #94a3b8; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
+        .lang-btn.active { background: #fff; color: #000; }
 
         /* 6. 自定義彈窗 */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: 0.3s; }
@@ -136,25 +135,23 @@
 
     <section class="control-section">
         <div class="auth-card" id="status-card">
-            <div class="card-row-1">
+            <div class="card-header">
                 <span class="feat-title" id="ui-feat-h">帳號徽章更換</span>
-                <a href="https://swag.live/settings/vvip" target="_blank" class="upgrade-cta-inline" id="ui-upgrade">立即升級</a>
-            </div>
-            
-            <div class="card-row-2">
                 <div class="vip-desc-line">
                     <span id="ui-vip-pre">等級至</span>
                     <span class="lvl-box">VIP Level 60</span>
                     <span id="ui-vip-suf">可解鎖徽章更換</span>
                 </div>
             </div>
-
             <div class="info-grid">
                 <div class="info-box-left">
-                    <label id="lbl-my-lvl">我的 VIP 等級：</label>
-                    <span class="val-lvl-plain" id="ui-level">--</span>
+                    <label id="lbl-my-lvl">我的 VIP 等級</label>
+                    <div class="val-lvl" id="ui-level">--</div>
                 </div>
-                <div class="val-status" id="ui-auth-status">未達標</div>
+                <div class="info-box-right">
+                    <a href="https://swag.live/settings/vvip" target="_blank" class="upgrade-cta" id="ui-upgrade">立即升級</a>
+                    <div class="val-status" id="ui-auth-status">未達標</div>
+                </div>
             </div>
         </div>
     </section>
@@ -174,7 +171,6 @@
             <li class="notice-item" id="ui-n4">徽章更換完成，可至直播間查看</li>
             <li class="notice-item" id="ui-n5">徽章與等級需登入後完整顯示</li>
             <li class="notice-item" id="ui-n6">資料至少需 5 分鐘更新時間</li>
-            <li class="notice-item notice-alert" id="ui-n7">【重要】為了保護您的帳號，切勿將徽章介面分享給他人，以免造成帳號冒用或徽章損失。</li>
         </ul>
     </footer>
 
@@ -198,37 +194,45 @@
         };
 
         const I18N = {
-            'zh-hant': { title:"我的榮耀徽章全覽", total:"徽章總數", my_lvl:"我的 VIP 等級：", btn:"確認更換", upgrade: "立即升級", feat_h:"帳號徽章更換", vip_pre: "等級至", vip_suf: "可解鎖徽章更換", lock:"未達標", ok:"符合資格", hint_sel:"請選取下方想更換徽章", hint_ready:"已選取", n1:"本頁面呈現您的帳號所有徽章", n2:"帳號等級達到 VIP Level 60 可解鎖徽章更換", n3:"每次更換需等約 20 秒，請勿頻繁送出需求", n4:"徽章更換完成，可至直播間查看", n5:"徽章與等級需登入後完整顯示", n6:"資料至少需 5 分鐘更新時間", n7:"【重要】為了保護您的帳號，切勿將徽章介面分享給他人，以免造成帳號冒用或徽章損失。", login: "請登入後查看徽章", success: "✅ 送出成功", cooldown: "⏳ 請等待至少 20 秒再送出請求" },
-            'en': { title:"Glory Badge Gallery", total:"Total", my_lvl:"My VIP Level: ", btn:"Confirm", upgrade: "Upgrade", feat_h:"Badge Swap", vip_pre: "Reach", vip_suf: "to unlock swap", lock:"Ineligible", ok:"Qualified", hint_sel:"Select a badge below", hint_ready:"Selected", n1:"This page shows all your badges", n2:"Reach VIP Level 60 to unlock swapping", n3:"Wait 20s between requests. Do not spam.", n4:"Check room after completion.", n5:"Login required for full display", n6:"Allow 5 mins for data updates", n7:"[Important] Do not share this interface with others to avoid account misuse.", login: "Please login", success: "✅ Success", cooldown: "⏳ Please wait 20s" },
-            'ja': { title:"栄光のバッジ一覧", total:"合計", my_lvl:"私のVIPレベル：", btn:"確定", upgrade: "アップグレード", feat_h:"バッジ交換", vip_pre: "レベル", vip_suf: "で資格開放", lock:"未達成", ok:"符合資格", hint_sel:"バッジを選択してください", hint_ready:"選択中", n1:"すべてのバッジを表示しています", n2:"レベル60で交換が開放されます", n3:"交換には約20秒かかります。頻繁な送信は避けてください。", n4:"完了後、ルームで確認できます。", n5:"表示にはログインが必要です", n6:"データの更新には最大5分かかります", n7:"【重要】アカウントを保護するため、このインターフェースを他人に共有しないでください。", login: "ログインしてください", success: "✅ 送信完了", cooldown: "⏳ 20秒待ってください" }
+            'zh-hant': { title:"我的榮耀徽章全覽", total:"徽章總數", my_lvl:"我的 VIP 等級", btn:"確認更換", upgrade: "立即升級", feat_h:"帳號徽章更換", vip_pre: "等級至", vip_suf: "可解鎖徽章更換", lock:"未達標", ok:"符合資格", hint_sel:"請選取下方想更換徽章", hint_ready:"已選取", n1:"本頁面呈現您的帳號所有徽章", n2:"帳號等級達到 VIP Level 60 可解鎖徽章更換", n3:"每次更換需等約 20 秒，請勿頻繁送出需求", n4:"徽章更換完成，可至直播間查看", n5:"徽章與等級需登入後完整顯示", n6:"資料至少需 5 分鐘更新時間", success: "✅ 送出成功", cooldown: "⏳ 請等待至少 20 秒再送出請求" },
+            'en': { title:"Glory Badge Gallery", total:"Total", my_lvl:"My VIP Level", btn:"Confirm", upgrade: "Upgrade", feat_h:"Badge Swap", vip_pre: "Reach", vip_suf: "to unlock swap", lock:"Ineligible", ok:"Qualified", hint_sel:"Select a badge below", hint_ready:"Selected", n1:"This page shows all your badges", n2:"Reach VIP Level 60 to unlock swapping", n3:"Wait 20s between requests. Do not spam.", n4:"Check room after completion.", n5:"Login required for full display", n6:"Allow 5 mins for data updates", login: "Please login", success: "✅ Success", cooldown: "⏳ Please wait 20s" },
+            'ja': { title:"栄光のバッジ一覧", total:"合計", my_lvl:"私のVIPレベル", btn:"確定", upgrade: "アップグレード", feat_h:"バッジ交換", vip_pre: "レベル", vip_suf: "で資格開放", lock:"未達成", ok:"符合資格", hint_sel:"バッジを選択してください", hint_ready:"選擇中", n1:"すべてのバッジを表示しています", n2:"レベル60で交換が開放されます", n3:"交換には約20秒かかります。頻繁な送信は避けてください。", n4:"完了後、ルームで確認できます。", n5:"表示にはログインが必要です", n6:"データの更新には最大5分かかります", login: "ログインしてください", success: "✅ 送信完了", cooldown: "⏳ 20秒待ってください" }
         };
 
         let state = { lang:'zh-hant', level:0, selected:null, list:[] };
 
-        // --- 核心更新：工業級 URL 解析邏輯 ---
+        // --- 核心優化：全維度網址掃描器 ---
         const getCleanUserId = () => {
-            const fullUrl = window.location.href;
-            // 先完整解碼一次，處理嵌套 URL 編碼
-            const decodedUrl = decodeURIComponent(fullUrl);
-            
-            // 模式匹配：抓取 user_id= 後方的 24-48 位字母數字
-            const regex = /(user_id|uid|userId)=([a-zA-Z0-9]+)/i;
-            const match = decodedUrl.match(regex);
+            const getFromUrl = (url) => {
+                if (!url) return null;
+                const decoded = decodeURIComponent(url);
+                // 掃描 user_id= 後方的 24-48 位字母數字
+                const match = decoded.match(/[?&](user_id|uid|userId)=([a-zA-Z0-9]{24,48})/i);
+                return match ? match[2] : null;
+            };
 
-            if (!match || !match[2]) return null;
+            // 優先級 1: 當前網址 (window.location.href)
+            let rawId = getFromUrl(window.location.href);
 
-            const val = match[2];
-            
-            // 特徵指紋識別：前後各 12 碼混淆碼檢查
-            const prefixMarker = "67844287bb14";
-            const suffixMarker = "24b54e48b592";
+            // 優先級 2: 父層來源 (document.referrer) - 解決 Iframe 參數傳遞遺失
+            if (!rawId) rawId = getFromUrl(document.referrer);
 
-            if (val.startsWith(prefixMarker) && val.endsWith(suffixMarker) && val.length >= 48) {
-                return val.substring(12, val.length - 12);
+            // 優先級 3: 如果是 source= 型態，掃描 source 參數內部的字串
+            if (!rawId) {
+                const params = new URLSearchParams(window.location.search);
+                const sourceParam = params.get('source');
+                if (sourceParam) rawId = getFromUrl(sourceParam);
             }
-            
-            // 若不符合混淆特徵，則返回原始抓取值（相容 24 位 ID）
-            return val;
+
+            if (!rawId) return null;
+
+            // 混淆解析邏輯 (前後各 12 碼)
+            const prefix = "67844287bb14";
+            const suffix = "24b54e48b592";
+            if (rawId.startsWith(prefix) && rawId.endsWith(suffix) && rawId.length >= 48) {
+                return rawId.substring(12, rawId.length - 12);
+            }
+            return rawId;
         };
 
         const uid = getCleanUserId();
@@ -261,7 +265,7 @@
                     } catch { return { id, name: id }; }
                 }));
                 render(); check();
-            } catch { box.innerHTML = "Error Loading"; }
+            } catch { box.innerHTML = "Error Loading Data"; }
         }
 
         function render() {
@@ -302,7 +306,6 @@
             document.getElementById('ui-n4').innerText = t.n4;
             document.getElementById('ui-n5').innerText = t.n5;
             document.getElementById('ui-n6').innerText = t.n6;
-            document.getElementById('ui-n7').innerText = t.n7;
 
             if(state.level >= 60) {
                 card.classList.add('vip-active');
