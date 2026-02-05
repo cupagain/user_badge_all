@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>帳號徽章更換 | SWAG Collection</title>
+    <title>帳號徽章更換 | SWAG Premium</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
 
@@ -49,11 +49,11 @@
         .stats-label { color: var(--ice-blue); font-size: 13px; font-weight: 800; text-transform: uppercase; }
         .stats-val { color: #fff; font-size: 24px; font-weight: 900; font-family: var(--font-head); }
 
-        /* 2. 身份卡片區塊 */
+        /* 2. 整合式身份卡片 */
         .control-section { max-width: 600px; margin: 0 auto 30px; padding: 0 16px; }
         .auth-card { 
             background: var(--glass-deep); border: 1px solid var(--glass-border); border-radius: 28px; 
-            padding: 22px; backdrop-filter: blur(30px); box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+            padding: 24px; backdrop-filter: blur(30px); box-shadow: 0 15px 40px rgba(0,0,0,0.4);
         }
         .auth-card.vip-active { border-color: rgba(251, 191, 36, 0.4); }
         .card-header { border-bottom: 1px solid var(--glass-border); padding-bottom: 18px; margin-bottom: 22px; }
@@ -61,18 +61,20 @@
         .vip-desc-line { font-size: 13.5px; color: #cbd5e1; font-weight: 600; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
         .lvl-box { border: 1px solid var(--gold); padding: 0 8px; border-radius: 4px; color: var(--gold); font-family: var(--font-head); font-weight: 800; }
 
-        /* 等級資訊排版：垂直置中對齊 */
-        .info-stack { display: flex; flex-direction: column; gap: 16px; }
-        .info-row-primary { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 800; color: #fff; height: 34px; }
+        /* 等級資訊流：垂直對齊與底線平行 */
+        .info-stack { display: flex; flex-direction: column; gap: 18px; }
+        .info-row-primary { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 800; color: #fff; }
         .val-lvl-plain { font-family: var(--font-head); font-size: 28px; color: var(--gold); line-height: 1; }
 
         .info-row-secondary { display: flex; align-items: center; gap: 12px; }
         .val-status { font-size: 17px; font-weight: 800; color: #64748b; line-height: 1; }
         .val-status.unlocked { color: var(--gold); }
+        
         .upgrade-cta-inline { 
             background: linear-gradient(135deg, var(--pink) 0%, #ff5e7e 100%);
-            color: #fff; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 6px;
+            color: #fff; font-size: 12px; font-weight: 800; padding: 6px 14px; border-radius: 8px;
             text-decoration: none; display: none; box-shadow: 0 4px 10px rgba(244, 63, 94, 0.3);
+            white-space: nowrap;
         }
 
         /* 3. 指引與網格 */
@@ -89,25 +91,25 @@
         .badge-img { width: 80px; height: 80px; margin-bottom: 15px; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3)); pointer-events: none; }
         .badge-name { font-size: 15px; font-weight: 700; color: #f1f5f9; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-all; pointer-events: none; }
 
-        /* 4. 修改：確認更換按鈕改為隨頁面流動 (隨 PWA 調整，不固定底部) */
-        .cta-flow-area { text-align: center; padding: 40px 20px; }
+        /* 4. 修改：確認更換按鈕改為隨頁面移動 (不固定底部) */
+        .cta-flow-area { text-align: center; padding: 40px 20px 20px; position: relative; z-index: 1000; }
         .confirm-btn { 
             width: 100%; max-width: 400px; background: #1a1c22; color: #334155; border: none; 
             padding: 18px; border-radius: 20px; font-family: var(--font-head); font-size: 18px; font-weight: 800; 
             display: none; transition: 0.3s; cursor: pointer;
         }
-        .confirm-btn.active { background: var(--gold); color: #000; box-shadow: 0 10px 30px rgba(251, 191, 36, 0.5); display: inline-block; }
+        .confirm-btn.active { background: var(--gold); color: #000; box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4); display: inline-block; }
         .confirm-btn:active { transform: scale(0.98); }
 
-        /* 5. 注意事項 */
-        .footer { max-width: 600px; margin: 20px auto 0; padding: 30px 20px 100px; border-top: 1px solid var(--glass-border); }
+        /* 5. 注意事項與紅色警語 */
+        .footer { max-width: 600px; margin: 60px auto 0; padding: 30px 20px 100px; border-top: 1px solid var(--glass-border); }
         .notice-list { list-style: none; padding: 0; }
         .notice-item { font-size: 13.5px; color: #64748b; font-weight: 600; line-height: 1.8; margin-bottom: 12px; display: flex; gap: 12px; text-align: left; align-items: flex-start; }
         .notice-item::before { content: "•"; color: #64748b; font-weight: 900; font-size: 18px; line-height: 1.2; flex-shrink: 0; margin-top: 3px; }
         .notice-alert { color: var(--pink) !important; font-weight: 800 !important; }
         .notice-alert::before { color: var(--pink) !important; }
 
-        /* 6. 自定義彈窗 */
+        /* 6. 自定義彈窗 (最高層級) */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: 0.3s; }
         .modal-overlay.show { display: flex; opacity: 1; }
         .modal-content { background: #111827; border: 1px solid var(--glass-border); border-radius: 24px; padding: 40px 30px; width: 100%; max-width: 320px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
@@ -143,6 +145,7 @@
                     <span id="ui-vip-suf">可解鎖徽章更換</span>
                 </div>
             </div>
+
             <div class="info-stack">
                 <div class="info-row-primary">
                     <span id="lbl-my-lvl">我的 VIP 等級：</span>
@@ -163,7 +166,7 @@
 
     <main class="badge-grid" id="display"></main>
 
-    <!-- 底部確認按鈕 (隨頁面滾動) -->
+    <!-- 確認按鈕 (隨頁面滾動) -->
     <div class="cta-flow-area">
         <button class="confirm-btn" id="confirm-btn" onclick="sendReq()">確認更換</button>
     </div>
@@ -202,7 +205,6 @@
 
         let state = { lang:'zh-hant', level:0, selected:null, list:[], isSubmitting: false };
         
-        // --- 核心優化：全維度網址掃描器 ---
         const getCleanUserId = () => {
             const getFromUrl = (url) => {
                 if (!url) return null;
@@ -255,7 +257,7 @@
                     box.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:#64748b;font-weight:600;">${I18N[state.lang].empty}</div>`;
                 } else { render(); }
                 check();
-            } catch { box.innerHTML = "Error Loading"; }
+            } catch { box.innerHTML = "Error Loading Data"; }
         }
 
         function render() {
@@ -340,6 +342,7 @@
             try {
                 const res = await fetch(CFG.handler, {
                     method: 'POST',
+                    mode: 'cors', // 強制使用 CORS
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ user_id: uid, badge_id: state.selected.id })
                 });
