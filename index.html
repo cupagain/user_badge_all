@@ -28,7 +28,7 @@
             min-height: 100vh; padding-bottom: 150px; overflow-x: hidden;
         }
 
-        /* 1. 閃耀標題與統計區 */
+        /* 1. 標題與閃耀動畫 */
         .header-area { text-align: center; padding: 80px 20px 30px; }
         @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
         .main-title { 
@@ -44,13 +44,14 @@
         .stats-label { color: var(--ice-blue); font-size: 13px; font-weight: 800; text-transform: uppercase; }
         .stats-val { color: #fff; font-size: 24px; font-weight: 900; font-family: var(--font-head); }
 
-        /* 2. 控制卡片 */
+        /* 2. 身份卡片佈局 */
         .control-section { max-width: 600px; margin: 0 auto 30px; padding: 0 16px; }
         .auth-card { 
             background: var(--glass-deep); border: 1px solid var(--glass-border); border-radius: 28px; 
             padding: 24px; backdrop-filter: blur(30px); box-shadow: 0 15px 40px rgba(0,0,0,0.4);
         }
         .auth-card.vip-active { border-color: rgba(251, 191, 36, 0.4); }
+
         .card-header { border-bottom: 1px solid var(--glass-border); padding-bottom: 18px; margin-bottom: 22px; }
         .feat-title { font-family: var(--font-head); font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 8px; display: block; }
         .vip-desc-line { font-size: 13.5px; color: #cbd5e1; font-weight: 600; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
@@ -59,6 +60,7 @@
         .info-stack { display: flex; flex-direction: column; gap: 16px; }
         .info-row-primary { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 800; color: #fff; }
         .val-lvl-plain { font-family: var(--font-head); font-size: 28px; color: var(--gold); line-height: 1; }
+
         .info-row-secondary { display: flex; align-items: center; gap: 12px; }
         .val-status { font-size: 17px; font-weight: 800; color: #64748b; line-height: 1; }
         .val-status.unlocked { color: var(--gold); }
@@ -68,7 +70,7 @@
             text-decoration: none; display: none; box-shadow: 0 4px 10px rgba(244, 63, 94, 0.3);
         }
 
-        /* 3. 網格與指引 */
+        /* 3. 指引與網格 */
         .instruction-area { text-align: center; margin-bottom: 25px; min-height: 52px; padding: 0 20px; }
         .hint-label { font-size: 12px; font-weight: 700; color: #94a3b8; display: block; margin-bottom: 6px; text-transform: uppercase; }
         .hint-value { font-size: 17px; font-weight: 800; color: #fff; }
@@ -86,6 +88,7 @@
         .top-nav { position: absolute; top: 15px; right: 15px; z-index: 100; display: flex; gap: 6px; }
         .lang-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: #94a3b8; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
         .lang-btn.active { background: #fff; color: #000; }
+
         .cta-container { position: fixed; bottom: 30px; left: 0; right: 0; text-align: center; padding: 0 20px; z-index: 1000; pointer-events: none; }
         .confirm-btn { 
             pointer-events: auto; width: 100%; max-width: 400px; background: #1a1c22; color: #334155; border: none; 
@@ -139,6 +142,7 @@
                     <span id="ui-vip-suf">可解鎖徽章更換</span>
                 </div>
             </div>
+
             <div class="info-stack">
                 <div class="info-row-primary">
                     <span id="lbl-my-lvl">我的 VIP 等級：</span>
@@ -198,27 +202,39 @@
 
         let state = { lang:'zh-hant', level:0, selected:null, list:[] };
         
-        // --- 核心優化：深度 URL 掃描器 (Deep URL Scanner) ---
+        // --- 核心優化：全環境網址參數強制掃描器 ---
         const getCleanUserId = () => {
-            // 獲取當前網址的所有內容（包含搜尋參數與 Hash）
-            const fullUrl = window.location.href;
-            console.log("Full URL Detected:", fullUrl);
+            const currentHref = window.location.href;
+            console.log("Current Href:", currentHref);
 
-            // 正則表達式：掃描 user_id= 後方的 24-48 位字母數字字串
-            const regex = /[?&](user_id|uid|userId)=([a-zA-Z0-9]+)/i;
-            const match = fullUrl.match(regex);
+            // 1. 先用 Regex 直接掃描全文 (最暴力有效的方法)
+            const regex = /[?&](user_id|uid|userId)=([a-zA-Z0-9]{24,48})/i;
+            const directMatch = currentHref.match(regex);
+            
+            let rawId = directMatch ? directMatch[2] : null;
 
-            if (!match || !match[2]) {
-                console.error("No valid ID found in Deep Scan.");
+            // 2. 如果 Regex 沒抓到，嘗試解析 source 參數內部的嵌套網址
+            if (!rawId) {
+                const params = new URLSearchParams(window.location.search);
+                const source = params.get('source');
+                if (source) {
+                    const sourceMatch = source.match(/[?&](user_id|uid|userId)=([a-zA-Z0-9]{24,48})/i);
+                    rawId = sourceMatch ? sourceMatch[1] : null;
+                }
+            }
+
+            if (!rawId) {
+                console.error("Critical: user_id could not be detected from URL.");
                 return null;
             }
 
-            const rawId = match[2];
-            console.log("Deep Scan Captured ID:", rawId);
+            console.log("Captured Raw ID:", rawId);
 
-            // 混淆解析邏輯 (前後各 12 碼)
+            // 3. 處理混淆格式 (24真實 + 前後各12 = 48)
             if (rawId.length >= 48) {
-                return rawId.substring(12, rawId.length - 12);
+                const cleanId = rawId.substring(12, rawId.length - 12);
+                console.log("Cleaned ID from obfuscation:", cleanId);
+                return cleanId;
             }
             return rawId;
         };
@@ -236,15 +252,22 @@
 
         async function init() {
             const box = document.getElementById('display');
-            if(!uid) { box.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:100px;color:#444">Please Login</div>`; return; }
+            if(!uid) { 
+                box.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:100px;color:#444">Please Login</div>`; 
+                return; 
+            }
+            
             box.innerHTML = Array(4).fill(0).map(()=>`<div class="badge-item"><div class="badge-img skeleton"></div><div class="skeleton" style="height:16px;width:60%"></div></div>`).join('');
+            
             try {
-                console.log("Fetching badges for UID:", uid);
+                // 發起 API 請求
                 const r = await fetch(`${CFG.data}?user_id=${uid}`);
                 const d = await r.json();
+                
                 state.level = d.level;
                 document.getElementById('ui-count').innerText = d.count;
                 document.getElementById('ui-level').innerText = d.level;
+                
                 const ids = (d.badges || []).filter(i => i.startsWith('campaign_')).sort((a,b)=>a.localeCompare(b, undefined, {numeric: true}));
                 state.list = await Promise.all(ids.map(async id => {
                     const k = `badge_${id}`;
@@ -256,7 +279,7 @@
                 render(); check();
             } catch (err) { 
                 console.error("Fetch Error:", err);
-                box.innerHTML = "Error Loading Data"; 
+                box.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:50px;color:#f43f5e">Data Sync Failure. Please try again.</div>`; 
             }
         }
 
