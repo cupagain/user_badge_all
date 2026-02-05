@@ -82,7 +82,7 @@
         .badge-img { width: 80px; height: 80px; margin-bottom: 15px; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3)); pointer-events: none; }
         .badge-name { font-size: 15px; font-weight: 700; color: #f1f5f9; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-all; pointer-events: none; }
 
-        /* 4. 按鈕與頂部工具 */
+        /* 4. 按鈕與工具 */
         .top-nav { position: absolute; top: 15px; right: 15px; z-index: 100; display: flex; gap: 6px; }
         .lang-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: #94a3b8; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
         .lang-btn.active { background: #fff; color: #000; }
@@ -94,12 +94,11 @@
         }
         .confirm-btn.active { background: var(--gold); color: #000; cursor: pointer; box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4); display: inline-block; }
 
-        /* 5. 注意事項與紅色警語 */
+        /* 5. 注意事項 */
         .footer { max-width: 600px; margin: 60px auto 0; padding: 30px 20px 150px; border-top: 1px solid var(--glass-border); }
         .notice-list { list-style: none; padding: 0; }
         .notice-item { font-size: 13.5px; color: #64748b; font-weight: 600; line-height: 1.8; margin-bottom: 12px; display: flex; gap: 12px; text-align: left; align-items: flex-start; }
         .notice-item::before { content: "•"; color: #64748b; font-weight: 900; font-size: 18px; line-height: 1.2; flex-shrink: 0; margin-top: 3px; }
-        /* 紅色加粗警語 */
         .notice-alert { color: var(--pink) !important; font-weight: 800 !important; }
         .notice-alert::before { color: var(--pink) !important; }
 
@@ -198,12 +197,29 @@
         };
 
         let state = { lang:'zh-hant', level:0, selected:null, list:[] };
+        
+        // --- 修正後的 Iframe 相容解析邏輯 ---
         const getCleanUserId = () => {
-            const rawId = new URLSearchParams(window.location.search).get('user_id');
+            const searchParams = new URLSearchParams(window.location.search);
+            
+            // 嘗試多種可能的參數名稱
+            let rawId = searchParams.get('user_id') || searchParams.get('uid') || searchParams.get('userId');
+
+            // 如果 SearchParams 沒抓到，嘗試解析 Hash (處理某些 Iframe 加載器的情況)
+            if (!rawId && window.location.hash) {
+                const hashParams = new URLSearchParams(window.location.hash.substring(window.location.hash.indexOf('?')));
+                rawId = hashParams.get('user_id') || hashParams.get('uid') || hashParams.get('userId');
+            }
+
             if (!rawId) return null;
-            if (rawId.length >= 48) return rawId.substring(12, rawId.length - 12);
+
+            // 判斷是否為混淆過的 ID (24位原始ID + 前後各12位 = 48位)
+            if (rawId.length >= 48) {
+                return rawId.substring(12, rawId.length - 12);
+            }
             return rawId;
         };
+
         const uid = getCleanUserId();
 
         function showModal(msg) { document.getElementById('modal-msg').innerText = msg; document.getElementById('custom-modal').classList.add('show'); }
