@@ -28,7 +28,7 @@
             min-height: 100vh; padding-bottom: 150px; overflow-x: hidden;
         }
 
-        /* 1. 標題與統計 */
+        /* 1. 閃耀標題與立體統計 */
         .header-area { text-align: center; padding: 80px 20px 30px; }
         @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
         .main-title { 
@@ -82,7 +82,7 @@
         .badge-img { width: 80px; height: 80px; margin-bottom: 15px; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3)); pointer-events: none; }
         .badge-name { font-size: 15px; font-weight: 700; color: #f1f5f9; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-all; pointer-events: none; }
 
-        /* 4. 按鈕與頂部工具 */
+        /* 4. 按鈕與工具 */
         .top-nav { position: absolute; top: 15px; right: 15px; z-index: 100; display: flex; gap: 6px; }
         .lang-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: #94a3b8; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
         .lang-btn.active { background: #fff; color: #000; }
@@ -94,12 +94,11 @@
         }
         .confirm-btn.active { background: var(--gold); color: #000; cursor: pointer; box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4); display: inline-block; }
 
-        /* 5. 注意事項與紅色警語 */
+        /* 5. 注意事項 */
         .footer { max-width: 600px; margin: 60px auto 0; padding: 30px 20px 150px; border-top: 1px solid var(--glass-border); }
         .notice-list { list-style: none; padding: 0; }
         .notice-item { font-size: 13.5px; color: #64748b; font-weight: 600; line-height: 1.8; margin-bottom: 12px; display: flex; gap: 12px; text-align: left; align-items: flex-start; }
         .notice-item::before { content: "•"; color: #64748b; font-weight: 900; font-size: 18px; line-height: 1.2; flex-shrink: 0; margin-top: 3px; }
-        /* 紅色加粗警語 */
         .notice-alert { color: var(--pink) !important; font-weight: 800 !important; }
         .notice-alert::before { color: var(--pink) !important; }
 
@@ -179,7 +178,7 @@
     <div class="modal-overlay" id="custom-modal">
         <div class="modal-content">
             <div class="modal-text" id="modal-msg">訊息內容</div>
-            <button class="modal-btn" onclick="closeModal()">OK</button>
+            <button class="modal-btn" id="ui-modal-btn" onclick="closeModal()">OK</button>
         </div>
     </div>
 
@@ -192,14 +191,27 @@
         };
 
         const I18N = {
-            'zh-hant': { title:"我的榮耀徽章全覽", total:"徽章總數", my_lvl:"我的 VIP 等級：", btn:"確認更換", upgrade: "立即升級", feat_h:"帳號徽章更換", vip_pre: "等級至", vip_suf: "可解鎖徽章更換", lock:"未達標", ok:"符合資格", hint_sel:"請選取下方想更換徽章", hint_ready:"已選取", n1:"本頁面呈現您的帳號所有徽章", n2:"帳號等級達到 VIP Level 60 可解鎖徽章更換", n3:"每次更換需等約 20 秒，請勿頻繁送出需求", n4:"徽章更換完成，可至直播間查看", n5:"徽章與等級需登入後完整顯示", n6:"資料至少需 5 分鐘更新時間", n7:"【重要】為了保護您的帳號，切勿將徽章介面分享給他人，以免造成帳號冒用或徽章損失。", login: "請登入後查看徽章", success: "✅ 送出成功", cooldown: "⏳ 請等待至少 20 秒再送出請求" },
-            'en': { title:"Glory Badge Gallery", total:"Total", my_lvl:"My VIP Level: ", btn:"Confirm", upgrade: "Upgrade", feat_h:"Badge Swap", vip_pre: "Reach", vip_suf: "to unlock swap", lock:"Ineligible", ok:"Qualified", hint_sel:"Select a badge below", hint_ready:"Selected", n1:"This page shows all your badges", n2:"Reach VIP Level 60 to unlock swapping", n3:"Wait 20s between requests. Do not spam.", n4:"Check room after completion.", n5:"Login required for full display", n6:"Allow 5 mins for data updates", n7:"[Important] Do not share this interface with others to avoid account misuse.", login: "Please login", success: "✅ Success", cooldown: "⏳ Please wait 20s" },
-            'ja': { title:"栄光のバッジ一覧", total:"合計", my_lvl:"私のVIPレベル：", btn:"確定", upgrade: "アップグレード", feat_h:"バッジ交換", vip_pre: "レベル", vip_suf: "で資格開放", lock:"未達成", ok:"符合資格", hint_sel:"バッジを選択してください", hint_ready:"選択中", n1:"すべてのバッジを表示しています", n2:"レベル60で交換が開放されます", n3:"交換には約20秒かかります。頻繁な送信は避けてください。", n4:"完了後、ルームで確認できます。", n5:"表示にはログインが必要です", n6:"データの更新には最大5分かかります", n7:"【重要】アカウントを保護するため、このインターフェースを他人に共有しないでください。", login: "ログインしてください", success: "✅ 送信完了", cooldown: "⏳ 20秒待ってください" }
+            'zh-hant': { title:"我的榮耀徽章全覽", total:"徽章總數", my_lvl:"我的 VIP 等級：", btn:"確認更換", upgrade: "立即升級", feat_h:"帳號徽章更換", vip_pre: "等級至", vip_suf: "可解鎖徽章更換", lock:"未達標", ok:"符合資格", hint_sel:"請選取下方想更換徽章", hint_ready:"已選取", n1:"本頁面呈現您的帳號所有徽章", n2:"帳號等級達到 VIP Level 60 可解鎖徽章更換", n3:"每次更換需等約 20 秒，請勿頻繁送出需求", n4:"徽章更換完成，可至直播間查看", n5:"徽章與等級需登入後完整顯示", n6:"資料至少需 5 分鐘更新時間", n7:"【重要】為了保護您的帳號，切勿將徽章介面分享給他人，以免造成帳號冒用或徽章損失。", empty: "暫無可選徽章", login: "請登入後查看徽章", success: "✅ 送出成功", cooldown: "⏳ 請等待至少 20 秒再送出請求", modal_btn: "確定" },
+            'en': { title:"Glory Badge Gallery", total:"Total", my_lvl:"My VIP Level: ", btn:"Confirm", upgrade: "Upgrade", feat_h:"Badge Swap", vip_pre: "Reach", vip_suf: "to unlock swap", lock:"Ineligible", ok:"Qualified", hint_sel:"Select a badge below", hint_ready:"Selected", n1:"This page shows all your badges", n2:"Reach VIP Level 60 to unlock swapping", n3:"Wait 20s between requests. Do not spam.", n4:"Check room after completion.", n5:"Login required for full display", n6:"Allow 5 mins for data updates", n7:"[Important] Do not share this interface with others to avoid account misuse.", empty: "No badges available", login: "Please login", success: "✅ Success", cooldown: "⏳ Please wait 20s", modal_btn: "OK" },
+            'ja': { title:"栄光のバッジ一覧", total:"合計", my_lvl:"私のVIPレベル：", btn:"確定", upgrade: "アップグレード", feat_h:"バッジ交換", vip_pre: "レベル", vip_suf: "で資格開放", lock:"未達成", ok:"符合資格", hint_sel:"バッジを選択してください", hint_ready:"選択中", n1:"すべてのバッジを表示しています", n2:"レベル60で交換が開放されます", n3:"交換には約20秒かかります。頻繁な送信は避けてください。", n4:"完了後、ルームで確認できます。", n5:"表示にはログインが必要です", n6:"データの更新には最大5分かかります", n7:"【重要】アカウントを保護するため、このインターフェースを他人に共有しないでください。", empty: "利用可能なバッジはありません", login: "ログインしてください", success: "✅ 送信完了", cooldown: "⏳ 20秒待ってください", modal_btn: "了解" }
         };
 
         let state = { lang:'zh-hant', level:0, selected:null, list:[] };
         const getCleanUserId = () => {
-            const rawId = new URLSearchParams(window.location.search).get('user_id');
+            const getFromUrl = (url) => {
+                if (!url) return null;
+                const decoded = decodeURIComponent(url);
+                const regex = /[?&](user_id|uid|userId)=([a-zA-Z0-9]{24,48})/i;
+                const match = regex.exec(decoded);
+                return match ? match[2] : null;
+            };
+            let rawId = getFromUrl(window.location.href);
+            if (!rawId) rawId = getFromUrl(document.referrer);
+            if (!rawId) {
+                const params = new URLSearchParams(window.location.search);
+                const sourceParam = params.get('source');
+                if (sourceParam) rawId = getFromUrl(sourceParam);
+            }
             if (!rawId) return null;
             if (rawId.length >= 48) return rawId.substring(12, rawId.length - 12);
             return rawId;
@@ -226,28 +238,37 @@
                 document.getElementById('ui-count').innerText = d.count;
                 document.getElementById('ui-level').innerText = d.level;
                 const ids = (d.badges || []).filter(i => i.startsWith('campaign_')).sort((a,b)=>a.localeCompare(b, undefined, {numeric: true}));
+                
+                // 優化：單獨處理翻譯錯誤，避免連鎖崩潰
                 state.list = await Promise.all(ids.map(async id => {
                     const k = `badge_${id}`;
                     try {
                         const t = await fetch(`${CFG.trs}?lang=${state.lang}&key=${k}`).then(res => res.json());
                         return { id, name: t[k] || id };
-                    } catch { return { id, name: id }; }
+                    } catch { return { id, name: id }; } // 失敗時顯示 ID
                 }));
-                render(); check();
+
+                if (state.list.length === 0) {
+                    box.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px;color:#64748b;font-weight:600;">${I18N[state.lang].empty}</div>`;
+                } else {
+                    render();
+                }
+                check();
             } catch { box.innerHTML = "Error Loading"; }
         }
 
         function render() {
             document.getElementById('display').innerHTML = state.list.map(b => `
-                <div class="badge-item ${state.selected?.id === b.id ? 'selected' : ''}" onclick="toggleSelect('${b.id}', '${b.name.replace(/'/g, "\\'")}')">
+                <div class="badge-item ${state.selected?.id === b.id ? 'selected' : ''}" onclick="toggleSelect('${b.id}')">
                     <img class="badge-img" src="${CFG.img}${b.id}.svg" onerror="this.src='${CFG.img}default.svg'">
                     <span class="badge-name">${b.name}</span>
                 </div>
             `).join('');
         }
 
-        function toggleSelect(id, name) {
-            state.selected = (state.selected && state.selected.id === id) ? null : { id, name };
+        function toggleSelect(id) {
+            const badge = state.list.find(b => b.id === id);
+            state.selected = (state.selected && state.selected.id === id) ? null : badge;
             render(); check();
         }
 
@@ -276,6 +297,7 @@
             document.getElementById('ui-n5').innerText = t.n5;
             document.getElementById('ui-n6').innerText = t.n6;
             document.getElementById('ui-n7').innerText = t.n7;
+            document.getElementById('ui-modal-btn').innerText = t.modal_btn;
 
             if(state.level >= 60) {
                 card.classList.add('vip-active');
@@ -314,7 +336,11 @@
                     body: JSON.stringify({ user_id: uid, badge_id: state.selected.id })
                 });
                 const d = await res.json();
-                if (res.ok) showModal(t.success);
+                if (res.ok) {
+                    showModal(t.success);
+                    state.selected = null; // 清除選取
+                    setTimeout(() => { init(); }, 1500); // 1.5秒後重新刷資料
+                }
                 else if (res.status === 429 || (d.error && d.error.includes("Cooldown"))) showModal(t.cooldown);
                 else showModal(`❌: ${d.error}`);
             } catch { showModal("Network Error"); }
