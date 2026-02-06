@@ -25,10 +25,10 @@
         body {
             background-color: var(--bg); color: #fff; font-family: var(--font-body);
             background-image: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 50%);
-            min-height: 100vh; overflow-x: hidden;
+            min-height: 100vh; padding-bottom: 60px; overflow-x: hidden;
         }
 
-        /* 1. 標題與統計 */
+        /* 1. 閃耀標題 */
         .header-area { text-align: center; padding: 80px 20px 30px; }
         @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
         .main-title { 
@@ -44,7 +44,7 @@
         .stats-label { color: var(--ice-blue); font-size: 13px; font-weight: 800; text-transform: uppercase; }
         .stats-val { color: #fff; font-size: 24px; font-weight: 900; font-family: var(--font-head); }
 
-        /* 2. 身份卡片區塊 */
+        /* 2. 身份卡片 - 維持間距與對齊 */
         .control-section { max-width: 600px; margin: 0 auto 30px; padding: 0 16px; }
         .auth-card { 
             background: var(--glass-deep); border: 1px solid var(--glass-border); border-radius: 28px; 
@@ -59,7 +59,6 @@
         .info-stack { display: flex; flex-direction: column; gap: 16px; }
         .info-row-primary { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 800; color: #fff; height: 34px; }
         .val-lvl-plain { font-family: var(--font-head); font-size: 28px; color: var(--gold); line-height: 1; }
-
         .info-row-secondary { display: flex; align-items: center; gap: 12px; }
         .val-status { font-size: 17px; font-weight: 800; color: #64748b; line-height: 1; }
         .val-status.unlocked { color: var(--gold); }
@@ -67,7 +66,6 @@
             background: linear-gradient(135deg, var(--pink) 0%, #ff5e7e 100%);
             color: #fff; font-size: 11px; font-weight: 800; padding: 4px 12px; border-radius: 6px;
             text-decoration: none; display: none; box-shadow: 0 4px 10px rgba(244, 63, 94, 0.3);
-            white-space: nowrap;
         }
 
         /* 3. 指引與網格 */
@@ -76,48 +74,50 @@
         .hint-value { font-size: 17px; font-weight: 800; color: #fff; }
         .hint-selected { color: var(--ice-blue); }
 
-        /* 徽章網格下留白，防止被按鈕擋住 */
-        .badge-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding: 0 16px 100px; max-width: 1000px; margin: 0 auto; }
+        /* 網格恢復標準 padding */
+        .badge-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding: 0 16px 40px; max-width: 1000px; margin: 0 auto; }
         @media (min-width: 768px) { .badge-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); } }
-        .badge-item { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 28px; padding: 30px 10px; text-align: center; cursor: pointer; position: relative; transition: 0.3s; }
-        .badge-item.selected { border-color: var(--gold); background: rgba(251, 191, 36, 0.12); transform: translateY(-5px); }
-        .badge-item.selected::after { content: '✓'; position: absolute; top: 12px; right: 15px; color: var(--gold); font-weight: 900; font-size: 20px; }
+
+        .badge-item { 
+            background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 28px; 
+            padding: 30px 10px; text-align: center; cursor: pointer; position: relative; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; flex-direction: column; align-items: center; height: 100%;
+        }
+        .badge-item.selected { border-color: var(--gold); background: rgba(251, 191, 36, 0.12); transform: scale(1.02); }
+        
         .badge-img { width: 80px; height: 80px; margin-bottom: 15px; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3)); pointer-events: none; }
-        .badge-name { font-size: 15px; font-weight: 700; color: #f1f5f9; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-all; pointer-events: none; }
+        .badge-name { font-size: 15px; font-weight: 700; color: #f1f5f9; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-all; pointer-events: none; margin-bottom: 10px; }
 
-        /* 4. 懸浮按鈕區 (解決遮擋且具備處理狀態) */
-        .cta-container { 
-            position: fixed; bottom: 0; left: 0; right: 0; 
-            padding: 30px 20px calc(30px + env(safe-area-inset-bottom)); 
-            text-align: center; z-index: 9999; 
-            pointer-events: none; 
-            background: linear-gradient(to top, var(--bg) 60%, transparent);
+        /* 動態內置按鈕樣式 */
+        .inline-confirm-btn {
+            background: var(--gold); color: #000; border: none; padding: 10px 0; width: 90%;
+            border-radius: 12px; font-family: var(--font-head); font-size: 14px; font-weight: 900;
+            cursor: pointer; box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4);
+            animation: fadeIn 0.3s ease forwards;
         }
-        .confirm-btn { 
-            pointer-events: auto; width: 100%; max-width: 400px; background: #1a1c22; color: #334155; border: none; 
-            padding: 18px; border-radius: 20px; font-family: var(--font-head); font-size: 18px; font-weight: 800; 
-            display: none; transition: 0.3s;
-        }
-        .confirm-btn.active { background: var(--gold); color: #000; cursor: pointer; box-shadow: 0 10px 30px rgba(251, 191, 36, 0.4); display: inline-block; }
-        .confirm-btn.submitting { opacity: 0.7; cursor: wait; filter: grayscale(0.5); }
+        .inline-confirm-btn.submitting { opacity: 0.7; cursor: wait; filter: grayscale(0.5); }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 5. 注意事項 - 增加超大底距確保不被擋住 */
-        .footer { max-width: 600px; margin: 60px auto 0; padding: 30px 20px 280px; border-top: 1px solid var(--glass-border); }
+        /* 5. 注意事項 */
+        .footer { max-width: 600px; margin: 60px auto 0; padding: 30px 20px 80px; border-top: 1px solid var(--glass-border); }
         .notice-list { list-style: none; padding: 0; }
         .notice-item { font-size: 13.5px; color: #64748b; font-weight: 600; line-height: 1.8; margin-bottom: 12px; display: flex; gap: 12px; text-align: left; align-items: flex-start; }
         .notice-item::before { content: "•"; color: #64748b; font-weight: 900; font-size: 18px; line-height: 1.2; flex-shrink: 0; margin-top: 3px; }
         .notice-alert { color: var(--pink) !important; font-weight: 800 !important; }
         .notice-alert::before { color: var(--pink) !important; }
 
-        /* 6. 其他 UI 元件 */
+        /* 語言切換 */
         .top-nav { position: absolute; top: 15px; right: 15px; z-index: 100; display: flex; gap: 6px; }
         .lang-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: #94a3b8; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
         .lang-btn.active { background: #fff; color: #000; }
+
+        /* 自定義彈窗 */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 10000; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: 0.3s; }
         .modal-overlay.show { display: flex; opacity: 1; }
         .modal-content { background: #111827; border: 1px solid var(--glass-border); border-radius: 24px; padding: 40px 30px; width: 100%; max-width: 320px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
         .modal-text { font-size: 17px; font-weight: 600; line-height: 1.6; margin-bottom: 25px; color: #fff; }
         .modal-btn { background: var(--gold); color: #000; border: none; padding: 12px 0; width: 100%; border-radius: 12px; font-weight: 800; font-size: 16px; cursor: pointer; }
+
         .skeleton { background: linear-gradient(90deg, #0a0c10 25%, #1a1c22 50%, #0a0c10 75%); background-size: 200% 100%; animation: load 1.5s infinite linear; border-radius: 20px; }
         @keyframes load { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
     </style>
@@ -147,7 +147,6 @@
                     <span id="ui-vip-suf">可解鎖徽章更換</span>
                 </div>
             </div>
-
             <div class="info-stack">
                 <div class="info-row-primary">
                     <span id="lbl-my-lvl">我的 VIP 等級：</span>
@@ -180,10 +179,6 @@
         </ul>
     </footer>
 
-    <div class="cta-container">
-        <button class="confirm-btn" id="confirm-btn" onclick="sendReq()">確認更換</button>
-    </div>
-
     <div class="modal-overlay" id="custom-modal">
         <div class="modal-content">
             <div class="modal-text" id="modal-msg"></div>
@@ -205,6 +200,7 @@
         };
 
         let state = { lang:'zh-hant', level:0, selected:null, list:[], isSubmitting: false };
+        
         const getCleanUserId = () => {
             const getFromUrl = (url) => {
                 if (!url) return null;
@@ -258,12 +254,22 @@
         }
 
         function render() {
-            document.getElementById('display').innerHTML = state.list.map(b => `
-                <div class="badge-item ${state.selected?.id === b.id ? 'selected' : ''}" onclick="toggleSelect('${b.id}')">
-                    <img class="badge-img" src="${CFG.img}${b.id}.svg" onerror="this.src='${CFG.img}default.svg'">
-                    <span class="badge-name">${b.name}</span>
-                </div>
-            `).join('');
+            const t = I18N[state.lang];
+            document.getElementById('display').innerHTML = state.list.map(b => {
+                const isSelected = state.selected?.id === b.id;
+                // 如果等級達標且選中，就在卡片內置入按鈕
+                const btnHtml = (state.level >= 60 && isSelected) ? 
+                    `<button class="inline-confirm-btn ${state.isSubmitting ? 'submitting' : ''}" 
+                             onclick="sendReq(event)">${state.isSubmitting ? t.sending : t.btn}</button>` : '';
+
+                return `
+                    <div class="badge-item ${isSelected ? 'selected' : ''}" onclick="toggleSelect('${b.id}')">
+                        <img class="badge-img" src="${CFG.img}${b.id}.svg" onerror="this.src='${CFG.img}default.svg'">
+                        <span class="badge-name">${b.name}</span>
+                        ${btnHtml}
+                    </div>
+                `;
+            }).join('');
         }
 
         function toggleSelect(id) {
@@ -278,7 +284,6 @@
             const card = document.getElementById('status-card');
             const authStatus = document.getElementById('ui-auth-status');
             const upgradeBtn = document.getElementById('ui-upgrade');
-            const btn = document.getElementById('confirm-btn');
             const instArea = document.getElementById('ui-instruction');
             const hintLbl = document.getElementById('ui-hint-label');
             const hintVal = document.getElementById('ui-hint-value');
@@ -286,7 +291,6 @@
             document.getElementById('ui-title').innerText = t.title;
             document.getElementById('lbl-total').innerText = t.total;
             document.getElementById('lbl-my-lvl').innerText = t.my_lvl;
-            document.getElementById('confirm-btn').innerText = t.btn;
             upgradeBtn.innerText = t.upgrade;
             document.getElementById('ui-feat-h').innerText = t.feat_h;
             document.getElementById('ui-vip-pre').innerText = t.vip_pre;
@@ -306,17 +310,14 @@
                 authStatus.className = "val-status unlocked";
                 upgradeBtn.style.display = "none";
                 instArea.style.display = "block";
-                btn.style.display = "inline-block";
                 if(state.selected) {
                     hintLbl.innerText = t.hint_ready;
                     hintVal.innerText = state.selected.name;
                     hintVal.className = "hint-value hint-selected";
-                    btn.classList.add('active');
                 } else {
                     hintLbl.innerText = t.hint_sel;
                     hintVal.innerText = "---";
                     hintVal.className = "hint-value";
-                    btn.classList.remove('active');
                 }
             } else {
                 card.classList.remove('vip-active');
@@ -324,18 +325,16 @@
                 authStatus.className = "val-status";
                 upgradeBtn.style.display = "inline-block";
                 instArea.style.display = "none"; 
-                btn.style.display = "none"; 
             }
         }
 
-        async function sendReq() {
-            const btn = document.getElementById('confirm-btn');
-            const t = I18N[state.lang];
-            if(!btn.classList.contains('active') || state.isSubmitting) return;
+        async function sendReq(e) {
+            if (e) e.stopPropagation(); // 關鍵：防止觸發父層的 toggleSelect
+            if (state.isSubmitting || !state.selected) return;
 
+            const t = I18N[state.lang];
             state.isSubmitting = true;
-            btn.innerText = t.sending;
-            btn.classList.add('submitting');
+            render(); // 更新為「處理中」視覺
 
             try {
                 const res = await fetch(CFG.handler, {
@@ -346,19 +345,15 @@
                 if (res.ok) {
                     showModal(t.success);
                     state.selected = null;
-                    check();
-                    render();
-                } else if (res.status === 429) {
-                    showModal(t.cooldown);
-                } else {
-                    showModal(`❌: ${d.error || "Denied"}`);
+                    setTimeout(() => init(), 1000);
                 }
+                else if (res.status === 429) showModal(t.cooldown);
+                else showModal(`❌: ${d.error || "Denied"}`);
             } catch (err) {
                 showModal("❌ 伺服器連線失敗 (Network Error)");
             } finally {
                 state.isSubmitting = false;
-                btn.innerText = t.btn;
-                btn.classList.remove('submitting');
+                render();
                 check();
             }
         }
