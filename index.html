@@ -437,28 +437,33 @@
         }
 
         async function rebuildTranslations() {
-            state.list = await Promise.all(
-                state.ownedIds.map(async id => ({ id, name: await fetchBadgeName(id, state.lang) }))
-            );
+    state.list = await Promise.all(
+        state.ownedIds.map(async id => ({ id, name: await fetchBadgeName(id, state.lang) }))
+    );
 
-            const equippedGrid = document.getElementById('equipped-display-grid');
-            const rawIds = state.ownedIds;
-            if (rawIds.length > 0) {
-                const lastId = rawIds[rawIds.length - 1];
-                const secondLastId = rawIds.length > 1 ? rawIds[rawIds.length - 2] : null;
-                const eqList = [];
-                if (secondLastId) eqList.push({ id: secondLastId, name: await fetchBadgeName(secondLastId, state.lang) });
-                eqList.push({ id: lastId, name: await fetchBadgeName(lastId, state.lang) });
-                equippedGrid.innerHTML = eqList.map(item =>
-                    `<div class="equipped-box"><img src="${CFG.img}${item.id}.svg" onerror="this.src='${CFG.img}default.svg'"><span>${item.name}</span></div>`
-                ).join('');
-            }
+    if (state.selected) {
+        const updated = state.list.find(b => b.id === state.selected.id);
+        if (updated) state.selected = updated;
+    }
 
-            document.getElementById('ui-username-display').innerText = I18N[state.lang].username + (state.username || '---');
+    const equippedGrid = document.getElementById('equipped-display-grid');
+    const rawIds = state.ownedIds;
+    if (rawIds.length > 0) {
+        const lastId = rawIds[rawIds.length - 1];
+        const secondLastId = rawIds.length > 1 ? rawIds[rawIds.length - 2] : null;
+        const eqList = [];
+        if (secondLastId) eqList.push({ id: secondLastId, name: await fetchBadgeName(secondLastId, state.lang) });
+        eqList.push({ id: lastId, name: await fetchBadgeName(lastId, state.lang) });
+        equippedGrid.innerHTML = eqList.map(item =>
+            `<div class="equipped-box"><img src="${CFG.img}${item.id}.svg" onerror="this.src='${CFG.img}default.svg'"><span>${item.name}</span></div>`
+        ).join('');
+    }
 
-            if (state.list.length > 0) render();
-            check();
-        }
+    document.getElementById('ui-username-display').innerText = I18N[state.lang].username + (state.username || '---');
+
+    if (state.list.length > 0) render();
+    check();
+}
 
         const getCleanUserId = () => {
             const getFromUrl = (url) => {
@@ -537,7 +542,7 @@
             const box = document.getElementById('display');
             const equippedGrid = document.getElementById('equipped-display-grid');
             const hero = document.getElementById('zero-badge-hero');
-            const instArea = document.querySelector('.instruction-area');
+            const instArea = document.getElementById('ui-instruction');
             const mgmtArea = document.getElementById('management-area');
 
             if (!uid) {
