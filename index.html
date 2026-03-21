@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>帳號徽章更換 | SWAG Premium</title>
-    
+
+    <!-- FIX #14: preconnect 讓字型更快載入，避免頁面閃爍 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800;900&display=swap" rel="stylesheet">
 
     <style>
@@ -35,32 +38,36 @@
 
         .header-area { text-align: center; padding: 70px 20px 5px; }
         @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
-        .main-title { 
+        .main-title {
             font-family: var(--font-head); font-size: 30px; font-weight: 900; letter-spacing: -1px; margin-bottom: 8px;
             background: linear-gradient(90deg, #fff 0%, #94a3b8 25%, #fff 50%, #94a3b8 75%, #fff 100%);
             background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: shimmer 4s linear infinite; white-space: nowrap;
+            animation: shimmer 4s linear infinite;
+            /* FIX #11: 移除 nowrap，允許在極小螢幕換行，避免文字跑出畫面 */
+            white-space: normal; overflow-wrap: break-word;
         }
         .username-line { font-size: 14px; font-weight: 700; color: var(--gold); margin-bottom: 20px; display: block; opacity: 0.9; }
 
         .minimal-total-box {
             display: inline-flex; align-items: center; gap: 10px;
             border: 1px solid rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.05);
-            padding: 8px 20px; border-radius: 100px; margin-bottom: 15px; 
+            padding: 8px 20px; border-radius: 100px; margin-bottom: 15px;
         }
         .mt-label { font-size: 13px; font-weight: 600; color: var(--text-dim); }
         .mt-val { font-family: var(--font-head); font-size: 18px; font-weight: 800; color: var(--ice-blue); }
 
         .hero-banner-wrap { max-width: 600px; margin: 0 auto 20px; padding: 0 16px; }
-        .library-hero-card { 
-            background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(251, 191, 36, 0.02) 100%); 
+        .library-hero-card {
+            background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(251, 191, 36, 0.02) 100%);
             border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 20px;
             padding: 20px; display: flex; align-items: center; justify-content: space-between;
-            cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.2); transition: 0.3s;
+            cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            /* FIX #15: 指定具體 transition 屬性，避免所有屬性都觸發動畫 */
+            transition: transform 0.3s, box-shadow 0.3s;
             position: relative; overflow: hidden;
         }
         .library-hero-card:active { transform: scale(0.98); }
-        .library-hero-card::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent); transform: rotate(45deg); animation: shimmer 3s infinite; pointer-events: none;}
+        .library-hero-card::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent); transform: rotate(45deg); animation: shimmer 3s infinite; pointer-events: none; }
         .lh-info { text-align: left; }
         .lh-title { font-size: 16px; font-weight: 800; color: var(--gold); margin-bottom: 4px; display: block; }
         .lh-desc { font-size: 12px; color: #cbd5e1; font-weight: 600; }
@@ -69,74 +76,46 @@
         .lh-arrow { font-size: 14px; color: var(--gold); opacity: 0.8; margin-left: 4px; }
 
         .management-section { max-width: 600px; margin: 0 auto 20px; padding: 0 16px; }
-        .management-card { 
-            background: var(--glass-deep); border: 1px solid var(--glass-border); border-radius: 28px; 
+        .management-card {
+            background: var(--glass-deep); border: 1px solid var(--glass-border); border-radius: 28px;
             padding: 24px 20px; backdrop-filter: blur(30px); display: flex; flex-direction: column; gap: 18px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3); transition: 0.3s;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            /* FIX #15 */
+            transition: border-color 0.3s;
         }
         .management-card.vip-active { border-color: rgba(251, 191, 36, 0.3); }
-        
+
         .mc-header { text-align: center; display: flex; flex-direction: column; gap: 10px; align-items: center; }
         .mc-title { font-size: 18px; font-weight: 800; color: #fff; letter-spacing: 1px; font-family: var(--font-head); }
-        .ac-rule-top { 
-            font-size: 12px; color: #cbd5e1; font-weight: 600; 
-            display: inline-flex; align-items: center; justify-content: center; gap: 5px; 
+        .ac-rule-top {
+            font-size: 12px; color: #cbd5e1; font-weight: 600;
+            display: inline-flex; align-items: center; justify-content: center; gap: 5px;
             background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);
             padding: 6px 16px; border-radius: 100px; margin-bottom: 2px;
         }
-        .lvl-highlight { 
-            color: var(--gold); font-family: var(--font-head); font-weight: 900; font-size: 13.5px; 
-            text-shadow: 0 0 10px rgba(251, 191, 36, 0.3); 
-        }
+        .lvl-highlight { color: var(--gold); font-family: var(--font-head); font-weight: 900; font-size: 13.5px; text-shadow: 0 0 10px rgba(251, 191, 36, 0.3); }
 
         .equipped-grid { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 4px; }
         .equipped-box {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            padding: 24px 10px 14px; 
+            background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px; padding: 24px 10px 14px;
             display: flex; flex-direction: column; align-items: center; text-align: center;
-            width: calc(50% - 8px); max-width: 180px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-            position: relative; overflow: hidden;
+            width: calc(50% - 8px); max-width: 180px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4); position: relative; overflow: hidden;
         }
-        .equipped-box::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1.5px;
-            background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.6), transparent);
-        }
-        .equipped-box::after {
-            content: ''; position: absolute; top: -40px; left: 50%; transform: translateX(-50%);
-            width: 100px; height: 80px; 
-            background: radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, transparent 70%);
-            pointer-events: none;
-        }
-        .equipped-box img { 
-            width: 80px; height: 80px; margin-bottom: 12px; 
-            filter: drop-shadow(0 10px 15px rgba(0,0,0,0.7)); 
-            transform: scale(1.05); position: relative; z-index: 2;
-        }
-        .equipped-box span { 
-            font-size: 13px; font-weight: 700; color: #fff;
-            line-height: 1.2; height: 32px; overflow: hidden; display: -webkit-box; 
-            -webkit-line-clamp: 2; -webkit-box-orient: vertical; text-shadow: 0 2px 4px rgba(0,0,0,0.6); 
-            position: relative; z-index: 2;
-        }
+        .equipped-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1.5px; background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.6), transparent); }
+        .equipped-box::after { content: ''; position: absolute; top: -40px; left: 50%; transform: translateX(-50%); width: 100px; height: 80px; background: radial-gradient(circle, rgba(251, 191, 36, 0.12) 0%, transparent 70%); pointer-events: none; }
+        .equipped-box img { width: 80px; height: 80px; margin-bottom: 12px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.7)); transform: scale(1.05); position: relative; z-index: 2; }
+        .equipped-box span { font-size: 13px; font-weight: 700; color: #fff; line-height: 1.2; height: 32px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; text-shadow: 0 2px 4px rgba(0,0,0,0.6); position: relative; z-index: 2; }
 
         .mc-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--glass-border), transparent); margin: 0 10px; }
-        
         .mc-vip-area { display: flex; align-items: center; justify-content: space-between; padding: 0 5px; flex-wrap: wrap; gap: 12px; }
         .ac-my-lvl { font-size: 14px; font-weight: 700; color: #94a3b8; display: flex; align-items: center; gap: 8px; }
         .val-lvl-plain { font-family: var(--font-head); font-size: 22px; color: var(--gold); line-height: 1; font-weight: 900; }
-
         .ac-status-area { display: flex; align-items: center; gap: 12px; }
         .val-status { font-size: 14px; font-weight: 800; color: #64748b; }
         .val-status.unlocked { color: var(--gold); }
-        .upgrade-cta-inline { 
-            background: linear-gradient(135deg, var(--pink) 0%, #ff5e7e 100%);
-            color: #fff; font-size: 12px; font-weight: 800; padding: 6px 14px; border-radius: 8px;
-            text-decoration: none; display: none; box-shadow: 0 4px 10px rgba(244, 63, 94, 0.3);
-            white-space: nowrap;
-        }
+        .upgrade-cta-inline { background: linear-gradient(135deg, var(--pink) 0%, #ff5e7e 100%); color: #fff; font-size: 12px; font-weight: 800; padding: 6px 14px; border-radius: 8px; text-decoration: none; display: none; box-shadow: 0 4px 10px rgba(244, 63, 94, 0.3); white-space: nowrap; }
 
         .instruction-area { text-align: center; margin-bottom: 15px; min-height: 48px; padding: 0 20px; }
         .hint-label { font-size: 11px; font-weight: 700; color: #94a3b8; display: block; margin-bottom: 4px; text-transform: uppercase; }
@@ -146,7 +125,15 @@
 
         .badge-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding: 0 16px 30px; max-width: 1000px; margin: 0 auto; justify-content: center; }
         @media (min-width: 768px) { .badge-grid { grid-template-columns: repeat(auto-fit, 180px); justify-content: center; } }
-        .badge-item { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 28px; padding: 30px 10px 10px; text-align: center; cursor: pointer; position: relative; transition: 0.3s; display: flex; flex-direction: column; align-items: center; height: 100%; }
+        .badge-item {
+            background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 28px;
+            padding: 30px 10px 10px; text-align: center; cursor: pointer; position: relative;
+            /* FIX #15 */
+            transition: border-color 0.3s, background 0.3s, transform 0.3s;
+            display: flex; flex-direction: column; align-items: center; height: 100%;
+            /* FIX #12: 最小高度讓 skeleton 和真實內容高度接近，減少載入後畫面跳動 */
+            min-height: 160px;
+        }
         .badge-item.selected { border-color: var(--gold); background: rgba(251, 191, 36, 0.12); transform: scale(1.02); }
         .badge-item.selected::after { content: '✓'; position: absolute; top: 12px; right: 15px; color: var(--gold); font-weight: 900; font-size: 18px; }
         .badge-img { width: 75px; height: 75px; margin-bottom: 12px; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3)); pointer-events: none; }
@@ -155,9 +142,13 @@
         .inline-confirm-btn { background: var(--gold); color: #000; border: none; padding: 8px 0; width: 90%; border-radius: 10px; font-family: var(--font-head); font-size: 13px; font-weight: 900; cursor: pointer; box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4); animation: fadeIn 0.3s ease forwards; margin-top: auto; }
         .inline-confirm-btn.submitting { opacity: 0.7; cursor: wait; filter: grayscale(0.5); }
 
+        /* FIX #8: 語言切換時的 loading 淡出效果，告知用戶正在更新 */
+        .badge-grid.lang-loading { opacity: 0.4; pointer-events: none; transition: opacity 0.2s; }
+        .badge-grid.lang-loaded  { opacity: 1; transition: opacity 0.3s; }
+
         .zero-badge-hero { max-width: 600px; margin: 30px auto; padding: 40px 20px; text-align: center; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 24px; backdrop-filter: blur(10px); }
         .zero-badge-hero p { font-size: 15px; font-weight: 700; color: var(--text-dim); margin-bottom: 20px; }
-        .hero-btn { background: rgba(255,255,255,0.1); color: #fff; padding: 12px 24px; border-radius: 100px; font-size: 14px; font-weight: 700; border: 1px solid var(--glass-border); cursor: pointer; transition: 0.3s; }
+        .hero-btn { background: rgba(255,255,255,0.1); color: #fff; padding: 12px 24px; border-radius: 100px; font-size: 14px; font-weight: 700; border: 1px solid var(--glass-border); cursor: pointer; transition: background 0.3s; }
 
         .footer { max-width: 600px; margin: 40px auto 0; padding: 30px 20px 80px; border-top: 1px solid var(--glass-border); }
         .notice-list { list-style: none; padding: 0; }
@@ -168,44 +159,91 @@
         .full-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); backdrop-filter: blur(20px); z-index: 15000; display: none; flex-direction: column; animation: fadeIn 0.2s ease; }
         .overlay-header { padding: 25px 20px 15px; text-align: center; position: relative; flex-shrink: 0; }
         .overlay-title { font-family: var(--font-head); font-size: 20px; font-weight: 900; color: #fff; }
-        .close-overlay { position: absolute; right: 20px; top: 20px; font-size: 28px; color: #94a3b8; cursor: pointer; border: none; background: none; }
-        
+        /* FIX #13: 增大關閉按鈕點擊區域至 44×44px，符合 Apple 建議最小點擊面積 */
+        .close-overlay {
+            position: absolute; right: 12px; top: 12px; font-size: 24px; color: #94a3b8;
+            cursor: pointer; border: none; background: none;
+            min-width: 44px; min-height: 44px;
+            display: flex; align-items: center; justify-content: center; border-radius: 50%;
+        }
+        .close-overlay:hover { color: #fff; background: rgba(255,255,255,0.08); }
+
         .overlay-filters { display: flex; justify-content: center; gap: 10px; padding: 0 20px 15px; border-bottom: 1px solid var(--glass-border); flex-shrink: 0; }
-        .filter-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #94a3b8; padding: 8px 16px; border-radius: 100px; font-size: 12px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+        .filter-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #94a3b8; padding: 8px 16px; border-radius: 100px; font-size: 12px; font-weight: 700; cursor: pointer; transition: background 0.2s, color 0.2s; }
         .filter-btn.active { background: var(--gold); color: #000; border-color: var(--gold); }
 
         .overlay-scroll { flex: 1; overflow-y: auto; padding: 20px; }
         .lib-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
         @media (min-width: 600px) { .lib-grid { grid-template-columns: 1fr 1fr; } }
-        .lib-card { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 20px; padding: 16px; display: flex; align-items: flex-start; gap: 15px; transition: 0.3s; }
+        /* FIX #15 */
+        .lib-card { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 20px; padding: 16px; display: flex; align-items: flex-start; gap: 15px; transition: border-color 0.3s, background 0.3s; }
         .lib-card.owned { border-color: rgba(251, 191, 36, 0.4); background: rgba(251, 191, 36, 0.05); }
         .lib-img { width: 50px; height: 50px; flex-shrink: 0; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); margin-top: 4px; }
-        
         .lib-info { flex: 1; min-width: 0; text-align: left; }
         .lib-header-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 4px; }
         .lib-name { font-size: 14px; font-weight: 800; color: #fff; line-height: 1.3; }
         .owned-tag { background: rgba(251, 191, 36, 0.15); color: var(--gold); padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 800; flex-shrink: 0; border: 1px solid rgba(251, 191, 36, 0.3); }
-        
         .lib-subtitle { font-size: 11px; font-weight: 700; color: var(--gold); margin-bottom: 4px; display: block; opacity: 0.9; }
         .lib-desc { font-size: 12px; font-weight: 500; color: var(--text-dim); line-height: 1.4; display: block; }
         .lib-date { display: inline-flex; align-items: center; font-size: 10px; font-weight: 600; color: #cbd5e1; background: rgba(255, 255, 255, 0.1); padding: 3px 6px; border-radius: 4px; margin-top: 6px; }
 
-        .modal-overlay { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); 
-            z-index: 20000; display: none; align-items: center; justify-content: center; 
-            padding: 20px; opacity: 0; transition: 0.3s; cursor: pointer;
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
+            z-index: 20000; display: none; align-items: center; justify-content: center;
+            padding: 20px; opacity: 0; transition: opacity 0.3s; cursor: pointer;
         }
         .modal-overlay.show { display: flex; opacity: 1; }
-        .modal-content { 
-            background: #111827; border: 1px solid var(--glass-border); border-radius: 20px; 
-            padding: 30px 24px; width: 100%; max-width: 300px; text-align: center; 
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5); cursor: default;
-        }
+        .modal-content { background: #111827; border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px 24px; width: 100%; max-width: 300px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); cursor: default; }
         .modal-text { font-size: 15px; font-weight: 600; line-height: 1.6; margin-bottom: 25px; color: #fff; }
         .modal-btn { background: var(--gold); color: #000; border: none; padding: 12px 0; width: 100%; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; }
-        
+
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* 裝備格子 — 驗證中狀態 */
+.equipped-box {
+    transition: opacity 0.4s, border-color 0.4s;
+}
+.equipped-box.pending {
+    opacity: 0.6;
+    border-color: rgba(251, 191, 36, 0.5);
+}
+.equipped-box img {
+    transition: opacity 0.3s;
+}
+/* 旋轉 loading 環 */
+.eq-loading-ring {
+    position: absolute; inset: 4px; border-radius: 20px; z-index: 10;
+    border: 2px solid transparent;
+    border-top-color: var(--gold);
+    border-right-color: rgba(251, 191, 36, 0.3);
+    animation: spin 1s linear infinite;
+    pointer-events: none;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* 確認成功的金色脈衝閃光 */
+@keyframes successPulse {
+    0%   { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7), 0 10px 25px rgba(0,0,0,0.4); border-color: var(--gold); }
+    50%  { box-shadow: 0 0 0 12px rgba(251, 191, 36, 0), 0 10px 25px rgba(0,0,0,0.4); border-color: var(--gold); }
+    100% { box-shadow: 0 10px 25px rgba(0,0,0,0.4); border-color: rgba(255,255,255,0.08); }
+}
+.equipped-box.eq-confirmed {
+    opacity: 1 !important;
+    animation: successPulse 0.9s ease-out forwards;
+}
+
+/* 步驟進度條 */
+.swap-progress-bar {
+    display: none; align-items: center; justify-content: center; gap: 8px;
+    padding: 10px 0 4px; font-size: 11px; font-weight: 700; color: var(--text-dim);
+}
+.swap-progress-bar.visible { display: flex; }
+.sp-step { display: flex; flex-direction: column; align-items: center; gap: 4px; opacity: 0.35; transition: opacity 0.4s; }
+.sp-step.active { opacity: 1; color: var(--gold); }
+.sp-step.done { opacity: 0.6; color: var(--success-green); }
+.sp-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+.sp-line { width: 24px; height: 2px; background: var(--glass-border); border-radius: 1px; align-self: center; margin-bottom: 12px; }
+.sp-line.done { background: var(--success-green); }
         .skeleton { background: linear-gradient(90deg, #0a0c10 25%, #1a1c22 50%, #0a0c10 75%); background-size: 200% 100%; animation: load 1.5s infinite linear; border-radius: 12px; }
         @keyframes load { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
     </style>
@@ -220,7 +258,6 @@
     <header class="header-area">
         <h1 class="main-title" id="ui-title">我的榮耀徽章全覽</h1>
         <span class="username-line" id="ui-username-display">帳號：----</span>
-        
         <div class="minimal-total-box">
             <span class="mt-label" id="lbl-total">帳號徽章總數</span>
             <span class="mt-val" id="ui-count">--</span>
@@ -234,9 +271,9 @@
                 <span class="lh-desc" id="lbl-view-lib">點擊查看所有成就圖鑑</span>
             </div>
             <div class="lh-count">
-                <span class="lh-count-text" id="lbl-count-pre">收錄共</span> 
-                <span id="ui-total-db-count">--</span> 
-                <span class="lh-count-text" id="lbl-count-suf">款</span> 
+                <span class="lh-count-text" id="lbl-count-pre">收錄共</span>
+                <span id="ui-total-db-count">--</span>
+                <span class="lh-count-text" id="lbl-count-suf">款</span>
                 <span class="lh-arrow">➔</span>
             </div>
         </div>
@@ -248,11 +285,18 @@
                 <span class="mc-title" id="ui-feat-h">帳號顯示與更換徽章</span>
                 <div class="ac-rule-top"><span id="ui-vip-pre">達</span> <span class="lvl-highlight" id="ui-vip-lvl">VIP Lv.60</span> <span id="ui-vip-suf">解鎖徽章更換</span></div>
             </div>
-            
             <div class="equipped-grid" id="equipped-display-grid"></div>
-            
+
+<!-- 新增這段 -->
+<div class="swap-progress-bar" id="swap-progress">
+    <div class="sp-step" id="sp-1"><div class="sp-dot"></div><span id="sp-lbl-1">送出</span></div>
+    <div class="sp-line" id="sp-line-1"></div>
+    <div class="sp-step" id="sp-2"><div class="sp-dot"></div><span id="sp-lbl-2">處理中</span></div>
+    <div class="sp-line" id="sp-line-2"></div>
+    <div class="sp-step" id="sp-3"><div class="sp-dot"></div><span id="sp-lbl-3">確認</span></div>
+</div>
+
             <div class="mc-divider"></div>
-            
             <div class="mc-vip-area">
                 <div class="ac-my-lvl"><span id="lbl-my-lvl">我的 VIP 等級：</span> <span class="val-lvl-plain" id="ui-level">--</span></div>
                 <div class="ac-status-area">
@@ -290,7 +334,8 @@
 
     <div class="full-overlay" id="all-badges-overlay">
         <div class="overlay-header">
-            <button class="close-overlay" onclick="toggleAllBadges(false)">×</button>
+            <!-- FIX #13: aria-label 補充無障礙語意 -->
+            <button class="close-overlay" onclick="toggleAllBadges(false)" aria-label="關閉">×</button>
             <span class="overlay-title" id="ui-all-title">全站歷史徽章圖鑑</span>
         </div>
         <div class="overlay-filters">
@@ -386,22 +431,58 @@
         };
 
         const CFG = {
-            data: 'https://swag-user-info-api-905468082258.asia-east1.run.app/api/badges',
+            data:    'https://swag-user-info-api-905468082258.asia-east1.run.app/api/badges',
             handler: 'https://swag-request-handler-v3-905468082258.asia-east1.run.app/api/request',
-            img: 'https://public.swag.live/badges/',
-            trs: 'https://api.swag.live/translations'
+            img:     'https://public.swag.live/badges/',
+            trs:     'https://api.swag.live/translations'
         };
 
         const I18N = {
-            'zh-hant': { 
-                title:"我的榮耀徽章全覽", username: "帳號：", total:"帳號徽章總數", my_lvl:"我的 VIP 等級：", btn:"確認上架", upgrade: "立即升級", feat_h:"帳號顯示與更換徽章", vip_pre: "達", vip_lvl: "VIP Lv.60", vip_suf: "解鎖徽章更換", lock:"未達標", ok:"已解鎖", hint_sel:"請選取下方想更換徽章", hint_ready:"已選取", hint_pos:"將替換左側徽章，上架之徽章呈現於右側", empty: "暫無可選徽章", login: "請登入後查看徽章", success: "✅ 送出成功", cooldown: "⏳ 請等待至少 20 秒再送出請求", modal_btn: "確定", all_title: "全站歷史徽章圖鑑", got_it: "已獲得", sending: "處理中...", all_lib: "全站歷史徽章庫", view_lib: "點擊查看所有成就圖鑑", zero_msg: "您目前尚未擁有任何直播間徽章", count_pre: "收錄共", count_suf: "款", empty_lib: "您尚未獲得任何徽章", err_load: "❌ 資料載入失敗，請稍後再試",
-                flt_all: "全部", flt_owned: "已獲得", flt_unowned: "未獲得", zero_cta: "前往圖鑑查看",
-                n1:"本頁面呈現您的帳號所有徽章", n2:"帳號達到 VIP Lv.60 可解鎖徽章更換", n3:"每次更換需等約 20 秒，請勿頻繁送出需求", n4:"徽章更換完成，可至直播間查看", n5:"徽章與等級需登入後完整顯示", n6:"資料至少需 10 分鐘更新時間", n7:"【重要】為了保護您的帳號，切勿將徽章介面分享給他人，以免造成帳號冒用或徽章損失。"
+            'zh-hant': {
+                title:"我的榮耀徽章全覽", username:"帳號：", total:"帳號徽章總數", my_lvl:"我的 VIP 等級：",
+                btn:"確認上架", upgrade:"立即升級", feat_h:"帳號顯示與更換徽章",
+                vip_pre:"達", vip_lvl:"VIP Lv.60", vip_suf:"解鎖徽章更換",
+                lock:"未達標", ok:"已解鎖", hint_sel:"請選取下方想更換徽章", hint_ready:"已選取",
+                hint_pos:"將替換左側徽章，上架之徽章呈現於右側", empty:"暫無可選徽章",
+                login:"請登入後查看徽章", success:"✅ 送出成功",
+                cooldown:"⏳ 請等待至少 20 秒再送出請求",
+                err_timeout:"❌ 連線逾時，請稍後再試",   // FIX #7: 逾時專屬錯誤訊息
+                modal_btn:"確定", all_title:"全站歷史徽章圖鑑", got_it:"已獲得", sending:"處理中...",
+                all_lib:"全站歷史徽章庫", view_lib:"點擊查看所有成就圖鑑",
+                zero_msg:"您目前尚未擁有任何直播間徽章",
+                count_pre:"收錄共", count_suf:"款", empty_lib:"您尚未獲得任何徽章",
+                flt_all:"全部", flt_owned:"已獲得", flt_unowned:"未獲得", zero_cta:"前往圖鑑查看",
+                err_load:"❌ 資料載入失敗，請稍後再試",
+                n1:"本頁面呈現您的帳號所有徽章", n2:"帳號達到 VIP Lv.60 可解鎖徽章更換",
+                n3:"每次更換需等約 20 秒，請勿頻繁送出需求", n4:"徽章更換完成，可至直播間查看",
+                n5:"徽章與等級需登入後完整顯示", n6:"資料至少需 10 分鐘更新時間",
+                n7:"【重要】為了保護您的帳號，切勿將徽章介面分享給他人，以免造成帳號冒用或徽章損失。",
+                sp_send:"送出", sp_processing:"處理中", sp_confirm:"確認",
+                success_confirmed:"✅ 已成功上架！",
+                success_pending:"📨 請求已送出，請稍後至直播間確認"
             },
-            'en': { 
-                title:"Glory Badge Gallery", username: "Account: ", total:"Total Badges", my_lvl:"My VIP Level: ", btn:"Confirm", upgrade: "Upgrade", feat_h:"Display & Swap Badges", vip_pre: "Reach", vip_lvl: "VIP Lv.60", vip_suf: "to unlock badge swap", lock:"Ineligible", ok:"Unlocked", hint_sel:"Please select a badge below", hint_ready:"Selected", hint_pos:"Will replace the left badge. New badge shows on the right.", empty: "No badges", login: "Please login", success: "✅ Success", cooldown: "⏳ Wait 20s", modal_btn: "OK", all_title: "Badge Collection", got_it: "Owned", sending: "Sending...", all_lib: "All Site Library", view_lib: "View all achievements", zero_msg: "No badges found", count_pre: "Total", count_suf: "badges", empty_lib: "You haven't obtained any badges yet.", err_load: "❌ Failed to load data. Please try again.",
-                flt_all: "All", flt_owned: "Owned", flt_unowned: "Not Owned", zero_cta: "View Collection",
-                n1:"This page shows all your account badges", n2:"Reach VIP Lv.60 to unlock badge swap", n3:"Wait 20s between requests. Do not spam.", n4:"Check live rooms after completion.", n5:"Login required for full display", n6:"Allow 10 mins for data updates", n7:"[Important] Do not share this interface with others to avoid misuse."
+            'en': {
+                title:"Glory Badge Gallery", username:"Account: ", total:"Total Badges", my_lvl:"My VIP Level: ",
+                btn:"Confirm", upgrade:"Upgrade", feat_h:"Display & Swap Badges",
+                vip_pre:"Reach", vip_lvl:"VIP Lv.60", vip_suf:"to unlock badge swap",
+                lock:"Ineligible", ok:"Unlocked", hint_sel:"Please select a badge below", hint_ready:"Selected",
+                hint_pos:"Will replace the left badge. New badge shows on the right.", empty:"No badges",
+                login:"Please login", success:"✅ Success",
+                cooldown:"⏳ Wait 20s",
+                err_timeout:"❌ Request timed out. Please try again.",
+                modal_btn:"OK", all_title:"Badge Collection", got_it:"Owned", sending:"Sending...",
+                all_lib:"All Site Library", view_lib:"View all achievements",
+                zero_msg:"No badges found",
+                count_pre:"Total", count_suf:"badges", empty_lib:"You haven't obtained any badges yet.",
+                flt_all:"All", flt_owned:"Owned", flt_unowned:"Not Owned", zero_cta:"View Collection",
+                err_load:"❌ Failed to load data. Please try again.",
+                n1:"This page shows all your account badges", n2:"Reach VIP Lv.60 to unlock badge swap",
+                n3:"Wait 20s between requests. Do not spam.", n4:"Check live rooms after completion.",
+                n5:"Login required for full display", n6:"Allow 10 mins for data updates",
+                n7:"[Important] Do not share this interface with others to avoid misuse.",
+                sp_send:"Send", sp_processing:"Processing", sp_confirm:"Confirm",
+                success_confirmed:"✅ Badge equipped successfully!",
+                success_pending:"📨 Request sent. Please check your live room shortly."
             }
         };
 
@@ -409,61 +490,77 @@
             lang: 'zh-hant',
             level: 0,
             selected: null,
-            list: [],           
-            ownedIds: [],       
-            username: '',       
+            list: [],
+            ownedIds: [],
+            username: '',
             isSubmitting: false,
             currentFilter: 'all',
-            dataLoaded: false
+            dataLoaded: false,
+            // FIX #5: 競態保護旗標 — 避免 API 還在跑時使用者切語言又觸發第二個 init()
+            // 白話：像紅綠燈，init() 進去時亮紅燈，出來才亮綠燈，確保一次只跑一個
+            isLoading: false
         };
-        
-        // 加入全域快取，避免切換語系或重新渲染時重複發送大量 API 請求
+
+        // FIX #2: 翻譯快取 — 第一次查過的名稱存在這裡，之後直接拿，不重複問伺服器
         const TRANSLATION_CACHE = {};
 
         async function fetchBadgeName(id, lang) {
             const cacheKey = `${id}_${lang}`;
             if (TRANSLATION_CACHE[cacheKey]) return TRANSLATION_CACHE[cacheKey];
-
             try {
                 const res = await fetch(`${CFG.trs}?lang=${lang}&key=badge_${id}`).then(r => r.json());
                 const name = res[`badge_${id}`] || GLOBAL_BADGE_DB[id]?.[lang]?.title || GLOBAL_BADGE_DB[id]?.['zh-hant']?.title || id;
                 TRANSLATION_CACHE[cacheKey] = name;
                 return name;
             } catch {
-                const fallbackName = GLOBAL_BADGE_DB[id]?.[lang]?.title || GLOBAL_BADGE_DB[id]?.['zh-hant']?.title || id;
-                TRANSLATION_CACHE[cacheKey] = fallbackName;
-                return fallbackName;
+                const fallback = GLOBAL_BADGE_DB[id]?.[lang]?.title || GLOBAL_BADGE_DB[id]?.['zh-hant']?.title || id;
+                TRANSLATION_CACHE[cacheKey] = fallback;
+                return fallback;
             }
         }
 
+        // 輔助函式：從已有的 state.list 直接查名稱，不重複呼叫 API
+        const findNameInList = (id) => state.list.find(b => b.id === id)?.name || id;
+
+        // 安全設定 equipped-box 的名稱（用 textContent 防 XSS）
+        function renderEquippedGrid(eqList) {
+            const equippedGrid = document.getElementById('equipped-display-grid');
+            // FIX #3: onerror 加上 includes 判斷，避免 default.svg 也失敗時無限觸發
+            equippedGrid.innerHTML = eqList.map(() =>
+                `<div class="equipped-box"><img onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'"><span></span></div>`
+            ).join('');
+            equippedGrid.querySelectorAll('.equipped-box').forEach((box, i) => {
+                box.querySelector('img').src = `${CFG.img}${eqList[i].id}.svg`;
+                // FIX #10: textContent 設定名稱，不用 innerHTML，避免 API 字串含惡意 HTML 被執行
+                box.querySelector('span').textContent = eqList[i].name;
+            });
+        }
+
         async function rebuildTranslations() {
-    state.list = await Promise.all(
-        state.ownedIds.map(async id => ({ id, name: await fetchBadgeName(id, state.lang) }))
-    );
+            state.list = await Promise.all(
+                state.ownedIds.map(async id => ({ id, name: await fetchBadgeName(id, state.lang) }))
+            );
 
-    if (state.selected) {
-        const updated = state.list.find(b => b.id === state.selected.id);
-        if (updated) state.selected = updated;
-    }
+            if (state.selected) {
+                const updated = state.list.find(b => b.id === state.selected.id);
+                if (updated) state.selected = updated;
+            }
 
-    const equippedGrid = document.getElementById('equipped-display-grid');
-    const rawIds = state.ownedIds;
-    if (rawIds.length > 0) {
-        const lastId = rawIds[rawIds.length - 1];
-        const secondLastId = rawIds.length > 1 ? rawIds[rawIds.length - 2] : null;
-        const eqList = [];
-        if (secondLastId) eqList.push({ id: secondLastId, name: await fetchBadgeName(secondLastId, state.lang) });
-        eqList.push({ id: lastId, name: await fetchBadgeName(lastId, state.lang) });
-        equippedGrid.innerHTML = eqList.map(item =>
-            `<div class="equipped-box"><img src="${CFG.img}${item.id}.svg" onerror="this.src='${CFG.img}default.svg'"><span>${item.name}</span></div>`
-        ).join('');
-    }
+            const rawIds = state.ownedIds;
+            if (rawIds.length > 0) {
+                const lastId = rawIds[rawIds.length - 1];
+                const secondLastId = rawIds.length > 1 ? rawIds[rawIds.length - 2] : null;
+                const eqList = [];
+                // FIX #6: 從 state.list 查，不重複呼叫翻譯 API
+                if (secondLastId) eqList.push({ id: secondLastId, name: findNameInList(secondLastId) });
+                eqList.push({ id: lastId, name: findNameInList(lastId) });
+                renderEquippedGrid(eqList);
+            }
 
-    document.getElementById('ui-username-display').innerText = I18N[state.lang].username + (state.username || '---');
-
-    if (state.list.length > 0) render();
-    check();
-}
+            document.getElementById('ui-username-display').innerText = I18N[state.lang].username + (state.username || '---');
+            if (state.list.length > 0) render();
+            check();
+        }
 
         const getCleanUserId = () => {
             const getFromUrl = (url) => {
@@ -479,6 +576,7 @@
                 if (sourceParam) rawId = getFromUrl(sourceParam);
             }
             if (!rawId) return null;
+            // 前後 12 碼為固定安全數字，長度達到 48 碼以上才需要去除頭尾
             return rawId.length >= 48 ? rawId.substring(12, rawId.length - 12) : rawId;
         };
         const uid = getCleanUserId();
@@ -487,21 +585,54 @@
             document.getElementById('modal-msg').innerText = msg;
             document.getElementById('custom-modal').classList.add('show');
         }
-        function closeModal() {
-            document.getElementById('custom-modal').classList.remove('show');
-        }
+        function closeModal() { document.getElementById('custom-modal').classList.remove('show'); }
         function handleModalBackdrop(e) {
             if (e.target === document.getElementById('custom-modal')) closeModal();
+        }
+
+        // 判斷是否在 iframe 環境中（PWA 嵌入時為 true）
+        const isInIframe = window.self !== window.top;
+
+        // iframe/PWA 連結攔截
+        function setupPwaLinkInterceptor() {
+            if (!isInIframe) return;
+            document.addEventListener('click', function(e) {
+                const link = e.target.closest('a[target="_blank"]');
+                if (!link) return;
+                try {
+                    const url = new URL(link.href);
+                    const hostname = url.hostname;
+                    if (hostname === 'swag.live' || hostname === 'www.swag.live') {
+                        e.preventDefault();
+                        // FIX #9: 指定 origin，不用 '*'，避免訊息洩漏給任意頁面
+                        window.parent.postMessage({ type: 'PWA_NAVIGATE', url: link.href }, 'https://swag.live');
+                    }
+                } catch (error) { console.warn('URL parsing error:', error); }
+            });
         }
 
         function setLang(l) {
             state.lang = l;
             document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.id === `btn-${l}`));
+
+            // FIX #16: 同步更新 <html lang> 和 <title>，讓瀏覽器翻譯工具與無障礙工具識別正確語言
+            document.documentElement.lang = l === 'zh-hant' ? 'zh-Hant' : 'en';
+            document.title = l === 'zh-hant' ? '帳號徽章更換 | SWAG Premium' : 'Badge Manager | SWAG Premium';
+
             updateUIStrings();
+
             if (uid) {
-                if (state.dataLoaded) {
-                    rebuildTranslations();
-                } else {
+                // FIX #5: isLoading 中不允許重新觸發
+                if (state.dataLoaded && !state.isLoading) {
+                    const box = document.getElementById('display');
+                    // FIX #8: 換語言時讓格子淡出，告知用戶正在更新名稱
+                    box.classList.add('lang-loading');
+                    box.classList.remove('lang-loaded');
+                    rebuildTranslations().then(() => {
+                        box.classList.remove('lang-loading');
+                        box.classList.add('lang-loaded');
+                    });
+                } else if (!state.isLoading) {
                     init();
                 }
             }
@@ -509,50 +640,52 @@
 
         function updateUIStrings() {
             const t = I18N[state.lang];
-            document.getElementById('lbl-my-lvl').innerText = t.my_lvl;
-            document.getElementById('ui-upgrade').innerText = t.upgrade;
-            document.getElementById('lbl-total').innerText = t.total;
-            document.getElementById('lbl-site-lib').innerText = t.all_lib;
-            document.getElementById('lbl-view-lib').innerText = t.view_lib;
-            document.getElementById('ui-title').innerText = t.title;
-            document.getElementById('ui-all-title').innerText = t.all_title;
-            document.getElementById('ui-feat-h').innerText = t.feat_h;
-            
-            document.getElementById('ui-vip-pre').innerText = t.vip_pre;
-            document.getElementById('ui-vip-lvl').innerText = t.vip_lvl;
-            document.getElementById('ui-vip-suf').innerText = t.vip_suf;
-            document.getElementById('ui-hint-pos').innerText = t.hint_pos;
-            document.getElementById('lbl-count-pre').innerText = t.count_pre;
-            document.getElementById('lbl-count-suf').innerText = t.count_suf;
-
-            document.getElementById('ui-zero-msg').innerText = t.zero_msg;
-            document.getElementById('ui-zero-cta').innerText = t.zero_cta;
-            document.getElementById('flt-all').innerText = t.flt_all;
-            document.getElementById('flt-owned').innerText = t.flt_owned;
-            document.getElementById('flt-unowned').innerText = t.flt_unowned;
-            
+            const ids = {
+                'lbl-my-lvl': t.my_lvl, 'ui-upgrade': t.upgrade, 'lbl-total': t.total,
+                'lbl-site-lib': t.all_lib, 'lbl-view-lib': t.view_lib, 'ui-title': t.title,
+                'ui-all-title': t.all_title, 'ui-feat-h': t.feat_h, 'ui-vip-pre': t.vip_pre,
+                'ui-vip-lvl': t.vip_lvl, 'ui-vip-suf': t.vip_suf, 'ui-hint-pos': t.hint_pos,
+                'lbl-count-pre': t.count_pre, 'lbl-count-suf': t.count_suf,
+                'ui-zero-msg': t.zero_msg, 'ui-zero-cta': t.zero_cta,
+                'flt-all': t.flt_all, 'flt-owned': t.flt_owned, 'flt-unowned': t.flt_unowned,
+                'ui-modal-btn': t.modal_btn,
+                'sp-lbl-1': t.sp_send, 'sp-lbl-2': t.sp_processing, 'sp-lbl-3': t.sp_confirm
+            };
+            Object.entries(ids).forEach(([id, text]) => {
+                const el = document.getElementById(id);
+                if (el) el.innerText = text;
+            });
             for (let i = 1; i <= 7; i++) {
                 const el = document.getElementById(`ui-n${i}`);
                 if (el) el.innerText = t[`n${i}`];
             }
-            document.getElementById('ui-modal-btn').innerText = t.modal_btn;
         }
 
         async function init(isRefreshOnly = false) {
+            // FIX #5: 競態保護
+            if (state.isLoading) return;
+            state.isLoading = true;
+
+            // FIX #1: 統一用 getElementById，與 check() 一致
             const box = document.getElementById('display');
-            const equippedGrid = document.getElementById('equipped-display-grid');
             const hero = document.getElementById('zero-badge-hero');
             const instArea = document.getElementById('ui-instruction');
             const mgmtArea = document.getElementById('management-area');
 
             if (!uid) {
                 box.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:100px;color:#444">${I18N[state.lang].login}</div>`;
+                state.isLoading = false;
                 return;
             }
 
             if (!isRefreshOnly) {
+                // FIX #12: 增加第二行 skeleton，高度更接近真實內容，減少畫面跳動
                 box.innerHTML = Array(4).fill(0).map(() =>
-                    `<div class="badge-item"><div class="badge-img skeleton" style="border-radius:50%"></div><div class="skeleton" style="height:14px;width:60%;margin-top:8px"></div></div>`
+                    `<div class="badge-item">
+                        <div class="badge-img skeleton" style="border-radius:50%"></div>
+                        <div class="skeleton" style="height:14px;width:70%;margin-top:8px"></div>
+                        <div class="skeleton" style="height:12px;width:45%;margin-top:6px"></div>
+                    </div>`
                 ).join('');
             }
 
@@ -574,7 +707,10 @@
                     rawIds.map(async id => ({ id, name: await fetchBadgeName(id, state.lang) }))
                 );
 
-                if (r.count === 0) {
+                // FIX #4: 改用 rawIds.length，與實際顯示的徽章數量一致
+                // 白話：r.count 是帳號全部徽章，但我們只顯示 campaign_ 開頭的，
+                //       如果用 r.count 判斷，有其他種類徽章的用戶會看到空的管理面板
+                if (rawIds.length === 0) {
                     hero.style.display = 'block';
                     box.style.display = 'none';
                     instArea.style.display = 'none';
@@ -589,11 +725,10 @@
                     const lastId = rawIds[rawIds.length - 1];
                     const secondLastId = rawIds.length > 1 ? rawIds[rawIds.length - 2] : null;
                     const eqList = [];
-                    if (secondLastId) eqList.push({ id: secondLastId, name: await fetchBadgeName(secondLastId, state.lang) });
-                    eqList.push({ id: lastId, name: await fetchBadgeName(lastId, state.lang) });
-                    equippedGrid.innerHTML = eqList.map(item =>
-                        `<div class="equipped-box"><img src="${CFG.img}${item.id}.svg" onerror="this.src='${CFG.img}default.svg'"><span>${item.name}</span></div>`
-                    ).join('');
+                    // FIX #6: 從已建立的 state.list 直接查，不重複呼叫翻譯 API
+                    if (secondLastId) eqList.push({ id: secondLastId, name: findNameInList(secondLastId) });
+                    eqList.push({ id: lastId, name: findNameInList(lastId) });
+                    renderEquippedGrid(eqList);
                 }
 
                 if (state.list.length > 0) render();
@@ -605,6 +740,9 @@
                 mgmtArea.style.display = 'none';
                 instArea.style.display = 'none';
                 hero.style.display = 'none';
+            } finally {
+                // FIX #5: 無論成功或失敗都要解鎖，否則頁面之後永遠無法再載入
+                state.isLoading = false;
             }
         }
 
@@ -612,19 +750,22 @@
             const overlay = document.getElementById('all-badges-overlay');
             if (show) {
                 overlay.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-                document.body.style.position = 'fixed';
-                document.body.style.width = '100%';
-
+                // iframe 內不鎖定 body，捲動由父層控制
+                if (!isInIframe) {
+                    document.body.style.overflow = 'hidden';
+                    document.body.style.position = 'fixed';
+                    document.body.style.width = '100%';
+                }
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                 document.getElementById('flt-all').classList.add('active');
-
                 renderLibrary('all');
             } else {
                 overlay.style.display = 'none';
-                document.body.style.overflow = '';
-                document.body.style.position = '';
-                document.body.style.width = '';
+                if (!isInIframe) {
+                    document.body.style.overflow = '';
+                    document.body.style.position = '';
+                    document.body.style.width = '';
+                }
             }
         }
 
@@ -657,9 +798,10 @@
                     dateHtml = `<div class="lib-date">🗓 ${dateMatch[1]}</div>`;
                 }
 
+                // FIX #3: lib-img onerror 也加上無限迴圈防護
                 filteredHTML += `
                     <div class="lib-card ${isOwned ? 'owned' : ''}">
-                        <img class="lib-img" src="${CFG.img}${renderImg}.svg" onerror="this.src='${CFG.img}default.svg'">
+                        <img class="lib-img" src="${CFG.img}${renderImg}.svg" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'">
                         <div class="lib-info">
                             <div class="lib-header-row">
                                 <span class="lib-name">${info.title}</span>
@@ -682,13 +824,24 @@
 
         function render() {
             const t = I18N[state.lang];
-            document.getElementById('display').innerHTML = state.list.map(b => {
+            const box = document.getElementById('display');
+
+            // FIX #10: 把名稱從 innerHTML 移出，改用 textContent 設定，防止 XSS
+            // 白話：innerHTML 會把字串當 HTML 解析執行，如果翻譯 API 被入侵回傳 <script>，
+            //       用 textContent 就只是顯示純文字，完全不會被執行
+            box.innerHTML = state.list.map(b => {
                 const isSelected = state.selected?.id === b.id;
                 const btnHtml = (state.level >= 60 && isSelected)
                     ? `<button class="inline-confirm-btn ${state.isSubmitting ? 'submitting' : ''}" onclick="sendReq(event)">${state.isSubmitting ? t.sending : t.btn}</button>`
                     : '';
-                return `<div class="badge-item ${isSelected ? 'selected' : ''}" onclick="toggleSelect('${b.id}')"><img class="badge-img" src="${CFG.img}${b.id}.svg" onerror="this.src='${CFG.img}default.svg'"><span class="badge-name">${b.name}</span>${btnHtml}</div>`;
+                // FIX #3: onerror 加防迴圈判斷
+                return `<div class="badge-item ${isSelected ? 'selected' : ''}" onclick="toggleSelect('${b.id}')"><img class="badge-img" src="${CFG.img}${b.id}.svg" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'"><span class="badge-name"></span>${btnHtml}</div>`;
             }).join('');
+
+            // 用 textContent 安全地填入徽章名稱（不經過 HTML 解析）
+            box.querySelectorAll('.badge-name').forEach((el, i) => {
+                el.textContent = state.list[i].name;
+            });
         }
 
         function toggleSelect(id) {
@@ -715,7 +868,8 @@
                 if (state.list.length > 0) instArea.style.display = 'block';
                 if (state.selected) {
                     hintLbl.innerText = t.hint_ready;
-                    hintVal.innerText = state.selected.name;
+                    // FIX #10: hint 名稱也用 textContent 防 XSS
+                    hintVal.textContent = state.selected.name;
                     hintVal.className = 'hint-value hint-selected';
                 } else {
                     hintLbl.innerText = t.hint_sel;
@@ -729,49 +883,143 @@
                 instArea.style.display = 'none';
             }
         }
+        // 進度條控制
+function setSwapProgress(step) {
+    const bar = document.getElementById('swap-progress');
+    const t = I18N[state.lang];
+    document.getElementById('sp-lbl-1').textContent = t.sp_send;
+    document.getElementById('sp-lbl-2').textContent = t.sp_processing;
+    document.getElementById('sp-lbl-3').textContent = t.sp_confirm;
+    if (step === 0 || step === 4) { bar.classList.remove('visible'); return; }
+    bar.classList.add('visible');
+    for (let i = 1; i <= 3; i++) {
+        const el = document.getElementById(`sp-${i}`);
+        el.classList.remove('active', 'done');
+        if (i < step) el.classList.add('done');
+        else if (i === step) el.classList.add('active');
+    }
+    for (let i = 1; i <= 2; i++) {
+        document.getElementById(`sp-line-${i}`).classList.toggle('done', i < step);
+    }
+}
 
-        async function sendReq(e) {
-            if (e) e.stopPropagation();
-            if (state.isSubmitting || !state.selected) return;
-            const t = I18N[state.lang];
-            state.isSubmitting = true;
-            render();
+// 輪詢確認（送出後持續問 API，直到徽章真的更新）
+async function pollUntilConfirmed(targetBadgeId, maxAttempts = 8, intervalMs = 2500) {
+    for (let i = 0; i < maxAttempts; i++) {
+        await new Promise(r => setTimeout(r, intervalMs));
+        try {
+            const r = await fetch(`${CFG.data}?user_id=${uid}`).then(res => res.json());
+            const rawIds = (r.badges || []).filter(id => id.startsWith('campaign_'));
+            if (rawIds[rawIds.length - 1] === targetBadgeId) return { confirmed: true, data: r };
+        } catch { /* 繼續輪詢 */ }
+    }
+    return { confirmed: false };
+}
 
-            try {
-                const startTime = Date.now();
+// 樂觀更新：立刻預覽新徽章 + loading 環
+function showOptimisticEquipped(pendingId, pendingName) {
+    const grid = document.getElementById('equipped-display-grid');
+    const boxes = grid.querySelectorAll('.equipped-box');
+    if (boxes.length === 0) return;
+    const lastBox = boxes[boxes.length - 1];
+    lastBox.classList.add('pending');
+    const img = lastBox.querySelector('img');
+    img.style.opacity = '0';
+    setTimeout(() => {
+        img.src = `${CFG.img}${pendingId}.svg`;
+        img.onload = () => { img.style.opacity = '1'; };
+        img.onerror = () => { if (!img.src.includes('default')) img.src = `${CFG.img}default.svg`; img.style.opacity = '1'; };
+    }, 150);
+    lastBox.querySelector('span').textContent = pendingName;
+    if (!lastBox.querySelector('.eq-loading-ring')) {
+        const ring = document.createElement('div');
+        ring.className = 'eq-loading-ring';
+        lastBox.appendChild(ring);
+    }
+}
 
-                const res = await fetch(CFG.handler, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ user_id: uid, badge_id: state.selected.id })
-                });
-                const d = await res.json();
+// 確認成功動畫
+function showEquippedSuccess() {
+    const grid = document.getElementById('equipped-display-grid');
+    const boxes = grid.querySelectorAll('.equipped-box');
+    if (boxes.length === 0) return;
+    const lastBox = boxes[boxes.length - 1];
+    lastBox.querySelector('.eq-loading-ring')?.remove();
+    lastBox.classList.remove('pending');
+    lastBox.classList.add('eq-confirmed');
+    lastBox.addEventListener('animationend', () => lastBox.classList.remove('eq-confirmed'), { once: true });
+}
+       async function sendReq(e) {
+    if (e) e.stopPropagation();
+    if (state.isSubmitting || !state.selected) return;
+    const t = I18N[state.lang];
+    const targetBadge = { ...state.selected };
+    state.isSubmitting = true;
+    render();
 
-                const elapsed = Date.now() - startTime;
-                if (elapsed < 5000) await new Promise(r => setTimeout(r, 5000 - elapsed));
+    // 階段 1：樂觀更新
+    showOptimisticEquipped(targetBadge.id, targetBadge.name);
+    setSwapProgress(1);
 
-                if (res.ok) {
-                    showModal(t.success);
-                    state.selected = null;
-                    setTimeout(() => init(true), 1000);
-                } else if (res.status === 429) {
-                    showModal(t.cooldown);
-                } else {
-                    showModal(`❌: ${d.error || 'Denied'}`);
-                }
-            } catch (err) {
-                showModal('❌ 伺服器連線失敗 (Network Error)');
-            } finally {
-                state.isSubmitting = false;
-                render();
-                check();
-            }
+    try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 15000);
+        const res = await fetch(CFG.handler, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ user_id: uid, badge_id: targetBadge.id }),
+            signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+        const d = await res.json();
+
+        if (!res.ok) {
+            setSwapProgress(0);
+            if (res.status === 429) showModal(t.cooldown);
+            else showModal(`❌: ${d.error || 'Denied'}`);
+            await init(true);
+            return;
         }
 
-        document.getElementById('ui-total-db-count').innerText = Object.keys(GLOBAL_BADGE_DB).length;
+        // 階段 2：輪詢確認
+        setSwapProgress(2);
+        const result = await pollUntilConfirmed(targetBadge.id);
 
-        // 移除了重複的 if (uid) init(); 避免載入時觸發兩次 API
+        // 階段 3：結果反饋
+        setSwapProgress(3);
+        await new Promise(r => setTimeout(r, 400));
+
+        if (result.confirmed) {
+            showEquippedSuccess();
+            setSwapProgress(0);
+            showModal(t.success_confirmed);
+            state.ownedIds = (result.data.badges || []).filter(i => i.startsWith('campaign_'));
+            state.list = await Promise.all(state.ownedIds.map(async id => ({ id, name: await fetchBadgeName(id, state.lang) })));
+            state.selected = null;
+            render();
+            check();
+        } else {
+            setSwapProgress(0);
+            showModal(t.success_pending);
+            await init(true);
+        }
+    } catch (err) {
+        setSwapProgress(0);
+        if (err.name === 'AbortError') showModal(t.err_timeout);
+        else showModal('❌ 伺服器連線失敗 (Network Error)');
+        await init(true);
+    } finally {
+        state.isSubmitting = false;
+        render();
+        check();
+    }
+}
+
+        // 初始化
+        document.getElementById('ui-total-db-count').innerText = Object.keys(GLOBAL_BADGE_DB).length;
+        setupPwaLinkInterceptor();
         setLang('zh-hant');
+        if (uid) init();
     </script>
 </body>
 </html>
