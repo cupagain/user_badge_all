@@ -917,11 +917,42 @@ async function pollUntilConfirmed(targetBadgeId, maxAttempts = 8, intervalMs = 2
 }
 
 // 樂觀更新：立刻預覽新徽章 + loading 環
+// 樂觀更新：立刻預覽新徽章 + loading 環
 function showOptimisticEquipped(pendingId, pendingName) {
     const grid = document.getElementById('equipped-display-grid');
     const boxes = grid.querySelectorAll('.equipped-box');
     if (boxes.length === 0) return;
     const lastBox = boxes[boxes.length - 1];
+
+    // 如果有左格，把右格現有內容「移」到左格，讓用戶看到徽章往左推的感覺
+    if (boxes.length >= 2) {
+        const leftBox = boxes[boxes.length - 2];
+        const rightImg = lastBox.querySelector('img');
+        const rightSpan = lastBox.querySelector('span');
+        const leftImg = leftBox.querySelector('img');
+        const leftSpan = leftBox.querySelector('span');
+
+        // 【修正核心】：先將右側原來的 src 和文字存起來，避免被下方程式碼提前覆寫
+        const oldRightSrc = rightImg.src;
+        const oldRightText = rightSpan.textContent;
+
+        // 淡出左格 → 換內容 → 淡入，呈現「舊右徽章移到左邊」的視覺
+        leftImg.style.transition = 'opacity 0.25s';
+        leftImg.style.opacity = '0';
+        leftSpan.style.transition = 'opacity 0.25s';
+        leftSpan.style.opacity = '0';
+        
+        setTimeout(() => {
+            // 使用上面獨立存好的舊資料
+            leftImg.src = oldRightSrc;
+            leftSpan.textContent = oldRightText;
+            
+            leftImg.style.opacity = '1';
+            leftSpan.style.opacity = '1';
+        }, 250);
+    }
+
+    // 右格換成新徽章（半透明 + loading 環，告知用戶正在上架）
     lastBox.classList.add('pending');
     const img = lastBox.querySelector('img');
     img.style.opacity = '0';
@@ -930,7 +961,10 @@ function showOptimisticEquipped(pendingId, pendingName) {
         img.onload = () => { img.style.opacity = '1'; };
         img.onerror = () => { if (!img.src.includes('default')) img.src = `${CFG.img}default.svg`; img.style.opacity = '1'; };
     }, 150);
+    
+    // 這裡同步改寫了右側的文字
     lastBox.querySelector('span').textContent = pendingName;
+    
     if (!lastBox.querySelector('.eq-loading-ring')) {
         const ring = document.createElement('div');
         ring.className = 'eq-loading-ring';
@@ -990,11 +1024,20 @@ function showEquippedSuccess() {
         await new Promise(r => setTimeout(r, 400));
 
         if (result.confirmed) {
-            showEquippedSuccess();
             setSwapProgress(0);
-            showModal(t.success_confirmed);
             state.ownedIds = (result.data.badges || []).filter(i => i.startsWith('campaign_'));
             state.list = await Promise.all(state.ownedIds.map(async id => ({ id, name: await fetchBadgeName(id, state.lang) })));
+            // 先重建格子，再播動畫，否則 renderEquippedGrid 的 innerHTML 會把動畫 DOM 清掉
+            if (state.ownedIds.length > 0) {
+                const lastId = state.ownedIds[state.ownedIds.length - 1];
+                const secondLastId = state.ownedIds.length > 1 ? state.ownedIds[state.ownedIds.length - 2] : null;
+                const eqList = [];
+                if (secondLastId) eqList.push({ id: secondLastId, name: findNameInList(secondLastId) });
+                eqList.push({ id: lastId, name: findNameInList(lastId) });
+                renderEquippedGrid(eqList);
+            }
+            showEquippedSuccess(); // 在新的 DOM 上播動畫
+            showModal(t.success_confirmed);
             state.selected = null;
             render();
             check();
