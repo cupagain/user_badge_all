@@ -246,6 +246,85 @@
 .sp-line.done { background: var(--success-green); }
         .skeleton { background: linear-gradient(90deg, #0a0c10 25%, #1a1c22 50%, #0a0c10 75%); background-size: 200% 100%; animation: load 1.5s infinite linear; border-radius: 12px; }
         @keyframes load { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+/* ── UPCOMING SECTION ─────────────────────────────── */
+.upcoming-section { max-width: 600px; margin: 0 auto 20px; padding: 0 16px; }
+.upcoming-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.upcoming-title { font-family: var(--font-head); font-size: 16px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 8px; }
+.upcoming-hint-tag { font-size: 11px; font-weight: 700; color: var(--text-dim); }
+
+/* Live dot (pulsing when events exist) */
+.upcoming-live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pink); animation: pulse-dot 2s ease-in-out infinite; flex-shrink: 0; }
+@keyframes pulse-dot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(1.4)} }
+.upcoming-live-dot.dim { background: #334155; animation: none; }
+
+/* Cards list */
+#upcoming-cards { display: flex; flex-direction: column; gap: 12px; }
+
+/* Individual upcoming card */
+.upcoming-card {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px; padding: 16px; display: flex; align-items: flex-start; gap: 14px;
+    transition: border-color 0.3s;
+}
+.upcoming-card.is-active { border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.04); }
+
+.uc-badge-wrap { position: relative; flex-shrink: 0; width: 64px; height: 64px; }
+.uc-badge-wrap img { width: 64px; height: 64px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); }
+.uc-badge-mystery { width: 64px; height: 64px; background: rgba(255,255,255,0.04); border: 1px dashed rgba(255,255,255,0.2); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; font-family: var(--font-head); font-weight: 900; color: #334155; }
+.uc-lock-chip { position: absolute; bottom: -4px; right: -4px; background: #0f172a; border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; font-size: 11px; }
+
+.uc-info { flex: 1; min-width: 0; }
+.uc-header-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
+.uc-name { font-size: 14px; font-weight: 800; color: #fff; line-height: 1.3; }
+.uc-status-pill { font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 100px; flex-shrink: 0; }
+.uc-status-pill.active { background: rgba(56, 189, 248, 0.15); color: var(--ice-blue); border: 1px solid rgba(56, 189, 248, 0.3); }
+.uc-status-pill.soon { background: rgba(251,191,36,0.12); color: var(--gold); border: 1px solid rgba(251,191,36,0.25); }
+.uc-status-pill.countdown { background: rgba(255,45,85,0.1); color: var(--pink); border: 1px solid rgba(255,45,85,0.25); }
+.uc-sub { font-size: 11px; font-weight: 700; color: var(--gold); opacity: 0.85; display: block; margin-bottom: 4px; }
+.uc-desc { font-size: 12px; color: var(--text-dim); font-weight: 500; line-height: 1.5; display: block; margin-bottom: 6px; }
+.uc-date-row { display: inline-flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 600; color: #cbd5e1; background: rgba(255,255,255,0.06); padding: 3px 8px; border-radius: 6px; }
+
+/* ── EMPTY STATE ──────────────────────────────────── */
+.upcoming-empty-state {
+    background: linear-gradient(145deg, rgba(15,23,42,0.9) 0%, rgba(8,14,26,0.95) 100%);
+    border: 1px solid rgba(255,255,255,0.08); border-radius: 24px;
+    padding: 28px 20px 24px; text-align: center; overflow: hidden; position: relative;
+}
+/* subtle top glow line */
+.upcoming-empty-state::before { content: ''; position: absolute; top: 0; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, transparent, rgba(56,189,248,0.3), transparent); }
+
+.ue-mystery-row { display: flex; align-items: flex-end; justify-content: center; gap: 12px; margin-bottom: 22px; }
+.ue-mystery-badge { position: relative; display: flex; flex-direction: column; align-items: center; }
+.ue-mystery-inner {
+    width: 64px; height: 64px; border-radius: 16px;
+    border: 1.5px dashed rgba(255,255,255,0.14);
+    background: rgba(255,255,255,0.03);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-head); font-size: 22px; font-weight: 900; color: #1e293b;
+    animation: mystery-float 3s ease-in-out infinite;
+    box-shadow: 0 0 20px rgba(56,189,248,0.04);
+}
+.ue-mystery-badge.lg .ue-mystery-inner { width: 80px; height: 80px; border-radius: 20px; font-size: 28px; animation-duration: 3.5s; border-color: rgba(56,189,248,0.2); color: #334155; background: rgba(56,189,248,0.04); box-shadow: 0 0 30px rgba(56,189,248,0.08); }
+.ue-mystery-badge.sm .ue-mystery-inner { width: 52px; height: 52px; border-radius: 12px; font-size: 18px; animation-duration: 2.8s; animation-delay: 0.5s; }
+@keyframes mystery-float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+
+.ue-stats-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 18px; }
+.ue-stat { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 10px 20px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; min-width: 100px; }
+.ue-stat-val { font-family: var(--font-head); font-size: 22px; font-weight: 900; color: var(--ice-blue); line-height: 1; }
+.ue-stat-label { font-size: 10px; font-weight: 700; color: #475569; }
+.ue-stat-divider { width: 1px; height: 36px; background: rgba(255,255,255,0.08); }
+
+.ue-message { font-size: 13px; font-weight: 700; color: #64748b; margin-bottom: 16px; line-height: 1.6; }
+.ue-follow-btn {
+    display: inline-block; padding: 9px 22px; border-radius: 100px;
+    background: rgba(56,189,248,0.08); border: 1px solid rgba(56,189,248,0.25);
+    color: var(--ice-blue); font-size: 12px; font-weight: 800; text-decoration: none;
+    transition: background 0.3s, border-color 0.3s; margin-bottom: 14px;
+}
+.ue-follow-btn:hover { background: rgba(56,189,248,0.16); border-color: rgba(56,189,248,0.5); }
+.ue-last-event { font-size: 10px; font-weight: 600; color: #334155; display: block; }
+
+
     </style>
 </head>
 <body>
@@ -278,6 +357,42 @@
             </div>
         </div>
     </div>
+    <!-- ── UPCOMING EVENTS SECTION ────────────────────── -->
+<section class="upcoming-section" id="upcoming-section">
+    <div class="upcoming-header">
+        <span class="upcoming-title">
+            <span class="upcoming-live-dot" id="upcoming-dot"></span>
+            <span id="lbl-upcoming-title">即將到來的活動</span>
+        </span>
+        <span class="upcoming-hint-tag" id="lbl-upcoming-hint">獲得限定徽章的機會</span>
+    </div>
+
+    <!-- State A: events exist -->
+    <div id="upcoming-cards" style="display:none;"></div>
+
+    <!-- State B: no upcoming events -->
+    <div id="upcoming-empty" class="upcoming-empty-state" style="display:none;">
+        <div class="ue-mystery-row">
+            <div class="ue-mystery-badge sm"><div class="ue-mystery-inner">?</div></div>
+            <div class="ue-mystery-badge lg"><div class="ue-mystery-inner">?</div></div>
+            <div class="ue-mystery-badge sm"><div class="ue-mystery-inner">?</div></div>
+        </div>
+        <div class="ue-stats-row">
+            <div class="ue-stat">
+                <span class="ue-stat-val" id="ue-stat-total">--</span>
+                <span class="ue-stat-label" id="lbl-ue-stat-total">歷史活動徽章</span>
+            </div>
+            <div class="ue-stat-divider"></div>
+            <div class="ue-stat">
+                <span class="ue-stat-val" id="ue-stat-year">--</span>
+                <span class="ue-stat-label" id="lbl-ue-stat-year">今年已發行</span>
+            </div>
+        </div>
+        <p class="ue-message" id="lbl-ue-message">下一個限定活動即將公布，敬請期待</p>
+        <a href="https://swag.live/notifications" target="_blank" class="ue-follow-btn" id="lbl-ue-follow">關注官方公告 →</a>
+        <span class="ue-last-event" id="ue-last-event"></span>
+    </div>
+</section>
 
     <section class="management-section" id="management-area" style="display: none;">
         <div class="management-card" id="status-card">
@@ -431,6 +546,19 @@
             "campaign_katohtaka_tier1": { "zh-hant": { title: "加藤鷹紀念", sub: "加藤鷹活動", desc: "送金手指系列禮物總鑽石排行 No.4 - 10 (2023/7/13 - 7/21)" }, "en": { title: "Katoh Taka Memorial", sub: "Katoh Taka Special", desc: "Ranking No.4 - 10" } },
             "campaign_s_club": { "zh-hant": { title: "S Club", sub: "S Club 限定", desc: "受邀進入 S Club 之特別榮譽" }, "en": { title: "S Club", sub: "Elite Member", desc: "Exclusive S Club Invitation" } }
         };
+        const UPCOMING_BADGE_DB = [
+    // 有活動時在此新增，格式範例：
+    // {
+    //     id: "campaign_example_2026",
+    //     startDate: "2026-05-07",
+    //     endDate:   "2026-05-11",
+    //     preview: false,
+    //     langs: {
+    //         "zh-hant": { title: "活動名稱", sub: "活動系列", desc: "活動說明" },
+    //         "en":      { title: "Event Name", sub: "Event Series", desc: "Description" }
+    //     }
+    // },
+];
 
         const CFG = {
             data:    'https://swag-user-info-api-905468082258.asia-east1.run.app/api/badges',
@@ -461,7 +589,14 @@
                 n7:"【重要】為了保護您的帳號，切勿將徽章介面分享給他人，以免造成帳號冒用或徽章損失。",
                 sp_send:"送出", sp_processing:"處理中", sp_confirm:"確認",
                 success_confirmed:"✅ 已成功上架！",
-                success_pending:"📨 請求已送出，請稍後至直播間確認"
+                success_pending:"📨 請求已送出，請稍後至直播間確認",
+                uc_section_title:"即將到來的活動", uc_hint:"獲得限定徽章的機會",
+uc_active:"進行中", uc_soon:"即將開始",
+uc_days_pre:"", uc_days_suf:" 天後開始",
+ue_stat_total:"歷史活動徽章", ue_stat_year:"今年已發行",
+ue_message:"下一個限定活動即將公布，敬請期待",
+ue_follow:"關注官方公告 →",
+ue_last_event_prefix:"上次活動結束於 "
             },
             'en': {
                 title:"Glory Badge Gallery", username:"Account: ", total:"Total Badges", my_lvl:"My VIP Level: ",
@@ -484,7 +619,14 @@
                 n7:"[Important] Do not share this interface with others to avoid misuse.",
                 sp_send:"Send", sp_processing:"Processing", sp_confirm:"Confirm",
                 success_confirmed:"✅ Badge equipped successfully!",
-                success_pending:"📨 Request sent. Please check your live room shortly."
+                success_pending:"📨 Request sent. Please check your live room shortly.",
+                uc_section_title:"Upcoming Events", uc_hint:"Earn limited badges",
+uc_active:"Active", uc_soon:"Coming Soon",
+uc_days_pre:"Starts in ", uc_days_suf:" days",
+ue_stat_year: `Released in ${new Date().getFullYear()}`,
+ue_message:"The next limited event will be announced soon. Stay tuned!",
+ue_follow:"Follow Announcements →",
+ue_last_event_prefix:"Last event ended "
             }
         };
 
@@ -622,7 +764,7 @@
             document.title = l === 'zh-hant' ? '帳號徽章更換 | SWAG Premium' : 'Badge Manager | SWAG Premium';
 
             updateUIStrings();
-
+            renderUpcoming();
             if (uid) {
                 // FIX #5: isLoading 中不允許重新觸發
                 if (state.dataLoaded && !state.isLoading) {
@@ -919,7 +1061,6 @@ async function pollUntilConfirmed(targetBadgeId, maxAttempts = 8, intervalMs = 2
 }
 
 // 樂觀更新：立刻預覽新徽章 + loading 環
-// 樂觀更新：立刻預覽新徽章 + loading 環
 function showOptimisticEquipped(pendingId, pendingName) {
     const grid = document.getElementById('equipped-display-grid');
     const boxes = grid.querySelectorAll('.equipped-box');
@@ -993,7 +1134,7 @@ function showEquippedSuccess() {
     state.isSubmitting = true;
     render();
 
-    // 階段 1：樂觀更新
+
     showOptimisticEquipped(targetBadge.id, targetBadge.name);
     setSwapProgress(1);
 
@@ -1058,6 +1199,120 @@ function showEquippedSuccess() {
         render();
         check();
     }
+}
+
+
+ // ── UPCOMING SECTION RENDERER ─────────────────────
+function renderUpcoming() {
+    const t = I18N[state.lang];
+    const cardsEl  = document.getElementById('upcoming-cards');
+    const emptyEl  = document.getElementById('upcoming-empty');
+    const dotEl    = document.getElementById('upcoming-dot');
+
+    // 同步 section 標題文字
+    const titleEl = document.getElementById('lbl-upcoming-title');
+    const hintEl  = document.getElementById('lbl-upcoming-hint');
+    if (titleEl) titleEl.innerText = t.uc_section_title;
+    if (hintEl)  hintEl.innerText  = t.uc_hint;
+
+    // 計算空白態的統計數字
+    const totalBadges = Object.keys(GLOBAL_BADGE_DB).length;
+    const year = new Date().getFullYear().toString();
+    const yearBadges = Object.values(GLOBAL_BADGE_DB).filter(d => {
+        const desc = d['zh-hant']?.desc || '';
+        return desc.includes(year);
+    }).length;
+
+    const totalEl = document.getElementById('ue-stat-total');
+    const yearEl  = document.getElementById('ue-stat-year');
+    if (totalEl) totalEl.innerText = totalBadges;
+    if (yearEl)  yearEl.innerText  = yearBadges;
+
+    // 更新空白態固定文字
+    ['lbl-ue-stat-total','lbl-ue-stat-year','lbl-ue-message','lbl-ue-follow'].forEach(id => {
+        const key = id.replace('lbl-','').replace(/-/g,'_');
+        const el = document.getElementById(id);
+        // map id to i18n key
+        const keyMap = {
+            'lbl_ue_stat_total': 'ue_stat_total',
+            'lbl_ue_stat_year':  'ue_stat_year',
+            'lbl_ue_message':    'ue_message',
+            'lbl_ue_follow':     'ue_follow',
+        };
+        const mappedKey = keyMap[id.replace(/-/g,'_')];
+        if (el && mappedKey && t[mappedKey]) el.innerText = t[mappedKey];
+    });
+
+    // 最後一次活動結束日
+    const lastEventEl = document.getElementById('ue-last-event');
+    if (lastEventEl) {
+        const allDates = Object.values(GLOBAL_BADGE_DB)
+            .map(d => { const m = (d['zh-hant']?.desc || '').match(/(\d{4}\/\d{1,2}\/\d{1,2})\s*[）)]/); return m ? m[1] : null; })
+            .filter(Boolean).sort();
+        if (allDates.length) {
+            lastEventEl.innerText = t.ue_last_event_prefix + allDates[allDates.length - 1];
+        }
+    }
+
+    // 篩選出尚未結束的活動
+    const now = new Date();
+    const active = UPCOMING_BADGE_DB.filter(e => new Date(e.endDate + 'T23:59:59') >= now);
+
+    if (active.length === 0) {
+        cardsEl.style.display = 'none';
+        emptyEl.style.display = 'block';
+        if (dotEl) dotEl.classList.add('dim');
+        return;
+    }
+
+    // 有活動：渲染卡片
+    emptyEl.style.display = 'none';
+    cardsEl.style.display = 'flex';
+    if (dotEl) dotEl.classList.remove('dim');
+
+    cardsEl.innerHTML = active.map(event => {
+        const info = event.langs[state.lang] || event.langs['zh-hant'];
+        const start = new Date(event.startDate);
+        const end   = new Date(event.endDate + 'T23:59:59');
+        const isActive   = now >= start && now <= end;
+        const daysUntil  = Math.ceil((start - now) / 86400000);
+
+        let pillClass, pillText;
+        if (isActive)          { pillClass = 'active';    pillText = t.uc_active; }
+        else if (daysUntil <= 14) { pillClass = 'countdown'; pillText = t.uc_days_pre + daysUntil + t.uc_days_suf; }
+        else                   { pillClass = 'soon';      pillText = t.uc_soon; }
+
+        const badgeHtml = event.preview
+            ? `<img src="${CFG.img}${event.id}.svg" style="width:64px;height:64px;filter:drop-shadow(0 4px 8px rgba(0,0,0,0.5))" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'">`
+            : `<div class="uc-badge-mystery">?</div>`;
+
+        const dateStr = event.startDate.replace(/-/g,'/') + ' – ' + event.endDate.replace(/-/g,'/');
+
+        return `
+        <div class="upcoming-card ${isActive ? 'is-active' : ''}">
+            <div class="uc-badge-wrap">
+                ${badgeHtml}
+                ${!isActive ? '<div class="uc-lock-chip">🔒</div>' : ''}
+            </div>
+            <div class="uc-info">
+                <div class="uc-header-row">
+                    <span class="uc-name"></span>
+                    <span class="uc-status-pill ${pillClass}">${pillText}</span>
+                </div>
+                <span class="uc-sub"></span>
+                <span class="uc-desc"></span>
+                <div class="uc-date-row">📅 <span>${dateStr}</span></div>
+            </div>
+        </div>`;
+    }).join('');
+
+    // XSS-safe text injection
+    cardsEl.querySelectorAll('.upcoming-card').forEach((card, i) => {
+        const info = active[i].langs[state.lang] || active[i].langs['zh-hant'];
+        card.querySelector('.uc-name').textContent  = info.title;
+        card.querySelector('.uc-sub').textContent   = info.sub;
+        card.querySelector('.uc-desc').textContent  = info.desc;
+    });
 }
 
         // 初始化
