@@ -60,14 +60,14 @@
             display: flex; align-items: center; justify-content: space-between; gap: 12px;
             cursor: pointer; transition: transform 0.2s, opacity 0.2s;
             position: relative; overflow: hidden; text-decoration: none;
-            /* active state */
-            background: linear-gradient(135deg, rgba(34,197,94,0.10) 0%, rgba(15,23,42,0.85) 100%);
-            border: 1px solid rgba(34,197,94,0.3);
-            box-shadow: 0 0 0 1px rgba(34,197,94,0.08) inset, 0 8px 20px rgba(0,0,0,0.25);
+            /* active state - 改回紅色系 */
+            background: linear-gradient(135deg, rgba(255, 45, 85, 0.10) 0%, rgba(15, 23, 42, 0.85) 100%);
+            border: 1px solid rgba(255, 45, 85, 0.3);
+            box-shadow: 0 0 0 1px rgba(255, 45, 85, 0.08) inset, 0 8px 20px rgba(0,0,0,0.25);
         }
         .upcoming-banner::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(34,197,94,0.5), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 45, 85, 0.5), transparent);
         }
         .upcoming-banner.is-locked {
             background: linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(15,23,42,0.85) 100%);
@@ -83,23 +83,24 @@
             font-size: 10px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;
             display: inline-flex; align-items: center; gap: 4px; align-self: flex-start;
             padding: 2px 8px; border-radius: 6px;
-            background: rgba(34,197,94,0.15); color: var(--success-green); border: 1px solid rgba(34,197,94,0.25);
+            /* 進行中顏色改回紅色系 */
+            background: rgba(255, 45, 85, 0.15); color: var(--pink); border: 1px solid rgba(255, 45, 85, 0.25);
         }
         .is-locked .ub-new-tag { background: rgba(251,191,36,0.12); color: var(--gold); border-color: rgba(251,191,36,0.25); }
 
         .ub-title-row { display: flex; align-items: center; gap: 6px; }
-        .ub-status-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; background: var(--success-green); box-shadow: 0 0 6px var(--success-green); animation: dot-pulse 2s ease-in-out infinite; }
+        .ub-status-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; background: var(--pink); box-shadow: 0 0 6px var(--pink); animation: dot-pulse 2s ease-in-out infinite; }
         .is-locked .ub-status-dot { background: var(--gold); box-shadow: 0 0 6px var(--gold); animation: none; }
         @keyframes dot-pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
 
         .ub-event-name { font-family: var(--font-head); font-size: 15px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .ub-status-text { font-size: 11px; font-weight: 700; white-space: nowrap; color: var(--success-green); }
+        .ub-status-text { font-size: 11px; font-weight: 700; white-space: nowrap; color: var(--pink); }
         .is-locked .ub-status-text { color: var(--gold); }
 
         .ub-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .ub-date { font-size: 10px; font-weight: 600; color: #64748b; display: flex; align-items: center; gap: 3px; }
         .ub-badge-count { font-size: 10px; font-weight: 700; color: #475569; }
-        .ub-hint { font-size: 11px; font-weight: 600; color: #475569; margin-top: 2px; }
+        .ub-hint { font-size: 11px; font-weight: 600; color: #94a3b8; margin-top: 2px; } /* 改亮 */
 
         /* RIGHT: badge images */
         .ub-images { display: flex; align-items: center; flex-shrink: 0; }
@@ -112,8 +113,9 @@
         }
         .ub-img-wrap + .ub-img-wrap { margin-left: -14px; }
         .ub-img { width: 30px; height: 30px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5)); }
-        .ub-mystery { font-family: var(--font-head); font-size: 18px; font-weight: 900; color: #334155; }
-        .ub-chevron { color: var(--success-green); font-size: 14px; margin-left: 8px; opacity: 0.8; font-weight: 700; }
+        .is-locked .ub-img { filter: grayscale(100%) opacity(0.65); } /* 鎖定時不過度透明 */
+        .ub-mystery { font-family: var(--font-head); font-size: 18px; font-weight: 900; color: #cbd5e1; } /* 問號改亮 */
+        .ub-chevron { color: var(--pink); font-size: 14px; margin-left: 8px; opacity: 0.8; font-weight: 700; }
         .is-locked .ub-chevron { color: var(--gold); }
         /* ─────────────────────────────────────────────────── */
 
@@ -150,7 +152,6 @@
             box-shadow: 0 30px 60px rgba(0,0,0,0.7); overflow: hidden; position: relative;
         }
 
-        /* top accent line */
         .em-content::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
             background: linear-gradient(90deg, var(--pink), var(--ice-blue));
@@ -162,6 +163,7 @@
             width: 32px; height: 32px; border-radius: 50%;
             background: rgba(255,255,255,0.06); border: none; color: #94a3b8;
             font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            z-index: 10; /* 修復：保證最上層可點擊 */
         }
         .em-close:hover { background: rgba(255,255,255,0.12); color: #fff; }
 
@@ -170,7 +172,8 @@
             padding: 3px 10px; border-radius: 100px; margin-bottom: 10px;
             font-size: 11px; font-weight: 800;
         }
-        .em-status-badge.active { background: rgba(34,197,94,0.15); color: var(--success-green); border: 1px solid rgba(34,197,94,0.3); }
+        /* 進行中改回紅色系 */
+        .em-status-badge.active { background: rgba(255, 45, 85, 0.15); color: var(--pink); border: 1px solid rgba(255, 45, 85, 0.3); }
         .em-status-badge.locked { background: rgba(251,191,36,0.12); color: var(--gold); border: 1px solid rgba(251,191,36,0.25); }
         .em-status-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
 
@@ -180,7 +183,7 @@
         .em-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--glass-border), transparent); margin: 0; }
 
         .em-body { padding: 16px 16px; max-height: 48vh; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
-        .em-section-label { font-size: 10px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.8px; padding: 0 2px; }
+        .em-section-label { font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.8px; padding: 0 2px; } /* 改亮改大 */
 
         .em-badge-item {
             display: flex; align-items: center; gap: 12px;
@@ -193,7 +196,7 @@
             background: rgba(0,0,0,0.3); border-radius: 12px;
         }
         .em-badge-img-box img { width: 38px; height: 38px; filter: drop-shadow(0 3px 5px rgba(0,0,0,0.6)); }
-        .em-badge-mystery { font-family: var(--font-head); font-size: 22px; font-weight: 900; color: #334155; }
+        .em-badge-mystery { font-family: var(--font-head); font-size: 22px; font-weight: 900; color: #cbd5e1; } /* 問號改亮 */
         .em-badge-info { flex: 1; min-width: 0; }
         .em-badge-name { font-size: 13px; font-weight: 800; color: var(--gold); margin-bottom: 3px; }
         .em-badge-rule { font-size: 11px; font-weight: 500; color: #94a3b8; line-height: 1.5; }
@@ -338,7 +341,6 @@
         </div>
     </header>
 
-    <!-- Upcoming banner — injected by renderUpcomingBanner(), hidden when empty -->
     <div class="upcoming-alert-wrap" id="upcoming-alert-container"></div>
 
     <div class="hero-banner-wrap">
@@ -426,10 +428,9 @@
         </div>
     </div>
 
-    <!-- Event detail modal -->
-    <div class="event-modal-overlay" id="event-modal-overlay">
-        <div class="em-content" id="em-content-box">
-            <button class="em-close" id="em-close-btn">×</button>
+    <div class="event-modal-overlay" id="event-modal-overlay" onclick="closeEventModal()">
+        <div class="em-content" id="em-content-box" onclick="event.stopPropagation()">
+            <button class="em-close" id="em-close-btn" onclick="closeEventModal()">×</button>
             <div class="em-header">
                 <div id="em-status-badge" class="em-status-badge active"><div class="em-status-dot"></div><span id="em-status-text"></span></div>
                 <div class="em-title" id="em-title"></div>
@@ -444,6 +445,26 @@
     </div>
 
     <script>
+        // 全域防呆：當圖片載入失敗時，直接替換為問號 div
+        window.handleImgFallback = function(imgElement) {
+            const div = document.createElement('div');
+            div.className = imgElement.classList.contains('ub-img') ? 'ub-mystery' : 'em-badge-mystery';
+            div.innerText = '?';
+            imgElement.parentNode.replaceChild(div, imgElement);
+        };
+
+        // Format date string correctly 2026/4/3 - 4/6
+        function formatShortDateRange(startStr, endStr) {
+            const sParts = startStr.split('-');
+            const eParts = endStr.split('-');
+            const sY = sParts[0], sM = parseInt(sParts[1], 10), sD = parseInt(sParts[2], 10);
+            const eY = eParts[0], eM = parseInt(eParts[1], 10), eD = parseInt(eParts[2], 10);
+            if (sY === eY) {
+                return `${sY}/${sM}/${sD} - ${eM}/${eD}`;
+            }
+            return `${sY}/${sM}/${sD} - ${eY}/${eM}/${eD}`;
+        }
+
         const GLOBAL_BADGE_DB = {
             "campaign_2603_vip_event": { "zh-hant": { title: "3 月同樂會榮耀", sub: "VIP 線下同樂會", desc: "VIP 參加線下同樂會活動紀念 (2026/3/29)" }, "en": { title: "Mar Meetup Glory", sub: "Mar VIP Meetup Badge", desc: "Mar VIP Offline Meetup participation badge" } },
             "campaign_foolsday_1": { "zh-hant": { title: "愚人節紀念", sub: "愚人節惡搞大挑戰活動", desc: "送「愚妳有約」系列禮物贈送 (2026/3/28 - 4/1)" }, "en": { title: "Fool Day", sub: "April Fools' Prank Challenge", desc: "Memorial badge for sending an April fool's Day gift" } },
@@ -522,49 +543,34 @@
             "campaign_s_club": { "zh-hant": { title: "S Club", sub: "S Club 限定", desc: "受邀進入 S Club 之特別榮譽" }, "en": { title: "S Club", sub: "Elite Member", desc: "Exclusive S Club Invitation" } }
         };
 
-        // ── UPCOMING_BADGE_DB ─────────────────────────────────────────────────
-        // 新增活動時在此陣列加入一筆物件。活動結束後 banner 自動消失，不需手動清除。
-
-        // 欄位說明：
-        //   id          : 活動唯一識別 ID（字串）
-        //   startDate   : 活動開始日 "YYYY-MM-DD"
-        //   endDate     : 活動結束日 "YYYY-MM-DD"
-        //   eventUrl    : 活動頁連結，null 表示無外部連結
-        //   badges      : 徽章陣列，每筆含：
-        //     imgId       : 圖片 ID（對應 CFG.img + imgId + ".svg"）
-        //     preview     : true = 顯示圖片 / false = 顯示 "?" 神秘格
-        //     langs       : 各語言的 name（徽章名稱）與 rule（獲得條件）
-        //   langs       : 活動本身的各語言標題 eventTitle
         const UPCOMING_BADGE_DB = [
-            // 範例（活動期間結束後會自動從首頁移除）：
             {
-                 id: "campaign_example_2026",
-                 startDate: "2026-04-03",
-                 endDate:   "2026-04-06",
-                 eventUrl: "https://swag.live/event/example",
-                 badges: [
-                     {
-                         imgId: "campaign_example_rank1",
-                         preview: false,
-                         langs: {
-                             "zh-hant": { name: "大人的玩具師", rule: "於直播間送鑽滿 10,000 鑽，且觀看 10 分鐘以上" },
-                             "en":      { name: "Send 10,000+ diamonds in the stream and watch for at least 10 minutes" }
-                         }
-                     },
-            //         {
-            //             imgId: "campaign_example_rank2",
-            //             preview: false,
-           //              langs: {
-           //                  "zh-hant": { name: "神秘徽章", rule: "更多條件待公布" },
-           //                  "en":      { name: "Mystery Badge", rule: "Conditions TBA" }
-          //               }
-          //           }
-                 ],
-                 langs: {
-                     "zh-hant": { eventTitle: "大人的玩具派對" },
-                     "en":      { eventTitle: "Adult Toy Party" }
-                 }
-             },
+                id: "campaign_2604_toy",
+                startDate: "2026-04-03",
+                endDate:   "2026-04-06",
+                eventUrl: "https://swag.live/",
+                isSeries: true, 
+                badges: [
+                    { imgId: "campaign_katohtaka_tier3", preview: true },
+                    { imgId: "mystery", preview: false }
+                ],
+                langs: {
+                    "zh-hant": { 
+                        eventTitle: "大人的玩具派對", 
+                        items: [
+                            { name: "大人的玩具師", rule: "於直播間送鑽滿 10,000 鑽" },
+                            { name: "派對狂歡者", rule: "觀看派對活動滿 10 分鐘以上" }
+                        ]
+                    },
+                    "en": { 
+                        eventTitle: "Adult Toy Party", 
+                        items: [
+                            { name: "Master Toymaker", rule: "Send 10,000+ diamonds in the stream" },
+                            { name: "Party Animal", rule: "Watch the party for at least 10 minutes" }
+                        ]
+                    }
+                }
+             }
         ];
 
         const CFG = {
@@ -597,7 +603,6 @@
                 sp_send:"送出", sp_processing:"處理中", sp_confirm:"確認",
                 success_confirmed:"✅ 已成功上架！",
                 success_pending:"📨 請求已送出，請稍後至直播間確認",
-                // banner / modal
                 ub_tag_active:"✨ 限定徽章活動",
                 ub_tag_soon:"🔒 即將開放",
                 ub_hint:"點擊查看徽章與解鎖條件",
@@ -630,7 +635,6 @@
                 sp_send:"Send", sp_processing:"Processing", sp_confirm:"Confirm",
                 success_confirmed:"✅ Badge equipped successfully!",
                 success_pending:"📨 Request sent. Please check your live room shortly.",
-                // banner / modal
                 ub_tag_active:"✨ Limited Badge Event",
                 ub_tag_soon:"🔒 Coming Soon",
                 ub_hint:"Tap to preview badges & unlock rules",
@@ -729,7 +733,6 @@
             });
         }
 
-        // ── Event Modal ────────────────────────────────
         function openEventModal(eventId) {
             const evt = UPCOMING_BADGE_DB.find(e => e.id === eventId);
             if (!evt) return;
@@ -742,7 +745,6 @@
             const t = I18N[state.lang];
             const info = evt.langs[state.lang] || evt.langs['zh-hant'];
 
-            // Status badge
             const statusBadge = document.getElementById('em-status-badge');
             const statusText  = document.getElementById('em-status-text');
             if (isActive) {
@@ -750,21 +752,15 @@
                 statusText.textContent = t.uc_active;
             } else {
                 statusBadge.className = 'em-status-badge locked';
-                statusText.textContent = daysUntil > 0
-                    ? t.uc_days_pre + daysUntil + t.uc_days_suf
-                    : t.uc_soon;
+                statusText.textContent = daysUntil > 0 ? t.uc_days_pre + daysUntil + t.uc_days_suf : t.uc_soon;
             }
 
-            // Title & dates
             document.getElementById('em-title').textContent = info.eventTitle;
-            document.getElementById('em-date-text').textContent =
-                evt.startDate.replace(/-/g,'/') + ' – ' + evt.endDate.replace(/-/g,'/');
+            document.getElementById('em-date-text').textContent = formatShortDateRange(evt.startDate, evt.endDate);
 
-            // Badge list — each badge has its own langs: {name, rule}
             const section = document.getElementById('em-badge-container');
             let html = `<div class="em-section-label">${t.em_badge_section}</div>`;
             evt.badges.forEach(b => {
-                const bInfo = (b.langs && (b.langs[state.lang] || b.langs['zh-hant'])) || { name: '?', rule: '' };
                 const imgHtml = b.preview
                     ? `<img src="${CFG.img}${b.imgId}.svg" onerror="this.style.display='none'">`
                     : `<div class="em-badge-mystery">?</div>`;
@@ -779,20 +775,16 @@
             });
             section.innerHTML = html;
 
-            // XSS-safe text fill for badge name/rule
             section.querySelectorAll('.em-badge-item').forEach((el, i) => {
-                const bInfo = (evt.badges[i].langs && (evt.badges[i].langs[state.lang] || evt.badges[i].langs['zh-hant'])) || { name: '?', rule: '' };
+                const bInfo = (evt.badges[i].langs && (evt.badges[i].langs[state.lang] || evt.badges[i].langs['zh-hant'])) || info.items[i] || { name: '?', rule: '' };
                 el.querySelector('.em-badge-name').textContent = bInfo.name;
                 el.querySelector('.em-badge-rule').textContent = bInfo.rule;
             });
 
-            // CTA button
             const btn = document.getElementById('em-cta-btn');
             btn.textContent = isActive ? t.em_btn_active : t.em_btn_soon;
             btn.className = `em-cta-btn ${isActive ? 'em-btn-active' : 'em-btn-disabled'}`;
-            btn.onclick = isActive && evt.eventUrl
-                ? () => { window.open(evt.eventUrl, '_blank'); }
-                : null;
+            btn.onclick = isActive && evt.eventUrl ? () => { window.open(evt.eventUrl, '_blank'); } : null;
 
             document.getElementById('event-modal-overlay').classList.add('show');
             if (!isInIframe) document.body.style.overflow = 'hidden';
@@ -803,13 +795,6 @@
             if (!isInIframe) document.body.style.overflow = '';
         }
 
-        // Clicking outside em-content closes modal
-        document.getElementById('event-modal-overlay').addEventListener('click', function(e) {
-            if (e.target === this) closeEventModal();
-        });
-        document.getElementById('em-close-btn').addEventListener('click', closeEventModal);
-
-        // ── Upcoming Banner ────────────────────────────
         function renderUpcomingBanner() {
             const container = document.getElementById('upcoming-alert-container');
             const t = I18N[state.lang];
@@ -818,7 +803,6 @@
             const valid = UPCOMING_BADGE_DB.filter(e => now <= new Date(e.endDate + 'T23:59:59'));
             if (valid.length === 0) { container.style.display = 'none'; container.innerHTML = ''; return; }
 
-            // Sort: active first, then by startDate
             valid.sort((a, b) => {
                 const aAct = now >= new Date(a.startDate) && now <= new Date(a.endDate + 'T23:59:59');
                 const bAct = now >= new Date(b.startDate) && now <= new Date(b.endDate + 'T23:59:59');
@@ -834,15 +818,14 @@
 
             let statusText = isActive ? t.uc_active : (daysUntil > 0 ? t.uc_days_pre + daysUntil + t.uc_days_suf : t.uc_soon);
             const tagText = isActive ? t.ub_tag_active : t.ub_tag_soon;
-            const dateStr = evt.startDate.replace(/-/g,'/') + ' – ' + evt.endDate.replace(/-/g,'/');
+            const dateStr = formatShortDateRange(evt.startDate, evt.endDate);
             const badgeCount = evt.badges.length;
 
-            // Build stacked badge images (max 3, shown on RIGHT)
             const previewBadges = evt.badges.slice(0, 3);
             let imagesHtml = '<div class="ub-img-stack">';
             previewBadges.forEach(b => {
                 const inner = b.preview
-                    ? `<img class="ub-img" src="${CFG.img}${b.imgId}.svg" onerror="this.style.display='none'">`
+                    ? `<img class="ub-img" src="${CFG.img}${b.imgId}.svg" onerror="handleImgFallback(this)">`
                     : `<div class="ub-mystery">?</div>`;
                 imagesHtml += `<div class="ub-img-wrap">${inner}</div>`;
             });
@@ -869,7 +852,6 @@
                     </div>
                 </div>`;
 
-            // XSS-safe event name
             container.querySelector('.ub-event-name').textContent = info.eventTitle;
             container.style.display = 'block';
         }
