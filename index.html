@@ -22,43 +22,88 @@
             --font-body: 'Inter', sans-serif;
             --text-dim: #94a3b8;
         }
-/* --- 優化：即將到來活動 Banner (輕量化) --- */
+
+        /* --- 優化：即將到來活動 Banner (輕量化與系列支援) --- */
         .upcoming-alert-wrap { max-width: 600px; margin: 0 auto 15px; padding: 0 16px; display: none; }
         .upcoming-banner {
             background: linear-gradient(135deg, rgba(255, 45, 85, 0.12) 0%, rgba(30, 41, 59, 0.6) 100%);
             border: 1px solid rgba(255, 45, 85, 0.3); border-radius: 20px; 
-            padding: 12px 16px; display: flex; align-items: center; gap: 14px;
+            padding: 14px 16px; display: flex; align-items: center; gap: 14px;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); backdrop-filter: blur(10px);
-            text-decoration: none; transition: transform 0.2s, border-color 0.3s;
+            text-decoration: none; transition: transform 0.2s, border-color 0.3s; cursor: pointer;
         }
         .upcoming-banner.is-locked {
             background: linear-gradient(135deg, rgba(148, 163, 184, 0.08) 0%, rgba(30, 41, 59, 0.6) 100%);
-            border-color: rgba(148, 163, 184, 0.2); cursor: default;
+            border-color: rgba(148, 163, 184, 0.2);
         }
-        .upcoming-banner:not(.is-locked):active { transform: scale(0.98); }
+        .upcoming-banner:active { transform: scale(0.98); }
         
+        .ub-series-stack { display: flex; align-items: center; position: relative; }
         .ub-img-wrap { 
-            width: 46px; height: 46px; flex-shrink: 0; border-radius: 12px; 
-            background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); 
+            width: 48px; height: 48px; flex-shrink: 0; border-radius: 14px; 
+            background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); 
             display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
-        .ub-img { width: 32px; height: 32px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); transition: filter 0.3s;}
-        .is-locked .ub-img { filter: grayscale(100%) opacity(0.4); }
-        .ub-mystery { font-family: var(--font-head); font-size: 22px; font-weight: 900; color: var(--text-dim); }
+        .ub-series-stack .ub-img-wrap:not(:first-child) { margin-left: -24px; border-left: 1px solid #1e293b; }
         
-        .ub-content { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 2px;}
-        .ub-title-row { display: flex; align-items: center; gap: 6px; }
+        .ub-img { width: 34px; height: 34px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); transition: filter 0.3s;}
+        .is-locked .ub-img { filter: grayscale(100%) opacity(0.5); }
+        .ub-mystery { font-family: var(--font-head); font-size: 24px; font-weight: 900; color: var(--text-dim); }
+        
+        .ub-content { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 3px;}
+        .ub-new-tag { 
+            font-size: 10px; background: linear-gradient(90deg, #ff2d55, #ff5e7e); 
+            color: white; padding: 2px 6px; border-radius: 4px; font-weight: 800; 
+            display: inline-block; align-self: flex-start; letter-spacing: 0.5px;
+            box-shadow: 0 2px 6px rgba(255,45,85,0.4);
+        }
+        .is-locked .ub-new-tag { background: #475569; box-shadow: none; color: #cbd5e1; }
+        
+        .ub-title-row { display: flex; align-items: center; gap: 6px; margin-top: 2px;}
         .ub-status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success-green); box-shadow: 0 0 6px var(--success-green); flex-shrink: 0; }
         .is-locked .ub-status-dot { background: var(--gold); box-shadow: 0 0 6px var(--gold); }
-        .ub-title { font-size: 14px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .ub-sub { font-size: 11.5px; color: #94a3b8; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        
-        .ub-action { flex-shrink: 0; }
-        .ub-btn { 
-            background: var(--pink); color: #fff; font-size: 12px; font-weight: 800; 
-            padding: 6px 14px; border-radius: 100px; box-shadow: 0 2px 10px rgba(255,45,85,0.3); 
+        .ub-title { font-size: 15px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .ub-sub { font-size: 12px; color: #94a3b8; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+
+        /* --- 新增：活動專屬預覽 Modal --- */
+        .event-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
+            z-index: 25000; display: none; align-items: center; justify-content: center;
+            padding: 20px; opacity: 0; transition: opacity 0.3s;
         }
-        .is-locked .ub-btn { background: rgba(255,255,255,0.08); color: #94a3b8; box-shadow: none; font-weight: 700; }
+        .event-modal-overlay.show { display: flex; opacity: 1; }
+        .em-content {
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid var(--glass-border); border-radius: 24px;
+            width: 100%; max-width: 340px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.6);
+            overflow: hidden; position: relative;
+        }
+        .em-header { padding: 24px 20px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .em-title { font-size: 18px; font-weight: 900; color: #fff; margin-bottom: 6px; font-family: var(--font-head); }
+        .em-sub { font-size: 13px; color: #94a3b8; font-weight: 600; }
+        .em-close { position: absolute; right: 12px; top: 12px; font-size: 24px; color: #94a3b8; background: none; border: none; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; }
+        
+        .em-body { padding: 20px; max-height: 50vh; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+        .em-badge-item {
+            display: flex; gap: 14px; align-items: center; background: rgba(255,255,255,0.03);
+            padding: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); text-align: left;
+        }
+        .em-badge-img-box { width: 50px; height: 50px; flex-shrink: 0; display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.2); border-radius: 12px; }
+        .em-badge-img-box img { width: 40px; height: 40px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
+        .em-badge-name { font-size: 14px; font-weight: 800; color: var(--gold); margin-bottom: 4px; }
+        .em-badge-rule { font-size: 12px; color: #cbd5e1; font-weight: 500; line-height: 1.4; }
+
+        .em-footer { padding: 15px 20px 20px; }
+        .em-cta-btn {
+            display: block; width: 100%; padding: 14px 0; border-radius: 12px;
+            font-size: 14px; font-weight: 800; text-align: center; text-decoration: none;
+            transition: all 0.2s; border: none; cursor: pointer; font-family: var(--font-body);
+        }
+        .em-btn-active { background: var(--pink); color: #fff; box-shadow: 0 4px 15px rgba(255,45,85,0.4); }
+        .em-btn-active:active { transform: scale(0.98); }
+        .em-btn-disabled { background: rgba(255,255,255,0.08); color: #64748b; cursor: not-allowed; }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
@@ -228,7 +273,6 @@
         }
         .close-overlay:hover { color: #fff; background: rgba(255,255,255,0.08); }
 
-        /* FIX: flex-wrap added so 4 tabs wrap on narrow screens */
         .overlay-filters { display: flex; justify-content: center; gap: 8px; padding: 0 16px 15px; border-bottom: 1px solid var(--glass-border); flex-shrink: 0; flex-wrap: wrap; }
         .filter-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #94a3b8; padding: 8px 16px; border-radius: 100px; font-size: 12px; font-weight: 700; cursor: pointer; transition: background 0.2s, color 0.2s; }
         .filter-btn.active { background: var(--gold); color: #000; border-color: var(--gold); }
@@ -246,12 +290,6 @@
         .lib-subtitle { font-size: 11px; font-weight: 700; color: var(--gold); margin-bottom: 4px; display: block; opacity: 0.9; }
         .lib-desc { font-size: 12px; font-weight: 500; color: var(--text-dim); line-height: 1.4; display: block; }
         .lib-date { display: inline-flex; align-items: center; font-size: 10px; font-weight: 600; color: #cbd5e1; background: rgba(255, 255, 255, 0.1); padding: 3px 6px; border-radius: 4px; margin-top: 6px; }
-
-        .uc-lib-mystery { display: flex; align-items: center; justify-content: center; font-family: var(--font-head); font-size: 22px; font-weight: 900; color: #334155; border: 1.5px dashed rgba(255,255,255,0.15); border-radius: 12px; flex-shrink: 0; }
-        .uc-status-pill { font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 100px; flex-shrink: 0; white-space: nowrap; }
-        .uc-status-pill.active { background: rgba(56,189,248,0.15); color: var(--ice-blue); border: 1px solid rgba(56,189,248,0.3); }
-        .uc-status-pill.soon { background: rgba(251,191,36,0.12); color: var(--gold); border: 1px solid rgba(251,191,36,0.25); }
-        .uc-status-pill.countdown { background: rgba(255,45,85,0.1); color: var(--pink); border: 1px solid rgba(255,45,85,0.25); }
 
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -276,7 +314,7 @@
         <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
     </nav>
 
-<header class="header-area">
+    <header class="header-area">
         <h1 class="main-title" id="ui-title">我的榮耀徽章全覽</h1>
         <span class="username-line" id="ui-username-display">帳號：----</span>
         <div class="minimal-total-box">
@@ -301,8 +339,7 @@
             </div>
         </div>
     </div>
-    
-        </div>
+
     <section class="management-section" id="management-area" style="display: none;">
         <div class="management-card" id="status-card">
             <div class="mc-header">
@@ -372,6 +409,21 @@
         <div class="modal-content">
             <div class="modal-text" id="modal-msg"></div>
             <button class="modal-btn" id="ui-modal-btn" onclick="closeModal()">OK</button>
+        </div>
+    </div>
+
+    <div class="event-modal-overlay" id="event-modal-overlay" onclick="closeEventModal(event)">
+        <div class="em-content">
+            <button class="em-close" onclick="closeEventModal()">×</button>
+            <div class="em-header">
+                <div class="em-title" id="em-title">活動名稱</div>
+                <div class="em-sub" id="em-sub">活動說明</div>
+            </div>
+            <div class="em-body" id="em-badge-container">
+                </div>
+            <div class="em-footer">
+                <button class="em-cta-btn" id="em-cta-btn">前往查看活動詳情</button>
+            </div>
         </div>
     </div>
 
@@ -455,18 +507,33 @@
         };
 
         const UPCOMING_BADGE_DB = [
-            // 有活動時在此新增，格式範例：
             {
-                id: "campaign_2603_vip_event",
-                 startDate: "2026-04-03",
-                 endDate:   "2026-04-06",
-                 preview: false,
-                 eventUrl: "https://swag.live/", // 新增：活動連結
-                 langs: {
-                     "zh-hant": { title: "大人的玩具師", sub: "大人的玩具派對活動", desc: "於直播間送鑽滿 10000 鑽，且觀看達 10 分鐘以上" },
-                     "en":      { title: "Master Toymaker", sub: "Adult Toy Party", desc: "Send 10,000+ diamonds in the stream and watch for at least 10 minutes" }
-                 }
-             },
+                id: "campaign_2604_toy",
+                startDate: "2026-04-03",
+                endDate:   "2026-04-06",
+                eventUrl: "https://swag.live/",
+                isSeries: true, // 標記為系列活動
+                badges: [
+                    { imgId: "campaign_katohtaka_tier3", preview: true },
+                    { imgId: "mystery", preview: false }
+                ],
+                langs: {
+                    "zh-hant": { 
+                        eventTitle: "大人的玩具派對", 
+                        items: [
+                            { name: "大人的玩具師", rule: "於直播間送鑽滿 10,000 鑽" },
+                            { name: "派對狂歡者", rule: "觀看派對活動滿 10 分鐘以上" }
+                        ]
+                    },
+                    "en": { 
+                        eventTitle: "Adult Toy Party", 
+                        items: [
+                            { name: "Master Toymaker", rule: "Send 10,000+ diamonds in the stream" },
+                            { name: "Party Animal", rule: "Watch the party for at least 10 minutes" }
+                        ]
+                    }
+                }
+             }
         ];
 
         const CFG = {
@@ -476,7 +543,7 @@
             trs:     'https://api.swag.live/translations'
         };
 
-const I18N = {
+        const I18N = {
             'zh-hant': {
                 title:"我的榮耀徽章全覽", username:"帳號：", total:"帳號徽章總數", my_lvl:"我的 VIP 等級：",
                 btn:"確認上架", upgrade:"立即升級", feat_h:"帳號顯示與更換徽章",
@@ -499,12 +566,14 @@ const I18N = {
                 sp_send:"送出", sp_processing:"處理中", sp_confirm:"確認",
                 success_confirmed:"✅ 已成功上架！",
                 success_pending:"📨 請求已送出，請稍後至直播間確認",
-                uc_active: "進行中", 
-                uc_soon: "即將開始",
-                uc_days_pre: "", 
-                uc_days_suf: " 天後開始",
-                ub_unlock_now: "前往解鎖",
-                ub_date_prefix: "活動日期："
+                // Banner & Modal 相關
+                uc_new_badge: "✨ 全新徽章",
+                uc_new_series: "✨ 全新徽章系列",
+                em_click_to_view: "點擊預覽徽章與解鎖條件",
+                em_upcoming_title: "活動即將開始",
+                em_upcoming_desc: "敬請期待，準備解鎖全新榮耀！",
+                em_btn_upcoming: "敬請期待",
+                em_btn_active: "前往查看活動詳情",
             },
             'en': {
                 title:"Glory Badge Gallery", username:"Account: ", total:"Total Badges", my_lvl:"My VIP Level: ",
@@ -528,12 +597,14 @@ const I18N = {
                 sp_send:"Send", sp_processing:"Processing", sp_confirm:"Confirm",
                 success_confirmed:"✅ Badge equipped successfully!",
                 success_pending:"📨 Request sent. Please check your live room shortly.",
-                uc_active: "Active", 
-                uc_soon: "Coming Soon",
-                uc_days_pre: "Starts in ", 
-                uc_days_suf: " days",
-                ub_unlock_now: "Unlock Now",
-                ub_date_prefix: "Date: "
+                // Banner & Modal 相關
+                uc_new_badge: "✨ New Badge",
+                uc_new_series: "✨ New Badge Series",
+                em_click_to_view: "Click to preview badges & rules",
+                em_upcoming_title: "Event Starting Soon",
+                em_upcoming_desc: "Stay tuned to unlock new glory!",
+                em_btn_upcoming: "Coming Soon",
+                em_btn_active: "View Event Details",
             }
         };
 
@@ -629,6 +700,62 @@ const I18N = {
             if (e.target === document.getElementById('custom-modal')) closeModal();
         }
 
+        // 新增：活動詳情 Modal 邏輯
+        function openEventModal(eventId) {
+            const evt = UPCOMING_BADGE_DB.find(e => e.id === eventId);
+            if(!evt) return;
+
+            const now = new Date();
+            const start = new Date(evt.startDate);
+            const isActive = now >= start && now <= new Date(evt.endDate + 'T23:59:59');
+            const t = I18N[state.lang];
+            const info = evt.langs[state.lang] || evt.langs['zh-hant'];
+
+            let badgeListHtml = '';
+            evt.badges.forEach((b, index) => {
+                const itemInfo = info.items[index];
+                const src = b.preview ? `${CFG.img}${b.imgId}.svg` : '';
+                const imgContent = b.preview ? `<img src="${src}" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'">` : `<div class="ub-mystery">?</div>`;
+
+                badgeListHtml += `
+                    <div class="em-badge-item">
+                        <div class="em-badge-img-box">${imgContent}</div>
+                        <div class="em-badge-info">
+                            <div class="em-badge-name">${itemInfo.name}</div>
+                            <div class="em-badge-rule">${itemInfo.rule}</div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // 設定狀態文案與按鈕
+            const modalTitle = isActive ? info.eventTitle : t.em_upcoming_title;
+            const modalSub = isActive ? t.em_click_to_view : t.em_upcoming_desc;
+            const btnText = isActive ? t.em_btn_active : t.em_btn_upcoming;
+            const btnClass = isActive ? 'em-btn-active' : 'em-btn-disabled';
+
+            document.getElementById('em-title').innerText = modalTitle;
+            document.getElementById('em-sub').innerText = modalSub;
+            document.getElementById('em-badge-container').innerHTML = badgeListHtml;
+
+            const btn = document.getElementById('em-cta-btn');
+            btn.innerText = btnText;
+            btn.className = `em-cta-btn ${btnClass}`;
+            btn.onclick = () => {
+                if (isActive && evt.eventUrl) {
+                    window.open(evt.eventUrl, '_blank');
+                }
+            };
+
+            document.getElementById('event-modal-overlay').classList.add('show');
+            if (!isInIframe) document.body.style.overflow = 'hidden';
+        }
+        function closeEventModal(e) {
+            if (e && e.target !== document.getElementById('event-modal-overlay') && !e.target.classList.contains('em-close')) return;
+            document.getElementById('event-modal-overlay').classList.remove('show');
+            if (!isInIframe) document.body.style.overflow = '';
+        }
+
         const isInIframe = window.self !== window.top;
 
         function setupPwaLinkInterceptor() {
@@ -681,7 +808,6 @@ const I18N = {
                 'flt-all': t.flt_all, 'flt-owned': t.flt_owned, 'flt-unowned': t.flt_unowned,
                 'ui-modal-btn': t.modal_btn,
                 'sp-lbl-1': t.sp_send, 'sp-lbl-2': t.sp_processing, 'sp-lbl-3': t.sp_confirm,
-                'flt-upcoming': t.flt_upcoming,
             };
             Object.entries(ids).forEach(([id, text]) => {
                 const el = document.getElementById(id);
@@ -1058,18 +1184,16 @@ const I18N = {
             }
         }
 
-function renderUpcomingBanner() {
+        function renderUpcomingBanner() {
             const container = document.getElementById('upcoming-alert-container');
             const now = new Date();
 
-            // 1. 找出尚未結束的活動
             const validEvents = UPCOMING_BADGE_DB.filter(event => now <= new Date(event.endDate + 'T23:59:59'));
             if (validEvents.length === 0) {
                 container.style.display = 'none';
                 return;
             }
 
-            // 2. 排序：進行中優先 > 最接近的未來活動
             validEvents.sort((a, b) => {
                 const nowMs = now.getTime();
                 const aActive = nowMs >= new Date(a.startDate).getTime() && nowMs <= new Date(a.endDate + 'T23:59:59').getTime();
@@ -1083,53 +1207,37 @@ function renderUpcomingBanner() {
             const info = evt.langs[state.lang] || evt.langs['zh-hant'];
             const t = I18N[state.lang];
 
-            // 3. 狀態判定
             const start = new Date(evt.startDate);
             const isActive = now >= start && now <= new Date(evt.endDate + 'T23:59:59');
-            const isLocked = !isActive; // 尚未開始即鎖定
-            const daysUntil = Math.ceil((start - now) / 86400000);
+            const isLocked = !isActive;
 
-            // 4. 動態生成按鈕與連結設定
-            let btnText = '';
-            let hrefAttr = 'href="javascript:void(0);"';
-            let targetAttr = '';
-            
-            if (isActive) {
-                btnText = t.ub_unlock_now; // 已開始 -> 前往解鎖
-                if (evt.eventUrl) {
-                    hrefAttr = `href="${evt.eventUrl}"`;
-                    targetAttr = `target="_blank"`;
-                }
+            let imagesHtml = '';
+            if (evt.isSeries && evt.badges.length > 1) {
+                imagesHtml = `<div class="ub-series-stack">`;
+                evt.badges.slice(0, 2).forEach((b, i) => {
+                    const src = b.preview ? `${CFG.img}${b.imgId}.svg` : '';
+                    const imgContent = b.preview ? `<img class="ub-img" src="${src}" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'">` : `<div class="ub-mystery">?</div>`;
+                    imagesHtml += `<div class="ub-img-wrap" style="z-index: ${2-i}">${imgContent}</div>`;
+                });
+                imagesHtml += `</div>`;
             } else {
-                // 未開始 -> 顯示倒數天數或即將開始
-                btnText = (daysUntil > 0) ? `${t.uc_days_pre}${daysUntil}${t.uc_days_suf}` : t.uc_soon;
-                // 若未開始且有預告連結，才允許點擊，否則鎖定
-                if (evt.eventUrl) {
-                    hrefAttr = `href="${evt.eventUrl}"`;
-                    targetAttr = `target="_blank"`;
-                }
+                const b = evt.badges[0];
+                const src = b.preview ? `${CFG.img}${b.imgId}.svg` : '';
+                const imgContent = b.preview ? `<img class="ub-img" src="${src}" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'">` : `<div class="ub-mystery">?</div>`;
+                imagesHtml = `<div class="ub-img-wrap">${imgContent}</div>`;
             }
 
-            // 5. 處理圖片：若不提供預覽則顯示問號
-            const imgHtml = evt.preview
-                ? `<img class="ub-img" src="${CFG.img}${evt.id}.svg" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'">`
-                : `<div class="ub-mystery">?</div>`;
+            const tagText = evt.isSeries ? t.uc_new_series : t.uc_new_badge;
 
-            const dateStr = evt.startDate.replace(/-/g,'/') + ' – ' + evt.endDate.replace(/-/g,'/');
-
-            // 6. 渲染 DOM
             container.innerHTML = `
-                <a ${hrefAttr} ${targetAttr} class="upcoming-banner ${isLocked ? 'is-locked' : ''}">
-                    <div class="ub-img-wrap">${imgHtml}</div>
+                <a onclick="openEventModal('${evt.id}')" class="upcoming-banner ${isLocked ? 'is-locked' : ''}">
+                    ${imagesHtml}
                     <div class="ub-content">
+                        <span class="ub-new-tag">${tagText}</span>
                         <div class="ub-title-row">
-                            <div class="ub-status-dot"></div>
-                            <span class="ub-title">${info.title}</span>
+                            <span class="ub-title">${info.eventTitle}</span>
                         </div>
-                        <span class="ub-sub">${t.ub_date_prefix}${dateStr}</span>
-                    </div>
-                    <div class="ub-action">
-                        <div class="ub-btn">${btnText}</div>
+                        <span class="ub-sub">${t.em_click_to_view}</span>
                     </div>
                 </a>
             `;
@@ -1139,7 +1247,7 @@ function renderUpcomingBanner() {
         // 初始化
         document.getElementById('ui-total-db-count').innerText = Object.keys(GLOBAL_BADGE_DB).length;
         setupPwaLinkInterceptor();
-        setLang('zh-hant'); // 裡面會觸發 renderUpcomingBanner
+        setLang('zh-hant'); 
         if (uid) init();
     </script>
 </body>
