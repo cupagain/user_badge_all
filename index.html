@@ -77,45 +77,44 @@
         .upcoming-banner.is-locked::before { background: linear-gradient(90deg, transparent, rgba(251,191,36,0.4), transparent); }
         .upcoming-banner:active { transform: scale(0.99); opacity: 0.9; }
 
-        /* LEFT: text content */
-        .ub-content { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+/* LEFT: text content */
+        .ub-content { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
         .ub-new-tag {
-            font-size: 10px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;
+            font-size: 11px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;
             display: inline-flex; align-items: center; gap: 4px; align-self: flex-start;
-            padding: 2px 8px; border-radius: 6px;
-            /* 進行中顏色改回紅色系 */
+            padding: 3px 8px; border-radius: 6px;
             background: rgba(255, 45, 85, 0.15); color: var(--pink); border: 1px solid rgba(255, 45, 85, 0.25);
         }
         .is-locked .ub-new-tag { background: rgba(251,191,36,0.12); color: var(--gold); border-color: rgba(251,191,36,0.25); }
 
-        .ub-title-row { display: flex; align-items: center; gap: 6px; }
-        .ub-status-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; background: var(--pink); box-shadow: 0 0 6px var(--pink); animation: dot-pulse 2s ease-in-out infinite; }
+        .ub-title-row { display: flex; align-items: center; gap: 8px; }
+        .ub-status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--pink); box-shadow: 0 0 6px var(--pink); animation: dot-pulse 2s ease-in-out infinite; }
         .is-locked .ub-status-dot { background: var(--gold); box-shadow: 0 0 6px var(--gold); animation: none; }
         @keyframes dot-pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
 
-        .ub-event-name { font-family: var(--font-head); font-size: 15px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .ub-status-text { font-size: 11px; font-weight: 700; white-space: nowrap; color: var(--pink); }
+        .ub-event-name { font-family: var(--font-head); font-size: 17px; font-weight: 900; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .ub-status-text { font-size: 12px; font-weight: 800; white-space: nowrap; color: var(--pink); }
         .is-locked .ub-status-text { color: var(--gold); }
 
         .ub-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-        .ub-date { font-size: 10px; font-weight: 600; color: #64748b; display: flex; align-items: center; gap: 3px; }
-        .ub-badge-count { font-size: 10px; font-weight: 700; color: #475569; }
-        .ub-hint { font-size: 11px; font-weight: 600; color: #94a3b8; margin-top: 2px; } /* 改亮 */
+        .ub-date { font-size: 12px; font-weight: 600; color: #cbd5e1; display: flex; align-items: center; gap: 4px; }
+        .ub-badge-count { font-size: 12px; font-weight: 700; color: #94a3b8; }
+        .ub-hint { font-size: 12px; font-weight: 600; color: #94a3b8; margin-top: 2px; }
 
         /* RIGHT: badge images */
         .ub-images { display: flex; align-items: center; flex-shrink: 0; }
         .ub-img-stack { display: flex; align-items: center; }
         .ub-img-wrap {
-            width: 44px; height: 44px; border-radius: 12px;
+            width: 50px; height: 50px; border-radius: 14px;
             background: rgba(0,0,0,0.35); border: 1.5px solid rgba(255,255,255,0.1);
             display: flex; align-items: center; justify-content: center; overflow: hidden;
             flex-shrink: 0; box-shadow: 0 3px 8px rgba(0,0,0,0.4);
         }
-        .ub-img-wrap + .ub-img-wrap { margin-left: -14px; }
-        .ub-img { width: 30px; height: 30px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5)); }
-        .is-locked .ub-img { filter: grayscale(100%) opacity(0.65); } /* 鎖定時不過度透明 */
-        .ub-mystery { font-family: var(--font-head); font-size: 18px; font-weight: 900; color: #cbd5e1; } /* 問號改亮 */
-        .ub-chevron { color: var(--pink); font-size: 14px; margin-left: 8px; opacity: 0.8; font-weight: 700; }
+        .ub-img-wrap + .ub-img-wrap { margin-left: -16px; }
+        .ub-img { width: 34px; height: 34px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5)); }
+        .is-locked .ub-img { filter: grayscale(100%) opacity(0.65); }
+        .ub-mystery { font-family: var(--font-head); font-size: 20px; font-weight: 900; color: #cbd5e1; }
+        .ub-chevron { color: var(--pink); font-size: 18px; margin-left: 8px; opacity: 0.8; font-weight: 700; }
         .is-locked .ub-chevron { color: var(--gold); }
         /* ─────────────────────────────────────────────────── */
 
@@ -546,10 +545,10 @@
         const UPCOMING_BADGE_DB = [
             {
                 id: "campaign_2604_toy",
-                startDate: "2026-03-10",
-                endDate:   "2026-03-31",
+                startDate: "2026-03-20",
+                endDate:   "2026-04-01",
                 eventUrl: "https://swag.live/",
-                isSeries: true, 
+                isSeries: false, // 【系列標籤】true = Banner 上會顯示「✨ 限定徽章系列活動」；false = 顯示「✨ 限定徽章活動」。
                 badges: [
                     { imgId: "campaign_katohtaka_tier3", preview: false },
                 ],
