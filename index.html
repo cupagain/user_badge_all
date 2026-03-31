@@ -63,8 +63,17 @@
         .ub-title-row { display: flex; align-items: center; gap: 6px; margin-top: 2px;}
         .ub-status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success-green); box-shadow: 0 0 6px var(--success-green); flex-shrink: 0; }
         .is-locked .ub-status-dot { background: var(--gold); box-shadow: 0 0 6px var(--gold); }
-        .ub-title { font-size: 15px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .ub-status-text { font-size: 11px; font-weight: 800; white-space: nowrap; }
+        .ub-title { font-size: 15px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-left: 2px;}
         .ub-sub { font-size: 12px; color: #94a3b8; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+
+        .ub-action { flex-shrink: 0; }
+        .ub-btn { 
+            background: var(--pink); color: #fff; font-size: 12px; font-weight: 800; 
+            padding: 6px 14px; border-radius: 100px; box-shadow: 0 2px 10px rgba(255,45,85,0.3); 
+        }
+        .is-locked .ub-btn { background: rgba(255,255,255,0.08); color: #94a3b8; box-shadow: none; font-weight: 700; }
+
 
         /* --- 新增：活動專屬預覽 Modal --- */
         .event-modal-overlay {
@@ -428,6 +437,14 @@
     </div>
 
     <script>
+        // 全域防呆：當圖片載入失敗時，直接替換為問號 div
+        window.handleImgFallback = function(imgElement) {
+            const div = document.createElement('div');
+            div.className = 'ub-mystery';
+            div.innerText = '?';
+            imgElement.parentNode.replaceChild(div, imgElement);
+        };
+
         const GLOBAL_BADGE_DB = {
             "campaign_2603_vip_event": { "zh-hant": { title: "3 月同樂會榮耀", sub: "VIP 線下同樂會", desc: "VIP 參加線下同樂會活動紀念 (2026/3/29)" }, "en": { title: "Mar Meetup Glory", sub: "Mar VIP Meetup Badge", desc: "Mar VIP Offline Meetup participation badge" } },
             "campaign_foolsday_1": { "zh-hant": { title: "愚人節紀念", sub: "愚人節惡搞大挑戰活動", desc: "送「愚妳有約」系列禮物贈送 (2026/3/28 - 4/1)" }, "en": { title: "Fool Day", sub: "April Fools' Prank Challenge", desc: "Memorial badge for sending an April fool's Day gift" } },
@@ -509,8 +526,8 @@
         const UPCOMING_BADGE_DB = [
             {
                 id: "campaign_2604_toy",
-                startDate: "2026-04-03",
-                endDate:   "2026-04-06",
+                startDate: "2026-03-10",
+                endDate:   "2026-03-31",
                 eventUrl: "https://swag.live/",
                 isSeries: true, // 標記為系列活動
                 badges: [
@@ -521,8 +538,7 @@
                     "zh-hant": { 
                         eventTitle: "大人的玩具派對", 
                         items: [
-                            { name: "大人的玩具師", rule: "於直播間送鑽滿 10,000 鑽" },
-                            { name: "派對狂歡者", rule: "觀看派對活動滿 10 分鐘以上" }
+                            { name: "大人的玩具師", rule: "於直播間送鑽滿 10,000 鑽，觀看滿 10 分鐘以上" },
                         ]
                     },
                     "en": { 
@@ -567,8 +583,12 @@
                 success_confirmed:"✅ 已成功上架！",
                 success_pending:"📨 請求已送出，請稍後至直播間確認",
                 // Banner & Modal 相關
-                uc_new_badge: "✨ 全新徽章",
-                uc_new_series: "✨ 全新徽章系列",
+                uc_new_badge: "✨ 新徽章解鎖活動",
+                uc_new_series: "✨ 新徽章解鎖活動",
+                uc_active: "活動進行中", 
+                uc_soon: "即將開始",
+                uc_days_pre: "", 
+                uc_days_suf: " 天後開始",
                 em_click_to_view: "點擊預覽徽章與解鎖條件",
                 em_upcoming_title: "活動即將開始",
                 em_upcoming_desc: "敬請期待，準備解鎖全新榮耀！",
@@ -598,8 +618,12 @@
                 success_confirmed:"✅ Badge equipped successfully!",
                 success_pending:"📨 Request sent. Please check your live room shortly.",
                 // Banner & Modal 相關
-                uc_new_badge: "✨ New Badge",
-                uc_new_series: "✨ New Badge Series",
+                uc_new_badge: "✨ New Badge Event",
+                uc_new_series: "✨ New Badge Event",
+                uc_active: "Event Active", 
+                uc_soon: "Coming Soon",
+                uc_days_pre: "Starts in ", 
+                uc_days_suf: " days",
                 em_click_to_view: "Click to preview badges & rules",
                 em_upcoming_title: "Event Starting Soon",
                 em_upcoming_desc: "Stay tuned to unlock new glory!",
@@ -715,7 +739,7 @@
             evt.badges.forEach((b, index) => {
                 const itemInfo = info.items[index];
                 const src = b.preview ? `${CFG.img}${b.imgId}.svg` : '';
-                const imgContent = b.preview ? `<img src="${src}" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'">` : `<div class="ub-mystery">?</div>`;
+                const imgContent = b.preview ? `<img src="${src}" onerror="handleImgFallback(this)">` : `<div class="ub-mystery">?</div>`;
 
                 badgeListHtml += `
                     <div class="em-badge-item">
@@ -1210,20 +1234,26 @@
             const start = new Date(evt.startDate);
             const isActive = now >= start && now <= new Date(evt.endDate + 'T23:59:59');
             const isLocked = !isActive;
+            const daysUntil = Math.ceil((start - now) / 86400000);
+
+            let statusText = '';
+            if (isActive) statusText = t.uc_active;
+            else if (daysUntil > 0) statusText = `${t.uc_days_pre}${daysUntil}${t.uc_days_suf}`;
+            else statusText = t.uc_soon;
 
             let imagesHtml = '';
             if (evt.isSeries && evt.badges.length > 1) {
                 imagesHtml = `<div class="ub-series-stack">`;
                 evt.badges.slice(0, 2).forEach((b, i) => {
                     const src = b.preview ? `${CFG.img}${b.imgId}.svg` : '';
-                    const imgContent = b.preview ? `<img class="ub-img" src="${src}" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'">` : `<div class="ub-mystery">?</div>`;
+                    const imgContent = b.preview ? `<img class="ub-img" src="${src}" onerror="handleImgFallback(this)">` : `<div class="ub-mystery">?</div>`;
                     imagesHtml += `<div class="ub-img-wrap" style="z-index: ${2-i}">${imgContent}</div>`;
                 });
                 imagesHtml += `</div>`;
             } else {
                 const b = evt.badges[0];
                 const src = b.preview ? `${CFG.img}${b.imgId}.svg` : '';
-                const imgContent = b.preview ? `<img class="ub-img" src="${src}" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'">` : `<div class="ub-mystery">?</div>`;
+                const imgContent = b.preview ? `<img class="ub-img" src="${src}" onerror="handleImgFallback(this)">` : `<div class="ub-mystery">?</div>`;
                 imagesHtml = `<div class="ub-img-wrap">${imgContent}</div>`;
             }
 
@@ -1235,6 +1265,8 @@
                     <div class="ub-content">
                         <span class="ub-new-tag">${tagText}</span>
                         <div class="ub-title-row">
+                            <div class="ub-status-dot"></div>
+                            <span style="font-size: 11px; font-weight: 800; color: ${isLocked ? 'var(--gold)' : 'var(--success-green)'}; margin-right: 2px;">${statusText}</span>
                             <span class="ub-title">${info.eventTitle}</span>
                         </div>
                         <span class="ub-sub">${t.em_click_to_view}</span>
@@ -1252,3 +1284,5 @@
     </script>
 </body>
 </html>
+
+這頁面還有哪些可以從代碼優化整潔的地方嗎？不用顧慮我看不看得懂，用最高標準整理代碼，並把不要的資訊移除。
