@@ -22,41 +22,43 @@
             --font-body: 'Inter', sans-serif;
             --text-dim: #94a3b8;
         }
-/* --- 更新：即將到來活動 Banner 樣式 --- */
-        .upcoming-alert-wrap { max-width: 600px; margin: 0 auto 20px; padding: 0 16px; display: none; }
+/* --- 優化：即將到來活動 Banner (輕量化) --- */
+        .upcoming-alert-wrap { max-width: 600px; margin: 0 auto 15px; padding: 0 16px; display: none; }
         .upcoming-banner {
-            background: linear-gradient(135deg, rgba(255, 45, 85, 0.15) 0%, rgba(255, 45, 85, 0.05) 100%);
-            border: 1px solid rgba(255, 45, 85, 0.3);
-            border-radius: 18px; padding: 16px;
-            display: flex; flex-direction: column; gap: 12px;
-            box-shadow: 0 6px 20px rgba(255, 45, 85, 0.1);
+            background: linear-gradient(135deg, rgba(255, 45, 85, 0.12) 0%, rgba(30, 41, 59, 0.6) 100%);
+            border: 1px solid rgba(255, 45, 85, 0.3); border-radius: 20px; 
+            padding: 12px 16px; display: flex; align-items: center; gap: 14px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); backdrop-filter: blur(10px);
+            text-decoration: none; transition: transform 0.2s, border-color 0.3s;
         }
-        .ub-top-row { display: flex; align-items: flex-start; gap: 14px; }
-        .ub-img-wrap { 
-            width: 56px; height: 56px; flex-shrink: 0; border-radius: 14px; 
-            background: rgba(255,45,85,0.1); border: 1px solid rgba(255,45,85,0.2); 
-            display: flex; align-items: center; justify-content: center; overflow: hidden; 
+        .upcoming-banner.is-locked {
+            background: linear-gradient(135deg, rgba(148, 163, 184, 0.08) 0%, rgba(30, 41, 59, 0.6) 100%);
+            border-color: rgba(148, 163, 184, 0.2); cursor: default;
         }
-        .ub-img { width: 40px; height: 40px; object-fit: contain; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
-        .ub-mystery { font-family: var(--font-head); font-size: 26px; font-weight: 900; color: var(--pink); opacity: 0.8; }
+        .upcoming-banner:not(.is-locked):active { transform: scale(0.98); }
         
-        .ub-content { flex: 1; min-width: 0; text-align: left; }
-        .ub-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; gap: 8px;}
-        .ub-title { font-size: 15px; font-weight: 800; color: #fff; line-height: 1.3; word-break: break-all; }
-        .ub-desc { font-size: 12px; color: #cbd5e1; font-weight: 500; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-        .ub-date-row { display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; font-size: 10px; color: #94a3b8; font-weight: 600; background: rgba(0,0,0,0.3); padding: 3px 8px; border-radius: 6px;}
-
-        .ub-bottom-row { display: flex; align-items: center; justify-content: space-between; margin-top: 2px; border-top: 1px dashed rgba(255,45,85,0.2); padding-top: 12px; }
-        .ub-cta-btn { 
-            background: var(--pink); color: #fff; font-size: 12px; font-weight: 800; 
-            padding: 8px 18px; border-radius: 100px; text-align: center; 
-            box-shadow: 0 4px 10px rgba(255,45,85,0.3); text-decoration: none; transition: transform 0.2s; 
+        .ub-img-wrap { 
+            width: 46px; height: 46px; flex-shrink: 0; border-radius: 12px; 
+            background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); 
+            display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;
         }
-        .ub-cta-btn:active { transform: scale(0.95); }
-        .ub-status { font-size: 10px; font-weight: 800; padding: 3px 8px; border-radius: 100px; white-space: nowrap; flex-shrink: 0; }
-        .ub-status.active { background: rgba(56,189,248,0.15); color: var(--ice-blue); border: 1px solid rgba(56,189,248,0.3); }
-        .ub-status.soon { background: rgba(251,191,36,0.12); color: var(--gold); border: 1px solid rgba(251,191,36,0.25); }
-        .ub-status.countdown { background: rgba(255,45,85,0.1); color: var(--pink); border: 1px solid rgba(255,45,85,0.25); }
+        .ub-img { width: 32px; height: 32px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); transition: filter 0.3s;}
+        .is-locked .ub-img { filter: grayscale(100%) opacity(0.4); }
+        .ub-mystery { font-family: var(--font-head); font-size: 22px; font-weight: 900; color: var(--text-dim); }
+        
+        .ub-content { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 2px;}
+        .ub-title-row { display: flex; align-items: center; gap: 6px; }
+        .ub-status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success-green); box-shadow: 0 0 6px var(--success-green); flex-shrink: 0; }
+        .is-locked .ub-status-dot { background: var(--gold); box-shadow: 0 0 6px var(--gold); }
+        .ub-title { font-size: 14px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .ub-sub { font-size: 11.5px; color: #94a3b8; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        
+        .ub-action { flex-shrink: 0; }
+        .ub-btn { 
+            background: var(--pink); color: #fff; font-size: 12px; font-weight: 800; 
+            padding: 6px 14px; border-radius: 100px; box-shadow: 0 2px 10px rgba(255,45,85,0.3); 
+        }
+        .is-locked .ub-btn { background: rgba(255,255,255,0.08); color: #94a3b8; box-shadow: none; font-weight: 700; }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
@@ -274,7 +276,7 @@
         <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
     </nav>
 
-    <header class="header-area">
+<header class="header-area">
         <h1 class="main-title" id="ui-title">我的榮耀徽章全覽</h1>
         <span class="username-line" id="ui-username-display">帳號：----</span>
         <div class="minimal-total-box">
@@ -282,6 +284,8 @@
             <span class="mt-val" id="ui-count">--</span>
         </div>
     </header>
+
+    <div class="upcoming-alert-wrap" id="upcoming-alert-container"></div>
 
     <div class="hero-banner-wrap">
         <div class="library-hero-card" onclick="toggleAllBadges(true)">
@@ -297,7 +301,7 @@
             </div>
         </div>
     </div>
-    <div class="upcoming-alert-wrap" id="upcoming-alert-container">
+    
         </div>
     <section class="management-section" id="management-area" style="display: none;">
         <div class="management-card" id="status-card">
@@ -472,7 +476,7 @@
             trs:     'https://api.swag.live/translations'
         };
 
-        const I18N = {
+const I18N = {
             'zh-hant': {
                 title:"我的榮耀徽章全覽", username:"帳號：", total:"帳號徽章總數", my_lvl:"我的 VIP 等級：",
                 btn:"確認上架", upgrade:"立即升級", feat_h:"帳號顯示與更換徽章",
@@ -495,13 +499,12 @@
                 sp_send:"送出", sp_processing:"處理中", sp_confirm:"確認",
                 success_confirmed:"✅ 已成功上架！",
                 success_pending:"📨 請求已送出，請稍後至直播間確認",
-                uc_active:"進行中", 
-                uc_soon:"即將開始",
-                uc_days_pre:"", 
-                uc_days_suf:" 天後開始",
-                uc_new_badge_event: "全新徽章活動",
-                ub_cta_active: "立即獲得徽章",
-                ub_cta_soon: "查看活動詳情"
+                uc_active: "進行中", 
+                uc_soon: "即將開始",
+                uc_days_pre: "", 
+                uc_days_suf: " 天後開始",
+                ub_unlock_now: "前往解鎖",
+                ub_date_prefix: "活動日期："
             },
             'en': {
                 title:"Glory Badge Gallery", username:"Account: ", total:"Total Badges", my_lvl:"My VIP Level: ",
@@ -525,13 +528,12 @@
                 sp_send:"Send", sp_processing:"Processing", sp_confirm:"Confirm",
                 success_confirmed:"✅ Badge equipped successfully!",
                 success_pending:"📨 Request sent. Please check your live room shortly.",
-                uc_active:"Active", 
-                uc_soon:"Coming Soon",
-                uc_days_pre:"Starts in ", 
-                uc_days_suf:" days",
-                uc_new_badge_event: "NEW BADGE EVENT",
-                ub_cta_active: "Get Badge Now",
-                ub_cta_soon: "View Details"
+                uc_active: "Active", 
+                uc_soon: "Coming Soon",
+                uc_days_pre: "Starts in ", 
+                uc_days_suf: " days",
+                ub_unlock_now: "Unlock Now",
+                ub_date_prefix: "Date: "
             }
         };
 
@@ -1056,22 +1058,18 @@
             }
         }
 
-        function renderUpcomingBanner() {
+function renderUpcomingBanner() {
             const container = document.getElementById('upcoming-alert-container');
             const now = new Date();
 
-            // 找出還沒結束的活動
-            const validEvents = UPCOMING_BADGE_DB.filter(event => {
-                const end = new Date(event.endDate + 'T23:59:59');
-                return now <= end;
-            });
-
+            // 1. 找出尚未結束的活動
+            const validEvents = UPCOMING_BADGE_DB.filter(event => now <= new Date(event.endDate + 'T23:59:59'));
             if (validEvents.length === 0) {
                 container.style.display = 'none';
                 return;
             }
 
-            // 優先顯示「進行中」的活動，如果沒有，再顯示最接近的未來活動
+            // 2. 排序：進行中優先 > 最接近的未來活動
             validEvents.sort((a, b) => {
                 const nowMs = now.getTime();
                 const aActive = nowMs >= new Date(a.startDate).getTime() && nowMs <= new Date(a.endDate + 'T23:59:59').getTime();
@@ -1085,64 +1083,58 @@
             const info = evt.langs[state.lang] || evt.langs['zh-hant'];
             const t = I18N[state.lang];
 
-            // 狀態與倒數計算
+            // 3. 狀態判定
             const start = new Date(evt.startDate);
             const isActive = now >= start && now <= new Date(evt.endDate + 'T23:59:59');
+            const isLocked = !isActive; // 尚未開始即鎖定
             const daysUntil = Math.ceil((start - now) / 86400000);
 
-            let statusClass, statusText, ctaText;
+            // 4. 動態生成按鈕與連結設定
+            let btnText = '';
+            let hrefAttr = 'href="javascript:void(0);"';
+            let targetAttr = '';
+            
             if (isActive) {
-                statusClass = 'active';
-                statusText = t.uc_active;
-                ctaText = t.ub_cta_active || '立即獲得徽章';
-            } else if (daysUntil <= 14) {
-                statusClass = 'countdown';
-                statusText = t.uc_days_pre + daysUntil + t.uc_days_suf;
-                ctaText = t.ub_cta_soon || '查看活動詳情';
+                btnText = t.ub_unlock_now; // 已開始 -> 前往解鎖
+                if (evt.eventUrl) {
+                    hrefAttr = `href="${evt.eventUrl}"`;
+                    targetAttr = `target="_blank"`;
+                }
             } else {
-                statusClass = 'soon';
-                statusText = t.uc_soon;
-                ctaText = t.ub_cta_soon || '查看活動詳情';
+                // 未開始 -> 顯示倒數天數或即將開始
+                btnText = (daysUntil > 0) ? `${t.uc_days_pre}${daysUntil}${t.uc_days_suf}` : t.uc_soon;
+                // 若未開始且有預告連結，才允許點擊，否則鎖定
+                if (evt.eventUrl) {
+                    hrefAttr = `href="${evt.eventUrl}"`;
+                    targetAttr = `target="_blank"`;
+                }
             }
 
-            // 圖示邏輯：有開啟 preview 則載入圖片，否則顯示問號
+            // 5. 處理圖片：若不提供預覽則顯示問號
             const imgHtml = evt.preview
                 ? `<img class="ub-img" src="${CFG.img}${evt.id}.svg" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'">`
                 : `<div class="ub-mystery">?</div>`;
 
-            // 格式化日期：2026/05/07 - 2026/05/11
             const dateStr = evt.startDate.replace(/-/g,'/') + ' – ' + evt.endDate.replace(/-/g,'/');
 
-            // CTA 按鈕邏輯
-            let ctaHtml = '';
-            if (evt.eventUrl) {
-                ctaHtml = `<a href="${evt.eventUrl}" target="_blank" class="ub-cta-btn">${ctaText}</a>`;
-            } else {
-                ctaHtml = `<div class="ub-cta-btn" style="opacity:0.6; cursor:not-allowed;" onclick="showModal('${t.uc_soon}')">${ctaText}</div>`;
-            }
-
+            // 6. 渲染 DOM
             container.innerHTML = `
-                <div class="upcoming-banner">
-                    <div class="ub-top-row">
-                        <div class="ub-img-wrap">${imgHtml}</div>
-                        <div class="ub-content">
-                            <div class="ub-header">
-                                <span class="ub-title">${info.title}</span>
-                                <span class="ub-status ${statusClass}">${statusText}</span>
-                            </div>
-                            <span class="ub-desc">${info.desc}</span>
-                            <div class="ub-date-row">📅 ${dateStr}</div>
+                <a ${hrefAttr} ${targetAttr} class="upcoming-banner ${isLocked ? 'is-locked' : ''}">
+                    <div class="ub-img-wrap">${imgHtml}</div>
+                    <div class="ub-content">
+                        <div class="ub-title-row">
+                            <div class="ub-status-dot"></div>
+                            <span class="ub-title">${info.title}</span>
                         </div>
+                        <span class="ub-sub">${t.ub_date_prefix}${dateStr}</span>
                     </div>
-                    <div class="ub-bottom-row">
-                        <div style="font-size:11px; color:var(--pink); font-weight:800; letter-spacing:0.5px;">🔥 ${t.uc_new_badge_event}</div>
-                        ${ctaHtml}
+                    <div class="ub-action">
+                        <div class="ub-btn">${btnText}</div>
                     </div>
-                </div>
+                </a>
             `;
             container.style.display = 'block';
         }
-        
         
         // 初始化
         document.getElementById('ui-total-db-count').innerText = Object.keys(GLOBAL_BADGE_DB).length;
