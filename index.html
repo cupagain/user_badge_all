@@ -190,7 +190,12 @@
         
         .em-badge-info { flex: 1; min-width: 0; text-align: left; }
         .em-badge-name { font-size: 17px; font-weight: 900; color: var(--gold); margin-bottom: 6px; letter-spacing: 0.5px; }
-        .em-badge-rule { font-size: 12.5px; font-weight: 400; color: #cbd5e1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .em-badge-rule { 
+            font-size: 12.5px; 
+            font-weight: 400; 
+            color: #cbd5e1; 
+            line-height: 1.5; 
+        }
 
         .em-footer { padding: 0 16px 20px; }
         .em-cta-btn {
@@ -802,7 +807,7 @@
             const daysUntil = Math.ceil((start - now) / 86400000);
 
             let statusText = isActive ? t.uc_active : (daysUntil > 0 ? t.uc_days_pre + daysUntil + t.uc_days_suf : t.uc_soon);
-            const tagText = evt.isSeries ? t.uc_new_series : t.uc_new_badge;
+            const tagText = isActive ? t.ub_tag_active : t.ub_tag_soon;
             const dateStr = formatShortDateRange(evt.startDate, evt.endDate);
             const badgeCount = evt.badges.length;
 
