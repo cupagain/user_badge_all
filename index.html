@@ -22,6 +22,25 @@
             --font-body: 'Inter', sans-serif;
             --text-dim: #94a3b8;
         }
+        /* --- 新增：即將到來活動 Banner 樣式 --- */
+        .upcoming-alert-wrap { max-width: 600px; margin: 0 auto 20px; padding: 0 16px; display: none; }
+        .upcoming-banner {
+            background: linear-gradient(135deg, rgba(255, 45, 85, 0.15) 0%, rgba(255, 45, 85, 0.05) 100%);
+            border: 1px solid rgba(255, 45, 85, 0.3);
+            border-radius: 18px; padding: 14px 16px;
+            display: flex; align-items: center; gap: 14px;
+            text-decoration: none; transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .upcoming-banner:active { transform: scale(0.98); }
+        .upcoming-banner:hover { box-shadow: 0 6px 20px rgba(255, 45, 85, 0.2); }
+        .ub-icon { font-size: 26px; animation: bounceIcon 2s infinite; filter: drop-shadow(0 0 8px rgba(255,45,85,0.6)); }
+        @keyframes bounceIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+        .ub-content { flex: 1; min-width: 0; }
+        .ub-title-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+        .ub-badge { background: var(--pink); color: #fff; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 6px; white-space: nowrap; }
+        .ub-title { font-size: 15px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .ub-desc { font-size: 12px; color: #cbd5e1; font-weight: 500; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .ub-arrow { color: var(--pink); font-size: 18px; font-weight: 900; opacity: 0.8; }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
@@ -262,7 +281,8 @@
             </div>
         </div>
     </div>
-
+    <div class="upcoming-alert-wrap" id="upcoming-alert-container">
+        </div>
     <section class="management-section" id="management-area" style="display: none;">
         <div class="management-card" id="status-card">
             <div class="mc-header">
@@ -422,9 +442,10 @@
             //     startDate: "2026-05-07",
             //     endDate:   "2026-05-11",
             //     preview: false,
+            //     eventUrl: "https://swag.live/events/example", // 新增：活動連結
             //     langs: {
-            //         "zh-hant": { title: "活動名稱", sub: "活動系列", desc: "活動說明" },
-            //         "en":      { title: "Event Name", sub: "Event Series", desc: "Description" }
+            //         "zh-hant": { title: "活動名稱", sub: "活動系列", desc: "活動說明(如何獲得)" },
+            //         "en":      { title: "Event Name", sub: "Event Series", desc: "Description(How to get)" }
             //     }
             // },
         ];
@@ -461,7 +482,8 @@
                 success_pending:"📨 請求已送出，請稍後至直播間確認",
                 uc_active:"進行中", uc_soon:"即將開始",
                 uc_days_pre:"", uc_days_suf:" 天後開始",
-                flt_upcoming:"即將到來", flt_upcoming_empty:"目前沒有預告活動，敬請期待"
+                flt_upcoming:"即將到來", flt_upcoming_empty:"目前沒有預告活動，敬請期待",
+                uc_new_event: "新活動" // <--- 新增這行
             },
             'en': {
                 title:"Glory Badge Gallery", username:"Account: ", total:"Total Badges", my_lvl:"My VIP Level: ",
@@ -487,7 +509,8 @@
                 success_pending:"📨 Request sent. Please check your live room shortly.",
                 uc_active:"Active", uc_soon:"Coming Soon",
                 uc_days_pre:"Starts in ", uc_days_suf:" days",
-                flt_upcoming:"Upcoming", flt_upcoming_empty:"No upcoming events yet. Stay tuned!"
+                flt_upcoming:"Upcoming", flt_upcoming_empty:"No upcoming events yet. Stay tuned!",
+                uc_new_event: "NEW EVENT" // <--- 新增這行
             }
         };
 
@@ -607,6 +630,7 @@
             document.documentElement.lang = l === 'zh-hant' ? 'zh-Hant' : 'en';
             document.title = l === 'zh-hant' ? '帳號徽章更換 | SWAG Premium' : 'Badge Manager | SWAG Premium';
             updateUIStrings();
+            renderUpcomingBanner();
             if (uid) {
                 if (state.dataLoaded && !state.isLoading) {
                     const box = document.getElementById('display');
@@ -1051,10 +1075,62 @@
             }
         }
 
+        function renderUpcomingBanner() {
+            const container = document.getElementById('upcoming-alert-container');
+            const now = new Date();
+
+            // 過濾出尚未結束的活動
+            const validEvents = UPCOMING_BADGE_DB.filter(event => {
+                const end = new Date(event.endDate + 'T23:59:59');
+                return now <= end;
+            });
+
+            // 如果沒有新活動，隱藏區塊並退出
+            if (validEvents.length === 0) {
+                container.style.display = 'none';
+                return;
+            }
+
+            // 依照開始時間排序，取最近的一個活動顯示
+            validEvents.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+            const evt = validEvents[0]; 
+            const info = evt.langs[state.lang] || evt.langs['zh-hant'];
+            const t = I18N[state.lang];
+
+            // 決定點擊連結：若有活動網址則開啟新分頁，否則預設開啟徽章圖鑑(並自動切到"即將到來" tab)
+            let hrefAttr, targetAttr, onclickAttr;
+            if (evt.eventUrl) {
+                hrefAttr = `href="${evt.eventUrl}"`;
+                targetAttr = `target="_blank"`;
+                onclickAttr = '';
+            } else {
+                hrefAttr = `href="javascript:void(0);"`;
+                targetAttr = '';
+                onclickAttr = `onclick="toggleAllBadges(true); renderLibrary('upcoming', document.getElementById('flt-upcoming'));"`;
+            }
+
+            container.innerHTML = `
+                <a ${hrefAttr} ${targetAttr} ${onclickAttr} class="upcoming-banner">
+                    <div class="ub-icon">🔥</div>
+                    <div class="ub-content">
+                        <div class="ub-title-row">
+                            <span class="ub-badge">${t.uc_new_event}</span>
+                            <span class="ub-title">${info.title}</span>
+                        </div>
+                        <span class="ub-desc">${info.desc}</span>
+                    </div>
+                    <div class="ub-arrow">➔</div>
+                </a>
+            `;
+            container.style.display = 'block';
+        }
+
+        
+        
         // 初始化
         document.getElementById('ui-total-db-count').innerText = Object.keys(GLOBAL_BADGE_DB).length;
         setupPwaLinkInterceptor();
-        setLang('zh-hant');
+        setLang('zh-hant'); // 裡面會觸發 renderUpcomingBanner
         if (uid) init();
     </script>
 </body>
