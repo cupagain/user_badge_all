@@ -23,97 +23,6 @@
             --text-dim: #94a3b8;
         }
 
-        /* --- 優化：即將到來活動 Banner (輕量化與系列支援) --- */
-        .upcoming-alert-wrap { max-width: 600px; margin: 0 auto 15px; padding: 0 16px; display: none; }
-        .upcoming-banner {
-            background: linear-gradient(135deg, rgba(255, 45, 85, 0.12) 0%, rgba(30, 41, 59, 0.6) 100%);
-            border: 1px solid rgba(255, 45, 85, 0.3); border-radius: 20px; 
-            padding: 14px 16px; display: flex; align-items: center; gap: 14px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); backdrop-filter: blur(10px);
-            text-decoration: none; transition: transform 0.2s, border-color 0.3s; cursor: pointer;
-        }
-        .upcoming-banner.is-locked {
-            background: linear-gradient(135deg, rgba(148, 163, 184, 0.08) 0%, rgba(30, 41, 59, 0.6) 100%);
-            border-color: rgba(148, 163, 184, 0.2);
-        }
-        .upcoming-banner:active { transform: scale(0.98); }
-        
-        .ub-series-stack { display: flex; align-items: center; position: relative; }
-        .ub-img-wrap { 
-            width: 48px; height: 48px; flex-shrink: 0; border-radius: 14px; 
-            background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); 
-            display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        }
-        .ub-series-stack .ub-img-wrap:not(:first-child) { margin-left: -24px; border-left: 1px solid #1e293b; }
-        
-        .ub-img { width: 34px; height: 34px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); transition: filter 0.3s;}
-        .is-locked .ub-img { filter: grayscale(100%) opacity(0.5); }
-        .ub-mystery { font-family: var(--font-head); font-size: 24px; font-weight: 900; color: var(--text-dim); }
-        
-        .ub-content { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; gap: 3px;}
-        .ub-new-tag { 
-            font-size: 10px; background: linear-gradient(90deg, #ff2d55, #ff5e7e); 
-            color: white; padding: 2px 6px; border-radius: 4px; font-weight: 800; 
-            display: inline-block; align-self: flex-start; letter-spacing: 0.5px;
-            box-shadow: 0 2px 6px rgba(255,45,85,0.4);
-        }
-        .is-locked .ub-new-tag { background: #475569; box-shadow: none; color: #cbd5e1; }
-        
-        .ub-title-row { display: flex; align-items: center; gap: 6px; margin-top: 2px;}
-        .ub-status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--success-green); box-shadow: 0 0 6px var(--success-green); flex-shrink: 0; }
-        .is-locked .ub-status-dot { background: var(--gold); box-shadow: 0 0 6px var(--gold); }
-        .ub-status-text { font-size: 11px; font-weight: 800; white-space: nowrap; }
-        .ub-title { font-size: 15px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-left: 2px;}
-        .ub-sub { font-size: 12px; color: #94a3b8; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
-
-        .ub-action { flex-shrink: 0; }
-        .ub-btn { 
-            background: var(--pink); color: #fff; font-size: 12px; font-weight: 800; 
-            padding: 6px 14px; border-radius: 100px; box-shadow: 0 2px 10px rgba(255,45,85,0.3); 
-        }
-        .is-locked .ub-btn { background: rgba(255,255,255,0.08); color: #94a3b8; box-shadow: none; font-weight: 700; }
-
-
-        /* --- 新增：活動專屬預覽 Modal --- */
-        .event-modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(12px);
-            z-index: 25000; display: none; align-items: center; justify-content: center;
-            padding: 20px; opacity: 0; transition: opacity 0.3s;
-        }
-        .event-modal-overlay.show { display: flex; opacity: 1; }
-        .em-content {
-            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-            border: 1px solid var(--glass-border); border-radius: 24px;
-            width: 100%; max-width: 340px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.6);
-            overflow: hidden; position: relative;
-        }
-        .em-header { padding: 24px 20px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .em-title { font-size: 18px; font-weight: 900; color: #fff; margin-bottom: 6px; font-family: var(--font-head); }
-        .em-sub { font-size: 13px; color: #94a3b8; font-weight: 600; }
-        .em-close { position: absolute; right: 12px; top: 12px; font-size: 24px; color: #94a3b8; background: none; border: none; cursor: pointer; width: 32px; height: 32px; border-radius: 50%; }
-        
-        .em-body { padding: 20px; max-height: 50vh; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
-        .em-badge-item {
-            display: flex; gap: 14px; align-items: center; background: rgba(255,255,255,0.03);
-            padding: 12px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); text-align: left;
-        }
-        .em-badge-img-box { width: 50px; height: 50px; flex-shrink: 0; display: flex; justify-content: center; align-items: center; background: rgba(0,0,0,0.2); border-radius: 12px; }
-        .em-badge-img-box img { width: 40px; height: 40px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5)); }
-        .em-badge-name { font-size: 14px; font-weight: 800; color: var(--gold); margin-bottom: 4px; }
-        .em-badge-rule { font-size: 12px; color: #cbd5e1; font-weight: 500; line-height: 1.4; }
-
-        .em-footer { padding: 15px 20px 20px; }
-        .em-cta-btn {
-            display: block; width: 100%; padding: 14px 0; border-radius: 12px;
-            font-size: 14px; font-weight: 800; text-align: center; text-decoration: none;
-            transition: all 0.2s; border: none; cursor: pointer; font-family: var(--font-body);
-        }
-        .em-btn-active { background: var(--pink); color: #fff; box-shadow: 0 4px 15px rgba(255,45,85,0.4); }
-        .em-btn-active:active { transform: scale(0.98); }
-        .em-btn-disabled { background: rgba(255,255,255,0.08); color: #64748b; cursor: not-allowed; }
-
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
@@ -132,11 +41,9 @@
             font-family: var(--font-head); font-size: 30px; font-weight: 900; letter-spacing: -1px; margin-bottom: 8px;
             background: linear-gradient(90deg, #fff 0%, #94a3b8 25%, #fff 50%, #94a3b8 75%, #fff 100%);
             background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            animation: shimmer 4s linear infinite;
-            white-space: normal; overflow-wrap: break-word;
+            animation: shimmer 4s linear infinite; white-space: normal; overflow-wrap: break-word;
         }
         .username-line { font-size: 14px; font-weight: 700; color: var(--gold); margin-bottom: 20px; display: block; opacity: 0.9; }
-
         .minimal-total-box {
             display: inline-flex; align-items: center; gap: 10px;
             border: 1px solid rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.05);
@@ -145,14 +52,78 @@
         .mt-label { font-size: 13px; font-weight: 600; color: var(--text-dim); }
         .mt-val { font-family: var(--font-head); font-size: 18px; font-weight: 800; color: var(--ice-blue); }
 
+        /* ── UPCOMING BANNER ─────────────────────────────── */
+        .upcoming-alert-wrap { max-width: 600px; margin: 0 auto 20px; padding: 0 16px; display: none; }
+
+        .upcoming-banner {
+            border-radius: 20px; padding: 14px 16px;
+            display: flex; align-items: center; justify-content: space-between; gap: 12px;
+            cursor: pointer; transition: transform 0.2s, opacity 0.2s;
+            position: relative; overflow: hidden; text-decoration: none;
+            /* active state */
+            background: linear-gradient(135deg, rgba(34,197,94,0.10) 0%, rgba(15,23,42,0.85) 100%);
+            border: 1px solid rgba(34,197,94,0.3);
+            box-shadow: 0 0 0 1px rgba(34,197,94,0.08) inset, 0 8px 20px rgba(0,0,0,0.25);
+        }
+        .upcoming-banner::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(34,197,94,0.5), transparent);
+        }
+        .upcoming-banner.is-locked {
+            background: linear-gradient(135deg, rgba(251,191,36,0.08) 0%, rgba(15,23,42,0.85) 100%);
+            border-color: rgba(251,191,36,0.25);
+            box-shadow: 0 0 0 1px rgba(251,191,36,0.06) inset, 0 8px 20px rgba(0,0,0,0.25);
+        }
+        .upcoming-banner.is-locked::before { background: linear-gradient(90deg, transparent, rgba(251,191,36,0.4), transparent); }
+        .upcoming-banner:active { transform: scale(0.99); opacity: 0.9; }
+
+        /* LEFT: text content */
+        .ub-content { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+        .ub-new-tag {
+            font-size: 10px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;
+            display: inline-flex; align-items: center; gap: 4px; align-self: flex-start;
+            padding: 2px 8px; border-radius: 6px;
+            background: rgba(34,197,94,0.15); color: var(--success-green); border: 1px solid rgba(34,197,94,0.25);
+        }
+        .is-locked .ub-new-tag { background: rgba(251,191,36,0.12); color: var(--gold); border-color: rgba(251,191,36,0.25); }
+
+        .ub-title-row { display: flex; align-items: center; gap: 6px; }
+        .ub-status-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; background: var(--success-green); box-shadow: 0 0 6px var(--success-green); animation: dot-pulse 2s ease-in-out infinite; }
+        .is-locked .ub-status-dot { background: var(--gold); box-shadow: 0 0 6px var(--gold); animation: none; }
+        @keyframes dot-pulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+        .ub-event-name { font-family: var(--font-head); font-size: 15px; font-weight: 800; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .ub-status-text { font-size: 11px; font-weight: 700; white-space: nowrap; color: var(--success-green); }
+        .is-locked .ub-status-text { color: var(--gold); }
+
+        .ub-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+        .ub-date { font-size: 10px; font-weight: 600; color: #64748b; display: flex; align-items: center; gap: 3px; }
+        .ub-badge-count { font-size: 10px; font-weight: 700; color: #475569; }
+        .ub-hint { font-size: 11px; font-weight: 600; color: #475569; margin-top: 2px; }
+
+        /* RIGHT: badge images */
+        .ub-images { display: flex; align-items: center; flex-shrink: 0; }
+        .ub-img-stack { display: flex; align-items: center; }
+        .ub-img-wrap {
+            width: 44px; height: 44px; border-radius: 12px;
+            background: rgba(0,0,0,0.35); border: 1.5px solid rgba(255,255,255,0.1);
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
+            flex-shrink: 0; box-shadow: 0 3px 8px rgba(0,0,0,0.4);
+        }
+        .ub-img-wrap + .ub-img-wrap { margin-left: -14px; }
+        .ub-img { width: 30px; height: 30px; object-fit: contain; filter: drop-shadow(0 2px 3px rgba(0,0,0,0.5)); }
+        .ub-mystery { font-family: var(--font-head); font-size: 18px; font-weight: 900; color: #334155; }
+        .ub-chevron { color: var(--success-green); font-size: 14px; margin-left: 8px; opacity: 0.8; font-weight: 700; }
+        .is-locked .ub-chevron { color: var(--gold); }
+        /* ─────────────────────────────────────────────────── */
+
         .hero-banner-wrap { max-width: 600px; margin: 0 auto 20px; padding: 0 16px; }
         .library-hero-card {
             background: linear-gradient(135deg, rgba(251, 191, 36, 0.15) 0%, rgba(251, 191, 36, 0.02) 100%);
             border: 1px solid rgba(251, 191, 36, 0.3); border-radius: 20px;
             padding: 20px; display: flex; align-items: center; justify-content: space-between;
             cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: transform 0.3s, box-shadow 0.3s;
-            position: relative; overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s; position: relative; overflow: hidden;
         }
         .library-hero-card:active { transform: scale(0.98); }
         .library-hero-card::after { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent); transform: rotate(45deg); animation: shimmer 3s infinite; pointer-events: none; }
@@ -163,15 +134,88 @@
         .lh-count-text { font-size: 12px; font-weight: 600; color: var(--text-dim); font-family: var(--font-body); }
         .lh-arrow { font-size: 14px; color: var(--gold); opacity: 0.8; margin-left: 4px; }
 
+        /* ── EVENT MODAL ───────────────────────────────────── */
+        .event-modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(14px);
+            z-index: 25000; display: none; align-items: center; justify-content: center;
+            padding: 20px; opacity: 0; transition: opacity 0.25s;
+        }
+        .event-modal-overlay.show { display: flex; opacity: 1; }
+
+        .em-content {
+            background: linear-gradient(180deg, #1a2744 0%, #0d1524 100%);
+            border: 1px solid var(--glass-border); border-radius: 24px;
+            width: 100%; max-width: 360px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.7); overflow: hidden; position: relative;
+        }
+
+        /* top accent line */
+        .em-content::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, var(--pink), var(--ice-blue));
+        }
+
+        .em-header { padding: 22px 20px 14px; text-align: center; position: relative; }
+        .em-close {
+            position: absolute; right: 10px; top: 10px;
+            width: 32px; height: 32px; border-radius: 50%;
+            background: rgba(255,255,255,0.06); border: none; color: #94a3b8;
+            font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+        }
+        .em-close:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+        .em-status-badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 3px 10px; border-radius: 100px; margin-bottom: 10px;
+            font-size: 11px; font-weight: 800;
+        }
+        .em-status-badge.active { background: rgba(34,197,94,0.15); color: var(--success-green); border: 1px solid rgba(34,197,94,0.3); }
+        .em-status-badge.locked { background: rgba(251,191,36,0.12); color: var(--gold); border: 1px solid rgba(251,191,36,0.25); }
+        .em-status-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+        .em-title { font-family: var(--font-head); font-size: 19px; font-weight: 900; color: #fff; margin-bottom: 6px; }
+        .em-date-row { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 600; color: #64748b; background: rgba(255,255,255,0.04); padding: 3px 10px; border-radius: 8px; }
+
+        .em-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--glass-border), transparent); margin: 0; }
+
+        .em-body { padding: 16px 16px; max-height: 48vh; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .em-section-label { font-size: 10px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.8px; padding: 0 2px; }
+
+        .em-badge-item {
+            display: flex; align-items: center; gap: 12px;
+            background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 14px; padding: 12px 14px;
+        }
+        .em-badge-img-box {
+            width: 48px; height: 48px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(0,0,0,0.3); border-radius: 12px;
+        }
+        .em-badge-img-box img { width: 38px; height: 38px; filter: drop-shadow(0 3px 5px rgba(0,0,0,0.6)); }
+        .em-badge-mystery { font-family: var(--font-head); font-size: 22px; font-weight: 900; color: #334155; }
+        .em-badge-info { flex: 1; min-width: 0; }
+        .em-badge-name { font-size: 13px; font-weight: 800; color: var(--gold); margin-bottom: 3px; }
+        .em-badge-rule { font-size: 11px; font-weight: 500; color: #94a3b8; line-height: 1.5; }
+
+        .em-footer { padding: 12px 16px 18px; }
+        .em-cta-btn {
+            display: block; width: 100%; padding: 13px 0; border-radius: 12px;
+            font-size: 14px; font-weight: 800; text-align: center; text-decoration: none;
+            border: none; cursor: pointer; font-family: var(--font-body); transition: opacity 0.2s, transform 0.15s;
+        }
+        .em-btn-active { background: linear-gradient(135deg, var(--pink), #ff5e7e); color: #fff; box-shadow: 0 4px 16px rgba(255,45,85,0.35); }
+        .em-btn-active:active { transform: scale(0.98); }
+        .em-btn-disabled { background: rgba(255,255,255,0.06); color: #475569; cursor: default; }
+        /* ─────────────────────────────────────────────────── */
+
         .management-section { max-width: 600px; margin: 0 auto 20px; padding: 0 16px; }
         .management-card {
             background: var(--glass-deep); border: 1px solid var(--glass-border); border-radius: 28px;
             padding: 24px 20px; backdrop-filter: blur(30px); display: flex; flex-direction: column; gap: 18px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            transition: border-color 0.3s;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3); transition: border-color 0.3s;
         }
         .management-card.vip-active { border-color: rgba(251, 191, 36, 0.3); }
-
         .mc-header { text-align: center; display: flex; flex-direction: column; gap: 10px; align-items: center; }
         .mc-title { font-size: 18px; font-weight: 800; color: #fff; letter-spacing: 1px; font-family: var(--font-head); }
         .ac-rule-top {
@@ -181,7 +225,6 @@
             padding: 6px 16px; border-radius: 100px; margin-bottom: 2px;
         }
         .lvl-highlight { color: var(--gold); font-family: var(--font-head); font-weight: 900; font-size: 13.5px; text-shadow: 0 0 10px rgba(251, 191, 36, 0.3); }
-
         .equipped-grid { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 4px; }
         .equipped-box {
             background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08);
@@ -196,24 +239,18 @@
         .equipped-box img { width: 80px; height: 80px; margin-bottom: 12px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.7)); transform: scale(1.05); position: relative; z-index: 2; transition: opacity 0.3s; }
         .equipped-box span { font-size: 13px; font-weight: 700; color: #fff; line-height: 1.2; height: 32px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; text-shadow: 0 2px 4px rgba(0,0,0,0.6); position: relative; z-index: 2; }
         .equipped-box.pending { opacity: 0.6; border-color: rgba(251, 191, 36, 0.5); }
-
         .eq-loading-ring {
             position: absolute; inset: 4px; border-radius: 20px; z-index: 10;
-            border: 2px solid transparent;
-            border-top-color: var(--gold);
-            border-right-color: rgba(251, 191, 36, 0.3);
-            animation: spin 1s linear infinite;
-            pointer-events: none;
+            border: 2px solid transparent; border-top-color: var(--gold); border-right-color: rgba(251, 191, 36, 0.3);
+            animation: spin 1s linear infinite; pointer-events: none;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-
         @keyframes successPulse {
-            0%   { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7), 0 10px 25px rgba(0,0,0,0.4); border-color: var(--gold); }
-            50%  { box-shadow: 0 0 0 12px rgba(251, 191, 36, 0), 0 10px 25px rgba(0,0,0,0.4); border-color: var(--gold); }
+            0%   { box-shadow: 0 0 0 0 rgba(251,191,36,0.7), 0 10px 25px rgba(0,0,0,0.4); border-color: var(--gold); }
+            50%  { box-shadow: 0 0 0 12px rgba(251,191,36,0), 0 10px 25px rgba(0,0,0,0.4); border-color: var(--gold); }
             100% { box-shadow: 0 10px 25px rgba(0,0,0,0.4); border-color: rgba(255,255,255,0.08); }
         }
         .equipped-box.eq-confirmed { opacity: 1 !important; animation: successPulse 0.9s ease-out forwards; }
-
         .mc-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--glass-border), transparent); margin: 0 10px; }
         .mc-vip-area { display: flex; align-items: center; justify-content: space-between; padding: 0 5px; flex-wrap: wrap; gap: 12px; }
         .ac-my-lvl { font-size: 14px; font-weight: 700; color: #94a3b8; display: flex; align-items: center; gap: 8px; }
@@ -221,12 +258,8 @@
         .ac-status-area { display: flex; align-items: center; gap: 12px; }
         .val-status { font-size: 14px; font-weight: 800; color: #64748b; }
         .val-status.unlocked { color: var(--gold); }
-        .upgrade-cta-inline { background: linear-gradient(135deg, var(--pink) 0%, #ff5e7e 100%); color: #fff; font-size: 12px; font-weight: 800; padding: 6px 14px; border-radius: 8px; text-decoration: none; display: none; box-shadow: 0 4px 10px rgba(244, 63, 94, 0.3); white-space: nowrap; }
-
-        .swap-progress-bar {
-            display: none; align-items: center; justify-content: center; gap: 8px;
-            padding: 10px 0 4px; font-size: 11px; font-weight: 700; color: var(--text-dim);
-        }
+        .upgrade-cta-inline { background: linear-gradient(135deg, var(--pink) 0%, #ff5e7e 100%); color: #fff; font-size: 12px; font-weight: 800; padding: 6px 14px; border-radius: 8px; text-decoration: none; display: none; box-shadow: 0 4px 10px rgba(244,63,94,0.3); white-space: nowrap; }
+        .swap-progress-bar { display: none; align-items: center; justify-content: center; gap: 8px; padding: 10px 0 4px; font-size: 11px; font-weight: 700; color: var(--text-dim); }
         .swap-progress-bar.visible { display: flex; }
         .sp-step { display: flex; flex-direction: column; align-items: center; gap: 4px; opacity: 0.35; transition: opacity 0.4s; }
         .sp-step.active { opacity: 1; color: var(--gold); }
@@ -234,58 +267,38 @@
         .sp-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
         .sp-line { width: 24px; height: 2px; background: var(--glass-border); border-radius: 1px; align-self: center; margin-bottom: 12px; }
         .sp-line.done { background: var(--success-green); }
-
         .instruction-area { text-align: center; margin-bottom: 15px; min-height: 48px; padding: 0 20px; }
         .hint-label { font-size: 11px; font-weight: 700; color: #94a3b8; display: block; margin-bottom: 4px; text-transform: uppercase; }
         .hint-pos-warn { font-size: 11px; font-weight: 600; color: var(--gold); opacity: 0.8; margin-top: 4px; display: block; margin-bottom: 6px; }
         .hint-value { font-size: 16px; font-weight: 800; color: #fff; display: block; }
         .hint-selected { color: var(--ice-blue); }
-
         .badge-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding: 0 16px 30px; max-width: 1000px; margin: 0 auto; justify-content: center; }
         @media (min-width: 768px) { .badge-grid { grid-template-columns: repeat(auto-fit, 180px); justify-content: center; } }
-        .badge-item {
-            background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 28px;
-            padding: 30px 10px 10px; text-align: center; cursor: pointer; position: relative;
-            transition: border-color 0.3s, background 0.3s, transform 0.3s;
-            display: flex; flex-direction: column; align-items: center; height: 100%;
-            min-height: 160px;
-        }
+        .badge-item { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 28px; padding: 30px 10px 10px; text-align: center; cursor: pointer; position: relative; transition: border-color 0.3s, background 0.3s, transform 0.3s; display: flex; flex-direction: column; align-items: center; height: 100%; min-height: 160px; }
         .badge-item.selected { border-color: var(--gold); background: rgba(251, 191, 36, 0.12); transform: scale(1.02); }
         .badge-item.selected::after { content: '✓'; position: absolute; top: 12px; right: 15px; color: var(--gold); font-weight: 900; font-size: 18px; }
         .badge-img { width: 75px; height: 75px; margin-bottom: 12px; filter: drop-shadow(0 8px 12px rgba(0,0,0,0.3)); pointer-events: none; }
         .badge-name { font-size: 14px; font-weight: 700; color: #f1f5f9; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; word-break: break-all; pointer-events: none; margin-bottom: 5px; }
-
         .inline-confirm-btn { background: var(--gold); color: #000; border: none; padding: 8px 0; width: 90%; border-radius: 10px; font-family: var(--font-head); font-size: 13px; font-weight: 900; cursor: pointer; box-shadow: 0 4px 15px rgba(251, 191, 36, 0.4); animation: fadeIn 0.3s ease forwards; margin-top: auto; }
         .inline-confirm-btn.submitting { opacity: 0.7; cursor: wait; filter: grayscale(0.5); }
-
         .badge-grid.lang-loading { opacity: 0.4; pointer-events: none; transition: opacity 0.2s; }
         .badge-grid.lang-loaded  { opacity: 1; transition: opacity 0.3s; }
-
         .zero-badge-hero { max-width: 600px; margin: 30px auto; padding: 40px 20px; text-align: center; background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); border-radius: 24px; backdrop-filter: blur(10px); }
         .zero-badge-hero p { font-size: 15px; font-weight: 700; color: var(--text-dim); margin-bottom: 20px; }
         .hero-btn { background: rgba(255,255,255,0.1); color: #fff; padding: 12px 24px; border-radius: 100px; font-size: 14px; font-weight: 700; border: 1px solid var(--glass-border); cursor: pointer; transition: background 0.3s; }
-
         .footer { max-width: 600px; margin: 40px auto 0; padding: 30px 20px 80px; border-top: 1px solid var(--glass-border); }
         .notice-list { list-style: none; padding: 0; }
         .notice-item { font-size: 12px; color: #64748b; font-weight: 600; line-height: 1.6; margin-bottom: 8px; display: flex; gap: 8px; text-align: left; align-items: flex-start; }
         .notice-item::before { content: "•"; color: #64748b; font-weight: 900; font-size: 16px; line-height: 1.2; flex-shrink: 0; margin-top: 1px; }
         .notice-alert { color: var(--pink) !important; font-weight: 800 !important; }
-
         .full-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); backdrop-filter: blur(20px); z-index: 15000; display: none; flex-direction: column; animation: fadeIn 0.2s ease; }
         .overlay-header { padding: 25px 20px 15px; text-align: center; position: relative; flex-shrink: 0; }
         .overlay-title { font-family: var(--font-head); font-size: 20px; font-weight: 900; color: #fff; }
-        .close-overlay {
-            position: absolute; right: 12px; top: 12px; font-size: 24px; color: #94a3b8;
-            cursor: pointer; border: none; background: none;
-            min-width: 44px; min-height: 44px;
-            display: flex; align-items: center; justify-content: center; border-radius: 50%;
-        }
+        .close-overlay { position: absolute; right: 12px; top: 12px; font-size: 24px; color: #94a3b8; cursor: pointer; border: none; background: none; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
         .close-overlay:hover { color: #fff; background: rgba(255,255,255,0.08); }
-
         .overlay-filters { display: flex; justify-content: center; gap: 8px; padding: 0 16px 15px; border-bottom: 1px solid var(--glass-border); flex-shrink: 0; flex-wrap: wrap; }
         .filter-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #94a3b8; padding: 8px 16px; border-radius: 100px; font-size: 12px; font-weight: 700; cursor: pointer; transition: background 0.2s, color 0.2s; }
         .filter-btn.active { background: var(--gold); color: #000; border-color: var(--gold); }
-
         .overlay-scroll { flex: 1; overflow-y: auto; padding: 20px; }
         .lib-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
         @media (min-width: 600px) { .lib-grid { grid-template-columns: 1fr 1fr; } }
@@ -299,18 +312,11 @@
         .lib-subtitle { font-size: 11px; font-weight: 700; color: var(--gold); margin-bottom: 4px; display: block; opacity: 0.9; }
         .lib-desc { font-size: 12px; font-weight: 500; color: var(--text-dim); line-height: 1.4; display: block; }
         .lib-date { display: inline-flex; align-items: center; font-size: 10px; font-weight: 600; color: #cbd5e1; background: rgba(255, 255, 255, 0.1); padding: 3px 6px; border-radius: 4px; margin-top: 6px; }
-
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); backdrop-filter: blur(10px);
-            z-index: 20000; display: none; align-items: center; justify-content: center;
-            padding: 20px; opacity: 0; transition: opacity 0.3s; cursor: pointer;
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); backdrop-filter: blur(10px); z-index: 20000; display: none; align-items: center; justify-content: center; padding: 20px; opacity: 0; transition: opacity 0.3s; cursor: pointer; }
         .modal-overlay.show { display: flex; opacity: 1; }
         .modal-content { background: #111827; border: 1px solid var(--glass-border); border-radius: 20px; padding: 30px 24px; width: 100%; max-width: 300px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.5); cursor: default; }
         .modal-text { font-size: 15px; font-weight: 600; line-height: 1.6; margin-bottom: 25px; color: #fff; }
         .modal-btn { background: var(--gold); color: #000; border: none; padding: 12px 0; width: 100%; border-radius: 10px; font-weight: 800; font-size: 14px; cursor: pointer; }
-
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         .skeleton { background: linear-gradient(90deg, #0a0c10 25%, #1a1c22 50%, #0a0c10 75%); background-size: 200% 100%; animation: load 1.5s infinite linear; border-radius: 12px; }
         @keyframes load { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
@@ -332,6 +338,7 @@
         </div>
     </header>
 
+    <!-- Upcoming banner — injected by renderUpcomingBanner(), hidden when empty -->
     <div class="upcoming-alert-wrap" id="upcoming-alert-container"></div>
 
     <div class="hero-banner-wrap">
@@ -356,7 +363,6 @@
                 <div class="ac-rule-top"><span id="ui-vip-pre">達</span> <span class="lvl-highlight" id="ui-vip-lvl">VIP Lv.60</span> <span id="ui-vip-suf">解鎖徽章更換</span></div>
             </div>
             <div class="equipped-grid" id="equipped-display-grid"></div>
-
             <div class="swap-progress-bar" id="swap-progress">
                 <div class="sp-step" id="sp-1"><div class="sp-dot"></div><span id="sp-lbl-1">送出</span></div>
                 <div class="sp-line" id="sp-line-1"></div>
@@ -364,7 +370,6 @@
                 <div class="sp-line" id="sp-line-2"></div>
                 <div class="sp-step" id="sp-3"><div class="sp-dot"></div><span id="sp-lbl-3">確認</span></div>
             </div>
-
             <div class="mc-divider"></div>
             <div class="mc-vip-area">
                 <div class="ac-my-lvl"><span id="lbl-my-lvl">我的 VIP 等級：</span> <span class="val-lvl-plain" id="ui-level">--</span></div>
@@ -421,30 +426,24 @@
         </div>
     </div>
 
-    <div class="event-modal-overlay" id="event-modal-overlay" onclick="closeEventModal(event)">
-        <div class="em-content">
-            <button class="em-close" onclick="closeEventModal()">×</button>
+    <!-- Event detail modal -->
+    <div class="event-modal-overlay" id="event-modal-overlay">
+        <div class="em-content" id="em-content-box">
+            <button class="em-close" id="em-close-btn">×</button>
             <div class="em-header">
-                <div class="em-title" id="em-title">活動名稱</div>
-                <div class="em-sub" id="em-sub">活動說明</div>
+                <div id="em-status-badge" class="em-status-badge active"><div class="em-status-dot"></div><span id="em-status-text"></span></div>
+                <div class="em-title" id="em-title"></div>
+                <div class="em-date-row" id="em-date-row">📅 <span id="em-date-text"></span></div>
             </div>
-            <div class="em-body" id="em-badge-container">
-                </div>
+            <div class="em-divider"></div>
+            <div class="em-body" id="em-badge-container"></div>
             <div class="em-footer">
-                <button class="em-cta-btn" id="em-cta-btn">前往查看活動詳情</button>
+                <button class="em-cta-btn" id="em-cta-btn"></button>
             </div>
         </div>
     </div>
 
     <script>
-        // 全域防呆：當圖片載入失敗時，直接替換為問號 div
-        window.handleImgFallback = function(imgElement) {
-            const div = document.createElement('div');
-            div.className = 'ub-mystery';
-            div.innerText = '?';
-            imgElement.parentNode.replaceChild(div, imgElement);
-        };
-
         const GLOBAL_BADGE_DB = {
             "campaign_2603_vip_event": { "zh-hant": { title: "3 月同樂會榮耀", sub: "VIP 線下同樂會", desc: "VIP 參加線下同樂會活動紀念 (2026/3/29)" }, "en": { title: "Mar Meetup Glory", sub: "Mar VIP Meetup Badge", desc: "Mar VIP Offline Meetup participation badge" } },
             "campaign_foolsday_1": { "zh-hant": { title: "愚人節紀念", sub: "愚人節惡搞大挑戰活動", desc: "送「愚妳有約」系列禮物贈送 (2026/3/28 - 4/1)" }, "en": { title: "Fool Day", sub: "April Fools' Prank Challenge", desc: "Memorial badge for sending an April fool's Day gift" } },
@@ -523,33 +522,49 @@
             "campaign_s_club": { "zh-hant": { title: "S Club", sub: "S Club 限定", desc: "受邀進入 S Club 之特別榮譽" }, "en": { title: "S Club", sub: "Elite Member", desc: "Exclusive S Club Invitation" } }
         };
 
+        // ── UPCOMING_BADGE_DB ─────────────────────────────────────────────────
+        // 新增活動時在此陣列加入一筆物件。活動結束後 banner 自動消失，不需手動清除。
+
+        // 欄位說明：
+        //   id          : 活動唯一識別 ID（字串）
+        //   startDate   : 活動開始日 "YYYY-MM-DD"
+        //   endDate     : 活動結束日 "YYYY-MM-DD"
+        //   eventUrl    : 活動頁連結，null 表示無外部連結
+        //   badges      : 徽章陣列，每筆含：
+        //     imgId       : 圖片 ID（對應 CFG.img + imgId + ".svg"）
+        //     preview     : true = 顯示圖片 / false = 顯示 "?" 神秘格
+        //     langs       : 各語言的 name（徽章名稱）與 rule（獲得條件）
+        //   langs       : 活動本身的各語言標題 eventTitle
         const UPCOMING_BADGE_DB = [
+            // 範例（活動期間結束後會自動從首頁移除）：
             {
-                id: "campaign_2604_toy",
-                startDate: "2026-03-10",
-                endDate:   "2026-03-31",
-                eventUrl: "https://swag.live/",
-                isSeries: true, // 標記為系列活動
-                badges: [
-                    { imgId: "campaign_katohtaka_tier3", preview: true },
-                    { imgId: "mystery", preview: false }
-                ],
-                langs: {
-                    "zh-hant": { 
-                        eventTitle: "大人的玩具派對", 
-                        items: [
-                            { name: "大人的玩具師", rule: "於直播間送鑽滿 10,000 鑽，觀看滿 10 分鐘以上" },
-                        ]
-                    },
-                    "en": { 
-                        eventTitle: "Adult Toy Party", 
-                        items: [
-                            { name: "Master Toymaker", rule: "Send 10,000+ diamonds in the stream" },
-                            { name: "Party Animal", rule: "Watch the party for at least 10 minutes" }
-                        ]
-                    }
-                }
-             }
+                 id: "campaign_example_2026",
+                 startDate: "2026-03-10",
+                 endDate:   "2026-03-31",
+                 eventUrl: "https://swag.live/event/example",
+                 badges: [
+                     {
+                         imgId: "campaign_example_rank1",
+                         preview: false,
+                         langs: {
+                             "zh-hant": { name: "大人的玩具師", rule: "於直播間送鑽滿 10,000 鑽，且觀看 10 分鐘以上" },
+                             "en":      { name: "Send 10,000+ diamonds in the stream and watch for at least 10 minutes" }
+                         }
+                     },
+             //        {
+             //            imgId: "campaign_example_rank2",
+             //            preview: false,
+             //            langs: {
+             //                "zh-hant": { name: "神秘徽章", rule: "更多條件待公布" },
+             //                "en":      { name: "Mystery Badge", rule: "Conditions TBA" }
+             //            }
+             //        }
+                 ],
+                 langs: {
+                     "zh-hant": { eventTitle: "大人的玩具派對" },
+                     "en":      { eventTitle: "Adult Toy Party" }
+                 }
+             },
         ];
 
         const CFG = {
@@ -582,18 +597,16 @@
                 sp_send:"送出", sp_processing:"處理中", sp_confirm:"確認",
                 success_confirmed:"✅ 已成功上架！",
                 success_pending:"📨 請求已送出，請稍後至直播間確認",
-                // Banner & Modal 相關
-                uc_new_badge: "✨ 新徽章解鎖活動",
-                uc_new_series: "✨ 新徽章解鎖活動",
-                uc_active: "活動進行中", 
-                uc_soon: "即將開始",
-                uc_days_pre: "", 
-                uc_days_suf: " 天後開始",
-                em_click_to_view: "點擊預覽徽章與解鎖條件",
-                em_upcoming_title: "活動即將開始",
-                em_upcoming_desc: "敬請期待，準備解鎖全新榮耀！",
-                em_btn_upcoming: "敬請期待",
-                em_btn_active: "前往查看活動詳情",
+                // banner / modal
+                ub_tag_active:"✨ 限定徽章活動",
+                ub_tag_soon:"🔒 即將開放",
+                ub_hint:"點擊查看徽章與解鎖條件",
+                uc_active:"活動進行中",
+                uc_soon:"即將開始",
+                uc_days_pre:"", uc_days_suf:" 天後開始",
+                em_badge_section:"本次活動徽章",
+                em_btn_active:"前往查看活動詳情",
+                em_btn_soon:"敬請期待"
             },
             'en': {
                 title:"Glory Badge Gallery", username:"Account: ", total:"Total Badges", my_lvl:"My VIP Level: ",
@@ -617,32 +630,23 @@
                 sp_send:"Send", sp_processing:"Processing", sp_confirm:"Confirm",
                 success_confirmed:"✅ Badge equipped successfully!",
                 success_pending:"📨 Request sent. Please check your live room shortly.",
-                // Banner & Modal 相關
-                uc_new_badge: "✨ New Badge Event",
-                uc_new_series: "✨ New Badge Event",
-                uc_active: "Event Active", 
-                uc_soon: "Coming Soon",
-                uc_days_pre: "Starts in ", 
-                uc_days_suf: " days",
-                em_click_to_view: "Click to preview badges & rules",
-                em_upcoming_title: "Event Starting Soon",
-                em_upcoming_desc: "Stay tuned to unlock new glory!",
-                em_btn_upcoming: "Coming Soon",
-                em_btn_active: "View Event Details",
+                // banner / modal
+                ub_tag_active:"✨ Limited Badge Event",
+                ub_tag_soon:"🔒 Coming Soon",
+                ub_hint:"Tap to preview badges & unlock rules",
+                uc_active:"Event Active",
+                uc_soon:"Coming Soon",
+                uc_days_pre:"Starts in ", uc_days_suf:" days",
+                em_badge_section:"Event Badges",
+                em_btn_active:"View Event Details",
+                em_btn_soon:"Coming Soon"
             }
         };
 
         let state = {
-            lang: 'zh-hant',
-            level: 0,
-            selected: null,
-            list: [],
-            ownedIds: [],
-            username: '',
-            isSubmitting: false,
-            currentFilter: 'all',
-            dataLoaded: false,
-            isLoading: false
+            lang: 'zh-hant', level: 0, selected: null, list: [], ownedIds: [],
+            username: '', isSubmitting: false, currentFilter: 'all',
+            dataLoaded: false, isLoading: false
         };
 
         const TRANSLATION_CACHE = {};
@@ -653,12 +657,10 @@
             try {
                 const res = await fetch(`${CFG.trs}?lang=${lang}&key=badge_${id}`).then(r => r.json());
                 const name = res[`badge_${id}`] || GLOBAL_BADGE_DB[id]?.[lang]?.title || GLOBAL_BADGE_DB[id]?.['zh-hant']?.title || id;
-                TRANSLATION_CACHE[cacheKey] = name;
-                return name;
+                TRANSLATION_CACHE[cacheKey] = name; return name;
             } catch {
                 const fallback = GLOBAL_BADGE_DB[id]?.[lang]?.title || GLOBAL_BADGE_DB[id]?.['zh-hant']?.title || id;
-                TRANSLATION_CACHE[cacheKey] = fallback;
-                return fallback;
+                TRANSLATION_CACHE[cacheKey] = fallback; return fallback;
             }
         }
 
@@ -676,13 +678,8 @@
         }
 
         async function rebuildTranslations() {
-            state.list = await Promise.all(
-                state.ownedIds.map(async id => ({ id, name: await fetchBadgeName(id, state.lang) }))
-            );
-            if (state.selected) {
-                const updated = state.list.find(b => b.id === state.selected.id);
-                if (updated) state.selected = updated;
-            }
+            state.list = await Promise.all(state.ownedIds.map(async id => ({ id, name: await fetchBadgeName(id, state.lang) })));
+            if (state.selected) { const u = state.list.find(b => b.id === state.selected.id); if (u) state.selected = u; }
             const rawIds = state.ownedIds;
             if (rawIds.length > 0) {
                 const lastId = rawIds[rawIds.length - 1];
@@ -705,80 +702,15 @@
                 return match ? match[2] : null;
             };
             let rawId = getFromUrl(window.location.href) || getFromUrl(document.referrer);
-            if (!rawId) {
-                const params = new URLSearchParams(window.location.search);
-                const sourceParam = params.get('source');
-                if (sourceParam) rawId = getFromUrl(sourceParam);
-            }
+            if (!rawId) { const p = new URLSearchParams(window.location.search); const s = p.get('source'); if (s) rawId = getFromUrl(s); }
             if (!rawId) return null;
             return rawId.length >= 48 ? rawId.substring(12, rawId.length - 12) : rawId;
         };
         const uid = getCleanUserId();
 
-        function showModal(msg) {
-            document.getElementById('modal-msg').innerText = msg;
-            document.getElementById('custom-modal').classList.add('show');
-        }
+        function showModal(msg) { document.getElementById('modal-msg').innerText = msg; document.getElementById('custom-modal').classList.add('show'); }
         function closeModal() { document.getElementById('custom-modal').classList.remove('show'); }
-        function handleModalBackdrop(e) {
-            if (e.target === document.getElementById('custom-modal')) closeModal();
-        }
-
-        // 新增：活動詳情 Modal 邏輯
-        function openEventModal(eventId) {
-            const evt = UPCOMING_BADGE_DB.find(e => e.id === eventId);
-            if(!evt) return;
-
-            const now = new Date();
-            const start = new Date(evt.startDate);
-            const isActive = now >= start && now <= new Date(evt.endDate + 'T23:59:59');
-            const t = I18N[state.lang];
-            const info = evt.langs[state.lang] || evt.langs['zh-hant'];
-
-            let badgeListHtml = '';
-            evt.badges.forEach((b, index) => {
-                const itemInfo = info.items[index];
-                const src = b.preview ? `${CFG.img}${b.imgId}.svg` : '';
-                const imgContent = b.preview ? `<img src="${src}" onerror="handleImgFallback(this)">` : `<div class="ub-mystery">?</div>`;
-
-                badgeListHtml += `
-                    <div class="em-badge-item">
-                        <div class="em-badge-img-box">${imgContent}</div>
-                        <div class="em-badge-info">
-                            <div class="em-badge-name">${itemInfo.name}</div>
-                            <div class="em-badge-rule">${itemInfo.rule}</div>
-                        </div>
-                    </div>
-                `;
-            });
-
-            // 設定狀態文案與按鈕
-            const modalTitle = isActive ? info.eventTitle : t.em_upcoming_title;
-            const modalSub = isActive ? t.em_click_to_view : t.em_upcoming_desc;
-            const btnText = isActive ? t.em_btn_active : t.em_btn_upcoming;
-            const btnClass = isActive ? 'em-btn-active' : 'em-btn-disabled';
-
-            document.getElementById('em-title').innerText = modalTitle;
-            document.getElementById('em-sub').innerText = modalSub;
-            document.getElementById('em-badge-container').innerHTML = badgeListHtml;
-
-            const btn = document.getElementById('em-cta-btn');
-            btn.innerText = btnText;
-            btn.className = `em-cta-btn ${btnClass}`;
-            btn.onclick = () => {
-                if (isActive && evt.eventUrl) {
-                    window.open(evt.eventUrl, '_blank');
-                }
-            };
-
-            document.getElementById('event-modal-overlay').classList.add('show');
-            if (!isInIframe) document.body.style.overflow = 'hidden';
-        }
-        function closeEventModal(e) {
-            if (e && e.target !== document.getElementById('event-modal-overlay') && !e.target.classList.contains('em-close')) return;
-            document.getElementById('event-modal-overlay').classList.remove('show');
-            if (!isInIframe) document.body.style.overflow = '';
-        }
+        function handleModalBackdrop(e) { if (e.target === document.getElementById('custom-modal')) closeModal(); }
 
         const isInIframe = window.self !== window.top;
 
@@ -789,13 +721,157 @@
                 if (!link) return;
                 try {
                     const url = new URL(link.href);
-                    const hostname = url.hostname;
-                    if (hostname === 'swag.live' || hostname === 'www.swag.live') {
+                    if (url.hostname === 'swag.live' || url.hostname === 'www.swag.live') {
                         e.preventDefault();
                         window.parent.postMessage({ type: 'PWA_NAVIGATE', url: link.href }, 'https://swag.live');
                     }
-                } catch (error) { console.warn('URL parsing error:', error); }
+                } catch (err) { console.warn('URL parsing error:', err); }
             });
+        }
+
+        // ── Event Modal ────────────────────────────────
+        function openEventModal(eventId) {
+            const evt = UPCOMING_BADGE_DB.find(e => e.id === eventId);
+            if (!evt) return;
+
+            const now = new Date();
+            const start = new Date(evt.startDate);
+            const end   = new Date(evt.endDate + 'T23:59:59');
+            const isActive = now >= start && now <= end;
+            const daysUntil = Math.ceil((start - now) / 86400000);
+            const t = I18N[state.lang];
+            const info = evt.langs[state.lang] || evt.langs['zh-hant'];
+
+            // Status badge
+            const statusBadge = document.getElementById('em-status-badge');
+            const statusText  = document.getElementById('em-status-text');
+            if (isActive) {
+                statusBadge.className = 'em-status-badge active';
+                statusText.textContent = t.uc_active;
+            } else {
+                statusBadge.className = 'em-status-badge locked';
+                statusText.textContent = daysUntil > 0
+                    ? t.uc_days_pre + daysUntil + t.uc_days_suf
+                    : t.uc_soon;
+            }
+
+            // Title & dates
+            document.getElementById('em-title').textContent = info.eventTitle;
+            document.getElementById('em-date-text').textContent =
+                evt.startDate.replace(/-/g,'/') + ' – ' + evt.endDate.replace(/-/g,'/');
+
+            // Badge list — each badge has its own langs: {name, rule}
+            const section = document.getElementById('em-badge-container');
+            let html = `<div class="em-section-label">${t.em_badge_section}</div>`;
+            evt.badges.forEach(b => {
+                const bInfo = (b.langs && (b.langs[state.lang] || b.langs['zh-hant'])) || { name: '?', rule: '' };
+                const imgHtml = b.preview
+                    ? `<img src="${CFG.img}${b.imgId}.svg" onerror="this.style.display='none'">`
+                    : `<div class="em-badge-mystery">?</div>`;
+                html += `
+                    <div class="em-badge-item">
+                        <div class="em-badge-img-box">${imgHtml}</div>
+                        <div class="em-badge-info">
+                            <div class="em-badge-name"></div>
+                            <div class="em-badge-rule"></div>
+                        </div>
+                    </div>`;
+            });
+            section.innerHTML = html;
+
+            // XSS-safe text fill for badge name/rule
+            section.querySelectorAll('.em-badge-item').forEach((el, i) => {
+                const bInfo = (evt.badges[i].langs && (evt.badges[i].langs[state.lang] || evt.badges[i].langs['zh-hant'])) || { name: '?', rule: '' };
+                el.querySelector('.em-badge-name').textContent = bInfo.name;
+                el.querySelector('.em-badge-rule').textContent = bInfo.rule;
+            });
+
+            // CTA button
+            const btn = document.getElementById('em-cta-btn');
+            btn.textContent = isActive ? t.em_btn_active : t.em_btn_soon;
+            btn.className = `em-cta-btn ${isActive ? 'em-btn-active' : 'em-btn-disabled'}`;
+            btn.onclick = isActive && evt.eventUrl
+                ? () => { window.open(evt.eventUrl, '_blank'); }
+                : null;
+
+            document.getElementById('event-modal-overlay').classList.add('show');
+            if (!isInIframe) document.body.style.overflow = 'hidden';
+        }
+
+        function closeEventModal() {
+            document.getElementById('event-modal-overlay').classList.remove('show');
+            if (!isInIframe) document.body.style.overflow = '';
+        }
+
+        // Clicking outside em-content closes modal
+        document.getElementById('event-modal-overlay').addEventListener('click', function(e) {
+            if (e.target === this) closeEventModal();
+        });
+        document.getElementById('em-close-btn').addEventListener('click', closeEventModal);
+
+        // ── Upcoming Banner ────────────────────────────
+        function renderUpcomingBanner() {
+            const container = document.getElementById('upcoming-alert-container');
+            const t = I18N[state.lang];
+            const now = new Date();
+
+            const valid = UPCOMING_BADGE_DB.filter(e => now <= new Date(e.endDate + 'T23:59:59'));
+            if (valid.length === 0) { container.style.display = 'none'; container.innerHTML = ''; return; }
+
+            // Sort: active first, then by startDate
+            valid.sort((a, b) => {
+                const aAct = now >= new Date(a.startDate) && now <= new Date(a.endDate + 'T23:59:59');
+                const bAct = now >= new Date(b.startDate) && now <= new Date(b.endDate + 'T23:59:59');
+                if (aAct !== bAct) return aAct ? -1 : 1;
+                return new Date(a.startDate) - new Date(b.startDate);
+            });
+
+            const evt = valid[0];
+            const info = evt.langs[state.lang] || evt.langs['zh-hant'];
+            const start = new Date(evt.startDate);
+            const isActive = now >= start && now <= new Date(evt.endDate + 'T23:59:59');
+            const daysUntil = Math.ceil((start - now) / 86400000);
+
+            let statusText = isActive ? t.uc_active : (daysUntil > 0 ? t.uc_days_pre + daysUntil + t.uc_days_suf : t.uc_soon);
+            const tagText = isActive ? t.ub_tag_active : t.ub_tag_soon;
+            const dateStr = evt.startDate.replace(/-/g,'/') + ' – ' + evt.endDate.replace(/-/g,'/');
+            const badgeCount = evt.badges.length;
+
+            // Build stacked badge images (max 3, shown on RIGHT)
+            const previewBadges = evt.badges.slice(0, 3);
+            let imagesHtml = '<div class="ub-img-stack">';
+            previewBadges.forEach(b => {
+                const inner = b.preview
+                    ? `<img class="ub-img" src="${CFG.img}${b.imgId}.svg" onerror="this.style.display='none'">`
+                    : `<div class="ub-mystery">?</div>`;
+                imagesHtml += `<div class="ub-img-wrap">${inner}</div>`;
+            });
+            imagesHtml += '</div>';
+
+            container.innerHTML = `
+                <div class="upcoming-banner ${isActive ? '' : 'is-locked'}" onclick="openEventModal('${evt.id}')">
+                    <div class="ub-content">
+                        <span class="ub-new-tag">${tagText}</span>
+                        <div class="ub-title-row">
+                            <div class="ub-status-dot"></div>
+                            <span class="ub-status-text">${statusText}</span>
+                            <span class="ub-event-name"></span>
+                        </div>
+                        <div class="ub-meta">
+                            <span class="ub-date">📅 ${dateStr}</span>
+                            ${badgeCount > 1 ? `<span class="ub-badge-count">· ${badgeCount} 款徽章</span>` : ''}
+                        </div>
+                        <span class="ub-hint">${t.ub_hint}</span>
+                    </div>
+                    <div class="ub-images">
+                        ${imagesHtml}
+                        <span class="ub-chevron">›</span>
+                    </div>
+                </div>`;
+
+            // XSS-safe event name
+            container.querySelector('.ub-event-name').textContent = info.eventTitle;
+            container.style.display = 'block';
         }
 
         function setLang(l) {
@@ -808,15 +884,9 @@
             if (uid) {
                 if (state.dataLoaded && !state.isLoading) {
                     const box = document.getElementById('display');
-                    box.classList.add('lang-loading');
-                    box.classList.remove('lang-loaded');
-                    rebuildTranslations().then(() => {
-                        box.classList.remove('lang-loading');
-                        box.classList.add('lang-loaded');
-                    });
-                } else if (!state.isLoading) {
-                    init();
-                }
+                    box.classList.add('lang-loading'); box.classList.remove('lang-loaded');
+                    rebuildTranslations().then(() => { box.classList.remove('lang-loading'); box.classList.add('lang-loaded'); });
+                } else if (!state.isLoading) { init(); }
             }
         }
 
@@ -833,20 +903,13 @@
                 'ui-modal-btn': t.modal_btn,
                 'sp-lbl-1': t.sp_send, 'sp-lbl-2': t.sp_processing, 'sp-lbl-3': t.sp_confirm,
             };
-            Object.entries(ids).forEach(([id, text]) => {
-                const el = document.getElementById(id);
-                if (el) el.innerText = text;
-            });
-            for (let i = 1; i <= 7; i++) {
-                const el = document.getElementById(`ui-n${i}`);
-                if (el) el.innerText = t[`n${i}`];
-            }
+            Object.entries(ids).forEach(([id, text]) => { const el = document.getElementById(id); if (el) el.innerText = text; });
+            for (let i = 1; i <= 7; i++) { const el = document.getElementById(`ui-n${i}`); if (el) el.innerText = t[`n${i}`]; }
         }
 
         async function init(isRefreshOnly = false) {
             if (state.isLoading) return;
             state.isLoading = true;
-
             const box = document.getElementById('display');
             const hero = document.getElementById('zero-badge-hero');
             const instArea = document.getElementById('ui-instruction');
@@ -854,48 +917,26 @@
 
             if (!uid) {
                 box.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:100px;color:#444">${I18N[state.lang].login}</div>`;
-                state.isLoading = false;
-                return;
+                state.isLoading = false; return;
             }
 
             if (!isRefreshOnly) {
                 box.innerHTML = Array(4).fill(0).map(() =>
-                    `<div class="badge-item">
-                        <div class="badge-img skeleton" style="border-radius:50%"></div>
-                        <div class="skeleton" style="height:14px;width:70%;margin-top:8px"></div>
-                        <div class="skeleton" style="height:12px;width:45%;margin-top:6px"></div>
-                    </div>`
+                    `<div class="badge-item"><div class="badge-img skeleton" style="border-radius:50%"></div><div class="skeleton" style="height:14px;width:70%;margin-top:8px"></div><div class="skeleton" style="height:12px;width:45%;margin-top:6px"></div></div>`
                 ).join('');
             }
 
             try {
                 const r = await fetch(`${CFG.data}?user_id=${uid}`).then(res => res.json());
-
-                state.level = r.level;
-                state.dataLoaded = true;
-                state.username = r.username || '---';
-
+                state.level = r.level; state.dataLoaded = true; state.username = r.username || '---';
                 document.getElementById('ui-count').innerText = r.count;
                 document.getElementById('ui-level').innerText = r.level;
                 document.getElementById('ui-username-display').innerText = I18N[state.lang].username + state.username;
-
                 const rawIds = (r.badges || []).filter(i => i.startsWith('campaign_'));
                 state.ownedIds = rawIds;
-
-                state.list = await Promise.all(
-                    rawIds.map(async id => ({ id, name: await fetchBadgeName(id, state.lang) }))
-                );
-
-                if (rawIds.length === 0) {
-                    hero.style.display = 'block';
-                    box.style.display = 'none';
-                    instArea.style.display = 'none';
-                    mgmtArea.style.display = 'none';
-                } else {
-                    hero.style.display = 'none';
-                    box.style.display = 'grid';
-                }
-
+                state.list = await Promise.all(rawIds.map(async id => ({ id, name: await fetchBadgeName(id, state.lang) })));
+                if (rawIds.length === 0) { hero.style.display = 'block'; box.style.display = 'none'; instArea.style.display = 'none'; mgmtArea.style.display = 'none'; }
+                else { hero.style.display = 'none'; box.style.display = 'grid'; }
                 if (rawIds.length > 0) {
                     mgmtArea.style.display = 'block';
                     const lastId = rawIds[rawIds.length - 1];
@@ -905,99 +946,52 @@
                     eqList.push({ id: lastId, name: findNameInList(lastId) });
                     renderEquippedGrid(eqList);
                 }
-
                 if (state.list.length > 0) render();
                 check();
-
             } catch (e) {
                 const t = I18N[state.lang];
                 box.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#64748b;font-weight:700">${t.err_load}</div>`;
-                mgmtArea.style.display = 'none';
-                instArea.style.display = 'none';
-                hero.style.display = 'none';
-            } finally {
-                state.isLoading = false;
-            }
+                mgmtArea.style.display = 'none'; instArea.style.display = 'none'; hero.style.display = 'none';
+            } finally { state.isLoading = false; }
         }
 
         function toggleAllBadges(show) {
             const overlay = document.getElementById('all-badges-overlay');
             if (show) {
                 overlay.style.display = 'flex';
-                if (!isInIframe) {
-                    document.body.style.overflow = 'hidden';
-                    document.body.style.position = 'fixed';
-                    document.body.style.width = '100%';
-                }
+                if (!isInIframe) { document.body.style.overflow = 'hidden'; document.body.style.position = 'fixed'; document.body.style.width = '100%'; }
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                 document.getElementById('flt-all').classList.add('active');
                 renderLibrary('all');
             } else {
                 overlay.style.display = 'none';
-                if (!isInIframe) {
-                    document.body.style.overflow = '';
-                    document.body.style.position = '';
-                    document.body.style.width = '';
-                }
+                if (!isInIframe) { document.body.style.overflow = ''; document.body.style.position = ''; document.body.style.width = ''; }
             }
         }
 
         function renderLibrary(filterType, btnElem = null) {
             state.currentFilter = filterType;
-
-            if (btnElem) {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                btnElem.classList.add('active');
-            }
-
+            if (btnElem) { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btnElem.classList.add('active'); }
             const list = document.getElementById('all-badges-list');
             const t = I18N[state.lang];
             let filteredHTML = '';
-
             Object.entries(GLOBAL_BADGE_DB).forEach(([id, langData]) => {
                 const info = langData[state.lang] || langData['zh-hant'];
-                const isOwned = info.matchPrefix
-                    ? state.ownedIds.some(ownedId => ownedId.startsWith(info.matchPrefix))
-                    : state.ownedIds.includes(id);
-
+                const isOwned = info.matchPrefix ? state.ownedIds.some(ownedId => ownedId.startsWith(info.matchPrefix)) : state.ownedIds.includes(id);
                 if (filterType === 'owned' && !isOwned) return;
                 if (filterType === 'unowned' && isOwned) return;
-
                 const renderImg = info.imgId || id;
-                let descText = info.desc;
-                let dateHtml = '';
+                let descText = info.desc; let dateHtml = '';
                 const dateMatch = descText.match(/\s*\((20\d{2}[^)]*)\)$/);
-                if (dateMatch) {
-                    descText = descText.replace(dateMatch[0], '');
-                    dateHtml = `<div class="lib-date">🗓 ${dateMatch[1]}</div>`;
-                }
-
-                filteredHTML += `
-                    <div class="lib-card ${isOwned ? 'owned' : ''}">
-                        <img class="lib-img" src="${CFG.img}${renderImg}.svg" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'">
-                        <div class="lib-info">
-                            <div class="lib-header-row">
-                                <span class="lib-name">${info.title}</span>
-                                ${isOwned ? `<span class="owned-tag">${t.got_it}</span>` : ''}
-                            </div>
-                            <span class="lib-subtitle">${info.sub}</span>
-                            <span class="lib-desc">${descText}</span>
-                            ${dateHtml}
-                        </div>
-                    </div>
-                `;
+                if (dateMatch) { descText = descText.replace(dateMatch[0], ''); dateHtml = `<div class="lib-date">🗓 ${dateMatch[1]}</div>`; }
+                filteredHTML += `<div class="lib-card ${isOwned ? 'owned' : ''}"><img class="lib-img" src="${CFG.img}${renderImg}.svg" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'"><div class="lib-info"><div class="lib-header-row"><span class="lib-name">${info.title}</span>${isOwned ? `<span class="owned-tag">${t.got_it}</span>` : ''}</div><span class="lib-subtitle">${info.sub}</span><span class="lib-desc">${descText}</span>${dateHtml}</div></div>`;
             });
-
-            if (filteredHTML === '') {
-                filteredHTML = `<div style="text-align:center;padding:40px;color:#94a3b8;font-size:15px;font-weight:bold">${t.empty_lib}</div>`;
-            }
-
+            if (filteredHTML === '') filteredHTML = `<div style="text-align:center;padding:40px;color:#94a3b8;font-size:15px;font-weight:bold">${t.empty_lib}</div>`;
             list.innerHTML = filteredHTML;
         }
 
         function render() {
-            const t = I18N[state.lang];
-            const box = document.getElementById('display');
+            const t = I18N[state.lang]; const box = document.getElementById('display');
             box.innerHTML = state.list.map(b => {
                 const isSelected = state.selected?.id === b.id;
                 const btnHtml = (state.level >= 60 && isSelected)
@@ -1005,17 +999,14 @@
                     : '';
                 return `<div class="badge-item ${isSelected ? 'selected' : ''}" onclick="toggleSelect('${b.id}')"><img class="badge-img" src="${CFG.img}${b.id}.svg" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'"><span class="badge-name"></span>${btnHtml}</div>`;
             }).join('');
-            box.querySelectorAll('.badge-name').forEach((el, i) => {
-                el.textContent = state.list[i].name;
-            });
+            box.querySelectorAll('.badge-name').forEach((el, i) => { el.textContent = state.list[i].name; });
         }
 
         function toggleSelect(id) {
             if (state.isSubmitting) return;
             const badge = state.list.find(b => b.id === id);
             state.selected = (state.selected && state.selected.id === id) ? null : badge;
-            render();
-            check();
+            render(); check();
         }
 
         function check() {
@@ -1026,21 +1017,13 @@
             const instArea = document.getElementById('ui-instruction');
             const hintLbl = document.getElementById('ui-hint-label');
             const hintVal = document.getElementById('ui-hint-value');
-
             if (state.level >= 60) {
                 if (card) card.classList.add('vip-active');
                 if (authStatus) { authStatus.innerText = t.ok; authStatus.className = 'val-status unlocked'; }
                 if (upgradeBtn) upgradeBtn.style.display = 'none';
                 if (state.list.length > 0) instArea.style.display = 'block';
-                if (state.selected) {
-                    hintLbl.innerText = t.hint_ready;
-                    hintVal.textContent = state.selected.name;
-                    hintVal.className = 'hint-value hint-selected';
-                } else {
-                    hintLbl.innerText = t.hint_sel;
-                    hintVal.innerText = '---';
-                    hintVal.className = 'hint-value';
-                }
+                if (state.selected) { hintLbl.innerText = t.hint_ready; hintVal.textContent = state.selected.name; hintVal.className = 'hint-value hint-selected'; }
+                else { hintLbl.innerText = t.hint_sel; hintVal.innerText = '---'; hintVal.className = 'hint-value'; }
             } else {
                 if (card) card.classList.remove('vip-active');
                 if (authStatus) { authStatus.innerText = t.lock; authStatus.className = 'val-status'; }
@@ -1050,22 +1033,14 @@
         }
 
         function setSwapProgress(step) {
-            const bar = document.getElementById('swap-progress');
-            const t = I18N[state.lang];
+            const bar = document.getElementById('swap-progress'); const t = I18N[state.lang];
             document.getElementById('sp-lbl-1').textContent = t.sp_send;
             document.getElementById('sp-lbl-2').textContent = t.sp_processing;
             document.getElementById('sp-lbl-3').textContent = t.sp_confirm;
             if (step === 0 || step === 4) { bar.classList.remove('visible'); return; }
             bar.classList.add('visible');
-            for (let i = 1; i <= 3; i++) {
-                const el = document.getElementById(`sp-${i}`);
-                el.classList.remove('active', 'done');
-                if (i < step) el.classList.add('done');
-                else if (i === step) el.classList.add('active');
-            }
-            for (let i = 1; i <= 2; i++) {
-                document.getElementById(`sp-line-${i}`).classList.toggle('done', i < step);
-            }
+            for (let i = 1; i <= 3; i++) { const el = document.getElementById(`sp-${i}`); el.classList.remove('active','done'); if (i < step) el.classList.add('done'); else if (i === step) el.classList.add('active'); }
+            for (let i = 1; i <= 2; i++) document.getElementById(`sp-line-${i}`).classList.toggle('done', i < step);
         }
 
         async function pollUntilConfirmed(targetBadgeId, maxAttempts = 8, intervalMs = 2500) {
@@ -1075,7 +1050,7 @@
                     const r = await fetch(`${CFG.data}?user_id=${uid}`).then(res => res.json());
                     const rawIds = (r.badges || []).filter(id => id.startsWith('campaign_'));
                     if (rawIds[rawIds.length - 1] === targetBadgeId) return { confirmed: true, data: r };
-                } catch { /* 繼續輪詢 */ }
+                } catch { /* continue */ }
             }
             return { confirmed: false };
         }
@@ -1085,29 +1060,15 @@
             const boxes = grid.querySelectorAll('.equipped-box');
             if (boxes.length === 0) return;
             const lastBox = boxes[boxes.length - 1];
-
             if (boxes.length >= 2) {
                 const leftBox = boxes[boxes.length - 2];
-                const rightImg = lastBox.querySelector('img');
-                const rightSpan = lastBox.querySelector('span');
-                const leftImg = leftBox.querySelector('img');
-                const leftSpan = leftBox.querySelector('span');
-                const oldRightSrc = rightImg.src;
-                const oldRightText = rightSpan.textContent;
-
-                leftImg.style.transition = 'opacity 0.25s';
-                leftImg.style.opacity = '0';
-                leftSpan.style.transition = 'opacity 0.25s';
-                leftSpan.style.opacity = '0';
-
-                setTimeout(() => {
-                    leftImg.src = oldRightSrc;
-                    leftSpan.textContent = oldRightText;
-                    leftImg.style.opacity = '1';
-                    leftSpan.style.opacity = '1';
-                }, 250);
+                const oldSrc = lastBox.querySelector('img').src;
+                const oldTxt = lastBox.querySelector('span').textContent;
+                const li = leftBox.querySelector('img'); const ls = leftBox.querySelector('span');
+                li.style.transition = 'opacity 0.25s'; li.style.opacity = '0';
+                ls.style.transition = 'opacity 0.25s'; ls.style.opacity = '0';
+                setTimeout(() => { li.src = oldSrc; ls.textContent = oldTxt; li.style.opacity = '1'; ls.style.opacity = '1'; }, 250);
             }
-
             lastBox.classList.add('pending');
             const img = lastBox.querySelector('img');
             img.style.opacity = '0';
@@ -1116,14 +1077,8 @@
                 img.onload = () => { img.style.opacity = '1'; };
                 img.onerror = () => { if (!img.src.includes('default')) img.src = `${CFG.img}default.svg`; img.style.opacity = '1'; };
             }, 150);
-
             lastBox.querySelector('span').textContent = pendingName;
-
-            if (!lastBox.querySelector('.eq-loading-ring')) {
-                const ring = document.createElement('div');
-                ring.className = 'eq-loading-ring';
-                lastBox.appendChild(ring);
-            }
+            if (!lastBox.querySelector('.eq-loading-ring')) { const ring = document.createElement('div'); ring.className = 'eq-loading-ring'; lastBox.appendChild(ring); }
         }
 
         function showEquippedSuccess() {
@@ -1132,48 +1087,28 @@
             if (boxes.length === 0) return;
             const lastBox = boxes[boxes.length - 1];
             lastBox.querySelector('.eq-loading-ring')?.remove();
-            lastBox.classList.remove('pending');
-            lastBox.classList.add('eq-confirmed');
+            lastBox.classList.remove('pending'); lastBox.classList.add('eq-confirmed');
             lastBox.addEventListener('animationend', () => lastBox.classList.remove('eq-confirmed'), { once: true });
         }
 
         async function sendReq(e) {
             if (e) e.stopPropagation();
             if (state.isSubmitting || !state.selected) return;
-            const t = I18N[state.lang];
-            const targetBadge = { ...state.selected };
-            state.isSubmitting = true;
-            render();
-
-            showOptimisticEquipped(targetBadge.id, targetBadge.name);
-            setSwapProgress(1);
-
+            const t = I18N[state.lang]; const targetBadge = { ...state.selected };
+            state.isSubmitting = true; render();
+            showOptimisticEquipped(targetBadge.id, targetBadge.name); setSwapProgress(1);
             try {
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), 15000);
                 const res = await fetch(CFG.handler, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ user_id: uid, badge_id: targetBadge.id }),
-                    signal: controller.signal
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: uid, badge_id: targetBadge.id }), signal: controller.signal
                 });
-                clearTimeout(timeoutId);
-                const d = await res.json();
-
-                if (!res.ok) {
-                    setSwapProgress(0);
-                    if (res.status === 429) showModal(t.cooldown);
-                    else showModal(`❌: ${d.error || 'Denied'}`);
-                    await init(true);
-                    return;
-                }
-
+                clearTimeout(timeoutId); const d = await res.json();
+                if (!res.ok) { setSwapProgress(0); if (res.status === 429) showModal(t.cooldown); else showModal(`❌: ${d.error || 'Denied'}`); await init(true); return; }
                 setSwapProgress(2);
                 const result = await pollUntilConfirmed(targetBadge.id);
-
-                setSwapProgress(3);
-                await new Promise(r => setTimeout(r, 400));
-
+                setSwapProgress(3); await new Promise(r => setTimeout(r, 400));
                 if (result.confirmed) {
                     setSwapProgress(0);
                     state.ownedIds = (result.data.badges || []).filter(i => i.startsWith('campaign_'));
@@ -1186,103 +1121,20 @@
                         eqList.push({ id: lastId, name: findNameInList(lastId) });
                         renderEquippedGrid(eqList);
                     }
-                    showEquippedSuccess();
-                    showModal(t.success_confirmed);
-                    state.selected = null;
-                    render();
-                    check();
-                } else {
-                    setSwapProgress(0);
-                    showModal(t.success_pending);
-                    await init(true);
-                }
+                    showEquippedSuccess(); showModal(t.success_confirmed); state.selected = null; render(); check();
+                } else { setSwapProgress(0); showModal(t.success_pending); await init(true); }
             } catch (err) {
                 setSwapProgress(0);
-                if (err.name === 'AbortError') showModal(t.err_timeout);
-                else showModal('❌ 伺服器連線失敗 (Network Error)');
+                if (err.name === 'AbortError') showModal(t.err_timeout); else showModal('❌ 伺服器連線失敗 (Network Error)');
                 await init(true);
-            } finally {
-                state.isSubmitting = false;
-                render();
-                check();
-            }
+            } finally { state.isSubmitting = false; render(); check(); }
         }
 
-        function renderUpcomingBanner() {
-            const container = document.getElementById('upcoming-alert-container');
-            const now = new Date();
-
-            const validEvents = UPCOMING_BADGE_DB.filter(event => now <= new Date(event.endDate + 'T23:59:59'));
-            if (validEvents.length === 0) {
-                container.style.display = 'none';
-                return;
-            }
-
-            validEvents.sort((a, b) => {
-                const nowMs = now.getTime();
-                const aActive = nowMs >= new Date(a.startDate).getTime() && nowMs <= new Date(a.endDate + 'T23:59:59').getTime();
-                const bActive = nowMs >= new Date(b.startDate).getTime() && nowMs <= new Date(b.endDate + 'T23:59:59').getTime();
-                if (aActive && !bActive) return -1;
-                if (!aActive && bActive) return 1;
-                return new Date(a.startDate) - new Date(b.startDate);
-            });
-
-            const evt = validEvents[0]; 
-            const info = evt.langs[state.lang] || evt.langs['zh-hant'];
-            const t = I18N[state.lang];
-
-            const start = new Date(evt.startDate);
-            const isActive = now >= start && now <= new Date(evt.endDate + 'T23:59:59');
-            const isLocked = !isActive;
-            const daysUntil = Math.ceil((start - now) / 86400000);
-
-            let statusText = '';
-            if (isActive) statusText = t.uc_active;
-            else if (daysUntil > 0) statusText = `${t.uc_days_pre}${daysUntil}${t.uc_days_suf}`;
-            else statusText = t.uc_soon;
-
-            let imagesHtml = '';
-            if (evt.isSeries && evt.badges.length > 1) {
-                imagesHtml = `<div class="ub-series-stack">`;
-                evt.badges.slice(0, 2).forEach((b, i) => {
-                    const src = b.preview ? `${CFG.img}${b.imgId}.svg` : '';
-                    const imgContent = b.preview ? `<img class="ub-img" src="${src}" onerror="handleImgFallback(this)">` : `<div class="ub-mystery">?</div>`;
-                    imagesHtml += `<div class="ub-img-wrap" style="z-index: ${2-i}">${imgContent}</div>`;
-                });
-                imagesHtml += `</div>`;
-            } else {
-                const b = evt.badges[0];
-                const src = b.preview ? `${CFG.img}${b.imgId}.svg` : '';
-                const imgContent = b.preview ? `<img class="ub-img" src="${src}" onerror="handleImgFallback(this)">` : `<div class="ub-mystery">?</div>`;
-                imagesHtml = `<div class="ub-img-wrap">${imgContent}</div>`;
-            }
-
-            const tagText = evt.isSeries ? t.uc_new_series : t.uc_new_badge;
-
-            container.innerHTML = `
-                <a onclick="openEventModal('${evt.id}')" class="upcoming-banner ${isLocked ? 'is-locked' : ''}">
-                    ${imagesHtml}
-                    <div class="ub-content">
-                        <span class="ub-new-tag">${tagText}</span>
-                        <div class="ub-title-row">
-                            <div class="ub-status-dot"></div>
-                            <span style="font-size: 11px; font-weight: 800; color: ${isLocked ? 'var(--gold)' : 'var(--success-green)'}; margin-right: 2px;">${statusText}</span>
-                            <span class="ub-title">${info.eventTitle}</span>
-                        </div>
-                        <span class="ub-sub">${t.em_click_to_view}</span>
-                    </div>
-                </a>
-            `;
-            container.style.display = 'block';
-        }
-        
         // 初始化
         document.getElementById('ui-total-db-count').innerText = Object.keys(GLOBAL_BADGE_DB).length;
         setupPwaLinkInterceptor();
-        setLang('zh-hant'); 
+        setLang('zh-hant');
         if (uid) init();
     </script>
 </body>
 </html>
-
-這頁面還有哪些可以從代碼優化整潔的地方嗎？不用顧慮我看不看得懂，用最高標準整理代碼，並把不要的資訊移除。
