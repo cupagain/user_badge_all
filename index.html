@@ -63,7 +63,7 @@
         .lang-btn.active { background: #fff; color: #000; border-color: #fff; font-weight: 700; }
 
         /* ── HEADER ─────────────────────────────── */
-        .header-area { text-align: center; padding: 70px 20px 5px; }
+        .header-area { text-align: center; padding: 40px 16px 8px; }
         @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
         .main-title {
             font-family: var(--font-head); font-size: 30px; font-weight: 900; letter-spacing: -1px; margin-bottom: 8px;
@@ -700,17 +700,31 @@
         const TRANSLATION_CACHE = {};
 
         async function fetchBadgeName(id, lang) {
-            const cacheKey = `${id}_${lang}`;
-            if (TRANSLATION_CACHE[cacheKey]) return TRANSLATION_CACHE[cacheKey];
-            try {
-                const res = await fetch(`${CFG.trs}?lang=${lang}&key=badge_${id}`).then(r => r.json());
-                const name = res[`badge_${id}`] || GLOBAL_BADGE_DB[id]?.[lang]?.title || GLOBAL_BADGE_DB[id]?.['zh-hant']?.title || id;
-                TRANSLATION_CACHE[cacheKey] = name; return name;
-            } catch {
-                const fallback = GLOBAL_BADGE_DB[id]?.[lang]?.title || GLOBAL_BADGE_DB[id]?.['zh-hant']?.title || id;
-                TRANSLATION_CACHE[cacheKey] = fallback; return fallback;
-            }
-        }
+    const cacheKey = `${id}_${lang}`;
+    if (TRANSLATION_CACHE[cacheKey]) return TRANSLATION_CACHE[cacheKey];
+
+    // 1. 【本地圖鑑優先】
+    // 只要你手動加進 GLOBAL_BADGE_DB 的，就直接拿來用，瞬間渲染完畢，消滅 N+1 請求風暴！
+    const localEntry = GLOBAL_BADGE_DB[id];
+    if (localEntry) {
+        const localTitle = localEntry[lang]?.title || localEntry['zh-hant']?.title || id;
+        TRANSLATION_CACHE[cacheKey] = localTitle;
+        return localTitle;
+    }
+
+    // 2. 【API 容錯備案】
+    // 當用戶擁有一個「你尚未手動加入 GLOBAL_BADGE_DB」的最新徽章時，
+    // 為了避免畫面顯示 undefined，我們才去打官方的 CFG.trs API 拿名字。
+    try {
+        const res = await fetch(`${CFG.trs}?lang=${lang}&key=badge_${id}`).then(r => r.json());
+        const name = res[`badge_${id}`] || id;
+        TRANSLATION_CACHE[cacheKey] = name; 
+        return name;
+    } catch {
+        // 如果連 API 都壞了，最後一道防線是顯示原本的 Badge ID
+        return id; 
+    }
+}
 
         const findNameInList = (id) => state.list.find(b => b.id === id)?.name || id;
 
