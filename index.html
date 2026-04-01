@@ -573,7 +573,6 @@
                 startDate: "2026-04-03",
                 endDate:   "2026-04-06",
                 eventUrl: "https://swag.live/iframe/?source=https://events.swag.app/toyparty/?user_id={UID}&title=iframe_viewer_header",
-                isSeries: false, 
                 badges: [
                     { imgId: "campaign_katohtaka_tier3", preview: false },
                 ],
@@ -806,7 +805,7 @@
             btn.textContent = isActive ? t.em_btn_active : t.em_btn_soon;
             btn.className = `em-cta-btn ${isActive ? 'em-btn-active' : 'em-btn-disabled'}`;
             btn.onclick = isActive && evt.eventUrl ? () => {
-    const finalUrl = evt.eventUrl.replace('{UID}', uid);
+    const finalUrl = evt.eventUrl.replace('{UID}', uid || '');
     if (isInIframe) {
         window.parent.postMessage({ type: 'PWA_NAVIGATE', url: finalUrl }, 'https://swag.live');
     } else {
