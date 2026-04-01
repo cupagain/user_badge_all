@@ -45,13 +45,21 @@
         }
 
         /* ── TOP NAV ─────────────────────────────── */
-        .top-nav { position: absolute; top: 15px; right: 15px; z-index: 100; display: flex; gap: 6px; }
+        .top-nav { 
+    position: static; /* 取消絕對定位 */
+    display: flex; justify-content: center; gap: 8px; 
+    margin-top: 32px; /* 與上方注意事項拉開距離 */
+}
         .lang-btn {
-            background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); 
-            color: var(--text-dim); padding: 6px 12px; border-radius: 8px; 
-            font-size: 12px; font-weight: 600; cursor: pointer; min-height: 32px;
-            transition: all 0.2s;
-        }
+    background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); 
+    color: var(--text-dim); 
+    padding: 0 16px; /* 取消上下 padding，左右加寬讓點擊區更大 */
+    border-radius: 8px; 
+    font-size: 12px; font-weight: 600; cursor: pointer; 
+    min-height: 40px; /* ✅ 達標 40px */
+    display: inline-flex; align-items: center; justify-content: center; box-sizing: border-box; /* 保證文字完美置中 */
+    transition: all 0.2s;
+}
         .lang-btn.active { background: #fff; color: #000; border-color: #fff; font-weight: 700; }
 
         /* ── HEADER ─────────────────────────────── */
@@ -251,7 +259,7 @@
             border-radius: 24px; padding: 24px 10px 14px;
             display: flex; flex-direction: column; align-items: center; text-align: center;
             width: calc(50% - 8px); max-width: 180px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4); position: relative; overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4); position: relative;
             transition: opacity 0.4s, border-color 0.4s;
         }
         .equipped-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1.5px; background: linear-gradient(90deg, transparent, rgba(255, 209, 0, 0.6), transparent); }
@@ -277,7 +285,18 @@
         .ac-status-area { display: flex; align-items: center; gap: 12px; }
         .val-status { font-size: 14px; font-weight: 800; color: var(--text-dim); }
         .val-status.unlocked { color: var(--gold); }
-        .upgrade-cta-inline { background: var(--pink); color: #fff; font-size: 12px; font-weight: 800; padding: 6px 14px; border-radius: 8px; text-decoration: none; display: none; box-shadow: 0 4px 10px rgba(246,65,141,0.3); white-space: nowrap; }
+        .upgrade-cta-inline { 
+    background: var(--pink); color: #fff; 
+    font-size: 12px; font-weight: 800; 
+    padding: 0 14px; /* 取消上下 padding，靠 line-height 撐開 */
+    border-radius: 8px; text-decoration: none; 
+    display: none; /* 保持預設隱藏，交給 JS 控制 */
+    box-shadow: 0 4px 10px rgba(246,65,141,0.3); white-space: nowrap; 
+    min-height: 40px; 
+    line-height: 40px; /* 讓文字完美垂直置中 */
+    box-sizing: border-box;
+    text-align: center;
+}
         
         .swap-progress-bar { display: none; align-items: center; justify-content: center; gap: 8px; padding: 10px 0 4px; font-size: 11px; font-weight: 700; color: var(--text-dim); }
         .swap-progress-bar.visible { display: flex; }
@@ -357,11 +376,6 @@
 </head>
 <body>
 
-    <nav class="top-nav">
-        <button class="lang-btn active" id="btn-zh-hant" onclick="setLang('zh-hant')">繁中</button>
-        <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
-    </nav>
-
     <header class="header-area">
         <h1 class="main-title" id="ui-title">我的榮耀徽章全覽</h1>
         <span class="username-line" id="ui-username-display">帳號：----</span>
@@ -436,6 +450,10 @@
             <li class="notice-item" id="ui-n6">---</li>
             <li class="notice-item notice-alert" id="ui-n7">---</li>
         </ul>
+        <nav class="top-nav">
+        <button class="lang-btn active" id="btn-zh-hant" onclick="setLang('zh-hant')">繁中</button>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
+    </nav>
     </footer>
 
     <div class="full-overlay" id="all-badges-overlay">
@@ -765,7 +783,7 @@
 
             const now = new Date();
             const start = new Date(evt.startDate);
-            const end   = new Date(evt.endDate + 'T23:59:59');
+            const end = new Date(`${evt.endDate}T23:59:59+08:00`);
             const isActive = now >= start && now <= end;
             const daysUntil = Math.ceil((start - now) / 86400000);
             const t = I18N[state.lang];
