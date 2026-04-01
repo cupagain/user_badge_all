@@ -35,13 +35,14 @@
             /* Legacy Map */
             --glass-deep: rgba(35, 35, 35, 0.95);
             --glass-border: rgba(255, 255, 255, 0.15);
+            
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
         body {
             background-color: var(--bg); color: var(--text-primary); font-family: var(--font-body);
-            min-height: 100vh; padding-bottom: 60px; overflow-x: hidden;
+            min-height: 100vh; overflow-x: hidden;
         }
 
         /* ── TOP NAV ─────────────────────────────── */
@@ -190,7 +191,7 @@
         .em-status-badge.locked { background: rgba(255, 209, 0, 0.12); color: var(--gold); border: 1px solid rgba(255, 209, 0, 0.25); }
         .em-status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 
-        .em-body { padding: 20px 16px; max-height: 55vh; overflow-y: auto; display: flex; flex-direction: column; gap: 14px; }
+        .em-body { padding: 20px 16px; max-height: 55vh; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
 
         .em-badge-item {
             display: flex; align-items: center; gap: 16px;
@@ -218,7 +219,7 @@
         .em-badge-info { flex: 1; min-width: 0; text-align: left; }
         .em-badge-name { font-size: 17px; font-weight: 900; color: var(--gold); margin-bottom: 6px; letter-spacing: 0.5px; }
         .em-badge-rule { 
-            font-size: 12.5px; 
+            font-size: 12px; 
             font-weight: 400; 
             color: var(--text-secondary); 
             line-height: 1.5; 
@@ -240,7 +241,7 @@
         .management-section { max-width: 600px; margin: 0 auto 20px; padding: 0 16px; }
         .management-card {
             background: var(--glass-deep); border: 1px solid var(--glass-border); border-radius: 28px;
-            padding: 24px 20px; display: flex; flex-direction: column; gap: 18px;
+            padding: 24px 20px; display: flex; flex-direction: column; gap: 16px;
             box-shadow: 0 8px 25px rgba(0,0,0,0.3); transition: border-color 0.3s;
         }
         .management-card.vip-active { border-color: rgba(255, 209, 0, 0.3); }
@@ -252,7 +253,7 @@
             background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.08);
             padding: 6px 16px; border-radius: 100px; margin-bottom: 2px;
         }
-        .lvl-highlight { color: var(--gold); font-family: var(--font-head); font-weight: 900; font-size: 13.5px; }
+        .lvl-highlight { color: var(--gold); font-family: var(--font-head); font-weight: 900; font-size: 14px; }
         .equipped-grid { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 4px; }
         .equipped-box {
             background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08);
@@ -279,7 +280,7 @@
         }
         .equipped-box.eq-confirmed { opacity: 1 !important; animation: successPulse 0.9s ease-out forwards; }
         .mc-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--glass-border), transparent); margin: 0 10px; }
-        .mc-vip-area { display: flex; align-items: center; justify-content: space-between; padding: 0 5px; flex-wrap: wrap; gap: 12px; }
+        .mc-vip-area { display: flex; align-items: center; justify-content: space-between; padding: 0 8px; flex-wrap: wrap; gap: 12px; }
         .ac-my-lvl { font-size: 14px; font-weight: 700; color: var(--text-dim); display: flex; align-items: center; gap: 8px; }
         .val-lvl-plain { font-family: var(--font-head); font-size: 22px; color: var(--gold); line-height: 1; font-weight: 900; }
         .ac-status-area { display: flex; align-items: center; gap: 12px; }
@@ -342,7 +343,7 @@
         .notice-alert { color: var(--pink) !important; font-weight: 800 !important; }
         
         .full-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); backdrop-filter: blur(20px); z-index: 15000; display: none; flex-direction: column; animation: fadeIn 0.2s ease; }
-        .overlay-header { padding: 25px 20px 15px; text-align: center; position: relative; flex-shrink: 0; }
+        .overlay-header { padding: 24px 16px 16px; text-align: center; position: relative; flex-shrink: 0; }
         .overlay-title { font-family: var(--font-head); font-size: 20px; font-weight: 900; color: #fff; }
         .close-overlay { position: absolute; right: 12px; top: 12px; font-size: 24px; color: var(--text-dim); cursor: pointer; border: none; background: none; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
         .close-overlay:hover { color: #fff; background: rgba(255,255,255,0.08); }
@@ -796,7 +797,7 @@
             if (!evt) return;
 
             const now = new Date();
-            const start = new Date(evt.startDate);
+            const start = new Date(evt.startDate + 'T00:00:00+08:00');
             const end = new Date(`${evt.endDate}T23:59:59+08:00`);
             const isActive = now >= start && now <= end;
             const daysUntil = Math.ceil((start - now) / 86400000);
@@ -863,20 +864,20 @@
             const t = I18N[state.lang];
             const now = new Date();
 
-            const valid = UPCOMING_BADGE_DB.filter(e => now <= new Date(e.endDate + 'T23:59:59'));
+            const valid = UPCOMING_BADGE_DB.filter(e => now <= new Date(e.endDate + 'T23:59:59+08:00'));
             if (valid.length === 0) { container.style.display = 'none'; container.innerHTML = ''; return; }
 
             valid.sort((a, b) => {
-                const aAct = now >= new Date(a.startDate) && now <= new Date(a.endDate + 'T23:59:59');
-                const bAct = now >= new Date(b.startDate) && now <= new Date(b.endDate + 'T23:59:59');
+                const aAct = now >= new Date(a.startDate + 'T00:00:00+08:00') && now <= new Date(a.endDate + 'T23:59:59+08:00');
+                const bAct = now >= new Date(b.startDate + 'T00:00:00+08:00') && now <= new Date(b.endDate + 'T23:59:59+08:00');
                 if (aAct !== bAct) return aAct ? -1 : 1;
                 return new Date(a.startDate) - new Date(b.startDate);
             });
 
             const evt = valid[0];
             const info = evt.langs[state.lang] || evt.langs['zh-hant'];
-            const start = new Date(evt.startDate);
-            const isActive = now >= start && now <= new Date(evt.endDate + 'T23:59:59');
+            const start = new Date(evt.startDate + 'T00:00:00+08:00');
+            const isActive = now >= start && now <= new Date(evt.endDate + 'T23:59:59+08:00');
             const daysUntil = Math.ceil((start - now) / 86400000);
 
             let statusText = isActive ? t.uc_active : (daysUntil > 0 ? t.uc_days_pre + daysUntil + t.uc_days_suf : t.uc_soon);
@@ -1026,7 +1027,8 @@
                 if (filterType === 'owned' && !isOwned) return;
                 if (filterType === 'unowned' && isOwned) return;
                 const renderImg = info.imgId || id;
-                let descText = info.desc; let dateHtml = '';
+                let descText = info.desc || '';
+                let dateHtml = '';
                 const dateMatch = descText.match(/\s*\((20\d{2}[^)]*)\)$/);
                 if (dateMatch) { descText = descText.replace(dateMatch[0], ''); dateHtml = `<div class="lib-date">🗓 ${dateMatch[1]}</div>`; }
                 filteredHTML += `<div class="lib-card ${isOwned ? 'owned' : ''}"><img class="lib-img" src="${CFG.img}${renderImg}.svg" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'"><div class="lib-info"><div class="lib-header-row"><span class="lib-name">${info.title}</span>${isOwned ? `<span class="owned-tag">${t.got_it}</span>` : ''}</div><span class="lib-subtitle">${info.sub}</span><span class="lib-desc">${descText}</span>${dateHtml}</div></div>`;
@@ -1136,12 +1138,13 @@
             lastBox.addEventListener('animationend', () => lastBox.classList.remove('eq-confirmed'), { once: true });
         }
 
-        async function sendReq(e) {
+async function sendReq(e) {
             if (e) e.stopPropagation();
             if (state.isSubmitting || !state.selected) return;
             const t = I18N[state.lang]; const targetBadge = { ...state.selected };
             state.isSubmitting = true; render();
             showOptimisticEquipped(targetBadge.id, targetBadge.name); setSwapProgress(1);
+            let skipFinally = false;
             try {
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), 15000);
@@ -1166,13 +1169,21 @@
                         eqList.push({ id: lastId, name: findNameInList(lastId) });
                         renderEquippedGrid(eqList);
                     }
-                    showEquippedSuccess(); showModal(t.success_confirmed); state.selected = null; render(); check();
+                    showEquippedSuccess();
+                    skipFinally = true;
+                    setTimeout(() => {
+                        showModal(t.success_confirmed);
+                        state.selected = null;
+                        state.isSubmitting = false;
+                        render();
+                        check();
+                    }, 600);
                 } else { setSwapProgress(0); showModal(t.success_pending); await init(true); }
             } catch (err) {
                 setSwapProgress(0);
                 if (err.name === 'AbortError') showModal(t.err_timeout); else showModal('❌ 伺服器連線失敗 (Network Error)');
                 await init(true);
-            } finally { state.isSubmitting = false; render(); check(); }
+            } finally { if (!skipFinally) { state.isSubmitting = false; render(); check(); } }
         }
 
         // 初始化
