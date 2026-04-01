@@ -11,16 +11,18 @@
 
     <style>
         :root {
-            --bg: #04060a;
-            --glass-deep: rgba(15, 23, 42, 0.95);
-            --glass-border: rgba(255, 255, 255, 0.12);
-            --gold: #fbbf24;
-            --pink: #ff2d55;
-            --ice-blue: #38bdf8;
-            --success-green: #22c55e;
-            --font-head: 'Outfit', sans-serif;
-            --font-body: 'Inter', sans-serif;
-            --text-dim: #94a3b8;
+            /* Design Tokens */
+            --bg: #191919; 
+            --glass-deep: rgba(35, 35, 35, 0.95); 
+            --glass-border: rgba(255, 255, 255, 0.2); 
+            --gold: #FFD100; 
+            --pink: #F6418D; 
+            --ice-blue: #60C4E8; 
+            --success-green: #15EA48; 
+            --font-head: 'PingFang TC', 'Outfit', sans-serif;
+            --font-body: 'PingFang TC', 'Inter', sans-serif;
+            --text-dim: #9B9B9B; 
+            --text-disabled: #474747; 
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -32,7 +34,12 @@
         }
 
         .top-nav { position: absolute; top: 15px; right: 15px; z-index: 100; display: flex; gap: 6px; }
-        .lang-btn { background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); color: var(--text-dim); padding: 8px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
+        .lang-btn {
+            min-height: 40px; min-width: 40px;
+            background: rgba(0,0,0,0.5); border: 1px solid var(--glass-border); 
+            color: var(--text-dim); padding: 8px 16px; border-radius: 8px; 
+            font-size: 11px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+        }
         .lang-btn.active { background: #fff; color: #000; border-color: #fff; }
 
         .header-area { text-align: center; padding: 70px 20px 5px; }
@@ -54,7 +61,6 @@
 
         /* ── UPCOMING BANNER ─────────────────────────────── */
         .upcoming-alert-wrap { max-width: 600px; margin: 0 auto 20px; padding: 0 16px; display: none; }
-
         .upcoming-banner {
             border-radius: 20px; padding: 14px 16px;
             display: flex; align-items: center; justify-content: space-between; gap: 12px;
@@ -154,8 +160,9 @@
 
         .em-header { padding: 24px 20px 0; text-align: center; position: relative; }
         .em-close {
-            position: absolute; right: 10px; top: 10px;
-            width: 34px; height: 34px; border-radius: 50%;
+            position: absolute; right: 12px; top: 12px;
+            width: 44px; height: 44px; /* 40px 觸控規範 */
+            border-radius: 50%;
             background: rgba(255,255,255,0.06); border: none; color: #cbd5e1;
             font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center;
             z-index: 10;
@@ -192,20 +199,22 @@
         .em-badge-name { font-size: 17px; font-weight: 900; color: var(--gold); margin-bottom: 6px; letter-spacing: 0.5px; }
         .em-badge-rule { 
             font-size: 12.5px; 
-            font-weight: 400; 
+            font-weight: 400; /* 取消粗體 */
             color: #cbd5e1; 
-            line-height: 1.5; 
+            line-height: 1.5; /* 允許自然斷行 */
         }
 
         .em-footer { padding: 0 16px 20px; }
         .em-cta-btn {
-            display: block; width: 100%; padding: 15px 0; border-radius: 14px;
+            display: block; width: 100%; min-height: 48px;
+            padding: 15px 0; border-radius: 14px;
             font-size: 16px; font-weight: 900; text-align: center; text-decoration: none;
             border: none; cursor: pointer; font-family: var(--font-body); transition: opacity 0.2s, transform 0.15s;
         }
         .em-btn-active { background: linear-gradient(135deg, var(--pink), #ff5e7e); color: #fff; box-shadow: 0 4px 16px rgba(255,45,85,0.35); }
         .em-btn-active:active { transform: scale(0.98); }
         .em-btn-disabled { background: rgba(255,255,255,0.08); color: #94a3b8; cursor: default; }
+
         /* ─────────────────────────────────────────────────── */
 
         .management-section { max-width: 600px; margin: 0 auto 20px; padding: 0 16px; }
@@ -266,13 +275,11 @@
         .sp-dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
         .sp-line { width: 24px; height: 2px; background: var(--glass-border); border-radius: 1px; align-self: center; margin-bottom: 12px; }
         .sp-line.done { background: var(--success-green); }
-        
         .instruction-area { text-align: center; margin-bottom: 15px; min-height: 48px; padding: 0 20px; }
         .hint-label { font-size: 11px; font-weight: 700; color: #94a3b8; display: block; margin-bottom: 4px; text-transform: uppercase; }
         .hint-pos-warn { font-size: 11px; font-weight: 600; color: var(--gold); opacity: 0.8; margin-top: 4px; display: block; margin-bottom: 6px; }
         .hint-value { font-size: 16px; font-weight: 800; color: #fff; display: block; }
         .hint-selected { color: var(--ice-blue); }
-        
         .badge-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding: 0 16px 30px; max-width: 1000px; margin: 0 auto; justify-content: center; }
         @media (min-width: 768px) { .badge-grid { grid-template-columns: repeat(auto-fit, 180px); justify-content: center; } }
         .badge-item { background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); border-radius: 28px; padding: 30px 10px 10px; text-align: center; cursor: pointer; position: relative; transition: border-color 0.3s, background 0.3s, transform 0.3s; display: flex; flex-direction: column; align-items: center; height: 100%; min-height: 160px; }
@@ -295,10 +302,10 @@
         .full-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); backdrop-filter: blur(20px); z-index: 15000; display: none; flex-direction: column; animation: fadeIn 0.2s ease; }
         .overlay-header { padding: 25px 20px 15px; text-align: center; position: relative; flex-shrink: 0; }
         .overlay-title { font-family: var(--font-head); font-size: 20px; font-weight: 900; color: #fff; }
-        .close-overlay { position: absolute; right: 12px; top: 12px; font-size: 24px; color: #94a3b8; cursor: pointer; border: none; background: none; min-width: 44px; min-height: 44px; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
+        .close-overlay { min-width: 44px; min-height: 44px; position: absolute; right: 12px; top: 12px; font-size: 24px; color: #94a3b8; cursor: pointer; border: none; background: none; display: flex; align-items: center; justify-content: center; border-radius: 50%; }
         .close-overlay:hover { color: #fff; background: rgba(255,255,255,0.08); }
         .overlay-filters { display: flex; justify-content: center; gap: 8px; padding: 0 16px 15px; border-bottom: 1px solid var(--glass-border); flex-shrink: 0; flex-wrap: wrap; }
-        .filter-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #94a3b8; padding: 8px 16px; border-radius: 100px; font-size: 12px; font-weight: 700; cursor: pointer; transition: background 0.2s, color 0.2s; }
+        .filter-btn { min-height: 40px; padding: 8px 20px; border-radius: 100px; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: #94a3b8; font-size: 12px; font-weight: 700; cursor: pointer; transition: background 0.2s, color 0.2s; }
         .filter-btn.active { background: var(--gold); color: #000; border-color: var(--gold); }
         .overlay-scroll { flex: 1; overflow-y: auto; padding: 20px; }
         .lib-grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
@@ -543,7 +550,7 @@
                 id: "campaign_2604_toy",
                 startDate: "2026-03-30",
                 endDate:   "2026-04-01",
-                eventUrl: "https://swag.live/",
+                eventUrl: "https://events.swag.app/toyparty/?user_id={user_id}",
                 isSeries: false, // 【系列標籤】true = Banner 上會顯示「✨ 限定徽章系列活動」；false = 顯示「✨ 限定徽章活動」。
                 badges: [
                     { imgId: "campaign_katohtaka_tier3", preview: false },
@@ -552,7 +559,7 @@
                     "zh-hant": { 
                         eventTitle: "大人的玩具派對", 
                         items: [
-                            { name: "大人的玩具師", rule: "於直播間送鑽滿 10,000 鑽，觀看滿 10 分鐘以上" },
+                            { name: "大人的玩具師", rule: "任意直播間玩指令/互動菜單滿 1 萬，且觀看「私密直播」達 10 分鐘" },
                         ]
                     },
                     "en": { 
@@ -749,7 +756,7 @@
 
             const section = document.getElementById('em-badge-container');
             let html = `<div class="em-section-label">${t.em_badge_section}</div>`;
-            evt.badges.forEach(b => {
+            evt.badges.forEach((b, i) => {
                 const imgHtml = b.preview
                     ? `<img src="${CFG.img}${b.imgId}.svg" onerror="handleImgFallback(this)">`
                     : `<div class="em-badge-mystery">?</div>`;
@@ -807,7 +814,7 @@
             const daysUntil = Math.ceil((start - now) / 86400000);
 
             let statusText = isActive ? t.uc_active : (daysUntil > 0 ? t.uc_days_pre + daysUntil + t.uc_days_suf : t.uc_soon);
-            const tagText = isActive ? t.ub_tag_active : t.ub_tag_soon;
+            const tagText = evt.isSeries ? t.uc_new_series : t.uc_new_badge;
             const dateStr = formatShortDateRange(evt.startDate, evt.endDate);
             const badgeCount = evt.badges.length;
 
@@ -912,7 +919,7 @@
                 if (rawIds.length > 0) {
                     mgmtArea.style.display = 'block';
                     const lastId = rawIds[rawIds.length - 1];
-                    const secondLastId = rawIds.length > 1 ? rawIds[rawIds.length - 2] : null;
+                    const secondLastId = rawIds.length > 1 ? state.ownedIds[state.ownedIds.length - 2] : null;
                     const eqList = [];
                     if (secondLastId) eqList.push({ id: secondLastId, name: findNameInList(secondLastId) });
                     eqList.push({ id: lastId, name: findNameInList(lastId) });
