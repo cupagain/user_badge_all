@@ -112,7 +112,7 @@
         .ub-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         .ub-date { font-size: 12px; font-weight: 600; color: var(--text-secondary); display: flex; align-items: center; gap: 4px; }
         .ub-hint { font-size: 12px; font-weight: 600; color: var(--text-dim); margin-top: 2px; }
-
+        .ub-badge-count { font-size: 12px; font-weight: 600; color: var(--text-dim); }
         .ub-images { display: flex; align-items: center; flex-shrink: 0; }
         .ub-img-stack { display: flex; align-items: center; }
         .ub-img-wrap {
@@ -189,6 +189,14 @@
             background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
             border-radius: 16px; padding: 16px;
         }
+        .em-section-label {
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    padding: 0 4px;
+}
         .em-badge-img-box {
             width: 64px; height: 64px; flex-shrink: 0;
             display: flex; align-items: center; justify-content: center;
@@ -624,7 +632,8 @@
                 uc_days_pre:"", uc_days_suf:" 天後開始",
                 em_badge_section:"本次活動徽章",
                 em_btn_active:"前往查看活動詳情",
-                em_btn_soon:"敬請期待"
+                em_btn_soon:"敬請期待",
+                ub_badge_count_suffix: "款徽章"
             },
             'en': {
                 title:"Glory Badge Gallery", username:"Account: ", total:"Total Badges", my_lvl:"My VIP Level: ",
@@ -656,7 +665,8 @@
                 uc_days_pre:"Starts in ", uc_days_suf:" days",
                 em_badge_section:"Event Badges",
                 em_btn_active:"View Event Details",
-                em_btn_soon:"Coming Soon"
+                em_btn_soon:"Coming Soon",
+                ub_badge_count_suffix: "badges"
             }
         };
 
@@ -795,10 +805,14 @@
             const btn = document.getElementById('em-cta-btn');
             btn.textContent = isActive ? t.em_btn_active : t.em_btn_soon;
             btn.className = `em-cta-btn ${isActive ? 'em-btn-active' : 'em-btn-disabled'}`;
-            btn.onclick = isActive && evt.eventUrl ? () => { 
-                const finalUrl = evt.eventUrl.replace('{UID}', uid || '');
-                window.open(finalUrl, '_blank'); 
-            } : null;
+            btn.onclick = isActive && evt.eventUrl ? () => {
+    const finalUrl = evt.eventUrl.replace('{UID}', uid);
+    if (isInIframe) {
+        window.parent.postMessage({ type: 'PWA_NAVIGATE', url: finalUrl }, 'https://swag.live');
+    } else {
+        window.open(finalUrl, '_blank');
+    }
+} : null;
 
             document.getElementById('event-modal-overlay').classList.add('show');
             if (!isInIframe) document.body.style.overflow = 'hidden';
@@ -856,7 +870,7 @@
                         </div>
                         <div class="ub-meta">
                             <span class="ub-date">📅 ${dateStr}</span>
-                            ${badgeCount > 1 ? `<span class="ub-badge-count">· ${badgeCount} 款徽章</span>` : ''}
+                            ${badgeCount > 1 ? `<span class="ub-badge-count">· ${badgeCount} ${t.ub_badge_count_suffix}</span>` : ''}
                         </div>
                         <span class="ub-hint">${t.ub_hint}</span>
                     </div>
