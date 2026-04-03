@@ -53,7 +53,7 @@
             border: 1px solid rgba(96,196,232,0.4); background: rgba(96,196,232,0.05);
             padding: 8px 20px; border-radius: 100px; margin-bottom: 18px;
         }
-        .ab-username { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
+        .ab-username { font-size: 13px; font-weight: 700; color: var(--gold); }  /* 金色：帳號是用戶身份識別，金色傳遞歸屬感 */
         .ab-divider { width: 1px; height: 14px; background: rgba(96,196,232,0.3); flex-shrink: 0; }
         .ab-count-label { font-size: 13px; font-weight: 600; color: var(--text-secondary); }
         .ab-count-val { font-family: var(--font-head); font-size: 16px; font-weight: 800; color: var(--info); line-height: 1; }
@@ -125,12 +125,18 @@
         }
         .is-locked .ub-badge-count-chip { color: var(--gold); background: rgba(255,209,0,0.1); border-color: rgba(255,209,0,0.25); }
         .ub-more-arrow { color: var(--text-dim); font-size: 16px; flex-shrink: 0; margin-left: auto; }
-        /* 徽章名稱（主要內容，取代事件名稱在 banner 中的位置） */
+        /* 徽章名稱（主要內容） */
         .ub-badge-main-name {
             font-family: var(--font-head); font-size: 17px; font-weight: 900;
             color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
             line-height: 1.2;
         }
+        /* 多徽章時的橫排 slot 組 */
+        .ub-multi-slots { display:flex;align-items:center;gap:6px;flex-shrink:0; }
+        /* Banner 已獲得狀態 */
+        .upcoming-banner.is-owned { border-color:rgba(21,234,72,0.4);box-shadow:0 0 0 1px rgba(21,234,72,0.08) inset,0 6px 20px rgba(0,0,0,.3); }
+        .ub-reward-headline.owned-state { color:var(--success-green); }
+        .ub-owned-check { font-size:14px;font-weight:900;color:var(--success-green); }
 
         /* ── HERO LIBRARY ── */
         .hero-banner-wrap { max-width: 600px; margin: 0 auto 20px; padding: 0 16px; }
@@ -181,7 +187,7 @@
         .equipped-grid { display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:4px; }
         .equipped-box { background:rgba(255,255,255,.02);border:1px solid var(--glass-border-subtle);border-radius:24px;padding:24px 10px 14px;display:flex;flex-direction:column;align-items:center;text-align:center;width:calc(50% - 8px);max-width:180px;box-shadow:0 10px 25px rgba(0,0,0,.4);position:relative;transition:opacity .4s,border-color .4s; }
         .equipped-box::before { content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,rgba(255,209,0,.6),transparent); }
-        .equipped-box img { width:80px;height:80px;margin-bottom:12px;filter:drop-shadow(0 10px 15px rgba(0,0,0,.7));transform:scale(1.05);position:relative;z-index:2;transition:opacity .3s; }
+        .equipped-box img { width:72px;height:72px;margin-bottom:12px;filter:drop-shadow(0 8px 12px rgba(0,0,0,.7));position:relative;z-index:2;transition:opacity .3s; }
         .equipped-box span { font-size:13px;font-weight:700;color:#fff;line-height:1.2;height:32px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;text-shadow:0 2px 4px rgba(0,0,0,.6);position:relative;z-index:2; }
         .equipped-box.pending { opacity:.6;border-color:rgba(255,209,0,.5); }
         .eq-loading-ring { position:absolute;inset:4px;border-radius:20px;z-index:10;border:2px solid transparent;border-top-color:var(--gold);border-right-color:rgba(255,209,0,.3);animation:spin 1s linear infinite;pointer-events:none; }
@@ -247,59 +253,56 @@
         .overlay-scroll { flex:1;overflow-y:auto;padding:14px 16px; }
 
         /* ── LIBRARY：分組 + 縮圖預覽 ── */
-        .lib-grid { display:flex;flex-direction:column;gap:6px; }
+        .lib-grid { display:flex;flex-direction:column;gap:8px; }
 
         .lib-group { display:flex;flex-direction:column; }
         .lib-group-header {
             display:flex;justify-content:space-between;align-items:center;
-            padding:10px 14px;border-radius:12px;
-            background:rgba(255,255,255,.04);border:1px solid var(--glass-border);
+            padding:12px 14px;border-radius:14px;
+            background:rgba(255,255,255,.05);border:1px solid var(--glass-border);
             cursor:pointer;transition:background .2s;user-select:none;
         }
-        .lib-group-header:active { background:rgba(255,255,255,.08); }
-        .lib-group-left { display:flex;flex-direction:column;gap:6px;flex:1;min-width:0; }
+        .lib-group-header:active { background:rgba(255,255,255,.09); }
+        .lib-group-left { display:flex;flex-direction:column;gap:5px;flex:1;min-width:0; }
         .lib-group-title-row { display:flex;align-items:center;gap:8px; }
-        .lib-group-title { font-size:13px;font-weight:800;color:var(--text-primary); }
-        .lib-group-thumbs { display:flex;align-items:center;gap:0; }
-        /* 縮圖：讓用戶不需展開就能看到徽章長什麼樣，36px 更清楚 */
+        .lib-group-title { font-size:14px;font-weight:800;color:var(--text-primary); }
+        .lib-group-thumbs { display:flex;align-items:center;gap:6px;flex-wrap:nowrap;overflow:hidden; }
+        /* 縮圖：完整排列不交疊，已獲得金色邊框，統一全亮 */
         .lib-thumb {
             width:36px;height:36px;border-radius:8px;
             background:rgba(0,0,0,.4);border:1.5px solid rgba(255,255,255,.12);
             display:flex;align-items:center;justify-content:center;overflow:hidden;
-            flex-shrink:0;transition:opacity .2s;
+            flex-shrink:0;
         }
-        .lib-thumb + .lib-thumb { margin-left:-10px; }
-        .lib-thumb img { width:24px;height:24px;object-fit:contain;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5)); }
-        /* 縮圖：全亮顯示；已獲得的縮圖加金色邊框讓用戶一眼識別 */
-        .lib-thumb.owned-thumb { border-color: rgba(255,209,0,0.5); }
-        .lib-thumb-more { background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.12);border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:var(--text-dim);flex-shrink:0;margin-left:-10px; }
-        /* 分組日期（統一日期放在 header，不重複顯示） */
-        .lib-group-date { font-size:10px;font-weight:600;color:var(--text-dim);margin-top:2px; }
+        .lib-thumb img { width:26px;height:26px;object-fit:contain;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5)); }
+        .lib-thumb.owned-thumb { border-color:rgba(255,209,0,0.6);box-shadow:0 0 6px rgba(255,209,0,.25); }
+        .lib-thumb-more { background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:var(--text-dim);flex-shrink:0; }
+        /* 分組日期 */
+        .lib-group-date { font-size:11px;font-weight:600;color:var(--text-dim); }
 
-        .lib-group-right { display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:10px; }
+        .lib-group-right { display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:12px; }
         .lib-group-count { font-size:12px;font-weight:700;color:var(--gold);white-space:nowrap; }
         .lib-group-count.complete { color:var(--success-green); }
-        .lib-group-chevron { font-size:11px;color:var(--text-dim);transition:transform .25s;display:inline-block;flex-shrink:0; }
+        .lib-group-chevron { font-size:12px;color:var(--text-dim);transition:transform .25s;display:inline-block;flex-shrink:0; }
         .lib-group-chevron.open { transform:rotate(90deg); }
 
-        .lib-group-body { display:none;flex-direction:column;gap:5px;margin-top:5px; }
+        .lib-group-body { display:none;flex-direction:column;gap:6px;margin-top:6px; }
         .lib-group-body.open { display:flex; }
 
-        /* 卡片（分組內，緊湊版） */
-        .lib-card { background:rgba(255,255,255,.03);border:1px solid var(--glass-border);border-radius:16px;padding:16px;display:flex;align-items:flex-start;gap:12px;transition:border-color .3s; }
-        .lib-card.owned { border-color:rgba(255,209,0,.4);background:rgba(255,209,0,.04); }
+        /* 統一卡片樣式（分組內 + 單獨） */
+        .lib-card, .lib-card-standalone {
+            background:rgba(255,255,255,.03);border:1px solid var(--glass-border);
+            border-radius:14px;padding:14px;display:flex;align-items:flex-start;gap:12px;
+            transition:border-color .3s;
+        }
+        .lib-card.owned, .lib-card-standalone.owned { border-color:rgba(255,209,0,.45);background:rgba(255,209,0,.04); }
         .lib-img { width:48px;height:48px;flex-shrink:0;filter:drop-shadow(0 3px 6px rgba(0,0,0,.5));margin-top:2px; }
-        /* 圖鑑所有徽章皆全亮顯示，已獲得用金色邊框區分，未獲得不反灰 */
         .lib-info { flex:1;min-width:0;text-align:left; }
-        .lib-header-row { display:flex;justify-content:space-between;align-items:flex-start;gap:6px;margin-bottom:1px; }
+        .lib-header-row { display:flex;justify-content:space-between;align-items:flex-start;gap:6px;margin-bottom:2px; }
         .lib-name { font-size:13px;font-weight:800;color:#fff;line-height:1.3; }
-        .owned-tag { background:rgba(255,209,0,.15);color:var(--gold);padding:1px 5px;border-radius:3px;font-size:9px;font-weight:800;flex-shrink:0;border:1px solid rgba(255,209,0,.3); }
-        .lib-desc { font-size:11px;font-weight:500;color:var(--text-dim);line-height:1.4;display:block; }
-        .lib-date { display:inline-flex;align-items:center;font-size:10px;font-weight:600;color:var(--text-secondary);background:rgba(255,255,255,.08);padding:1px 5px;border-radius:3px;margin-top:3px; }
-
-        /* 無分組的獨立卡片（稍大） */
-        .lib-card-standalone { background:rgba(255,255,255,.03);border:1px solid var(--glass-border);border-radius:12px;padding:12px 14px;display:flex;align-items:flex-start;gap:12px;transition:border-color .3s; }
-        .lib-card-standalone.owned { border-color:rgba(255,209,0,.4);background:rgba(255,209,0,.04); }
+        .owned-tag { background:rgba(255,209,0,.15);color:var(--gold);padding:2px 6px;border-radius:4px;font-size:10px;font-weight:800;flex-shrink:0;border:1px solid rgba(255,209,0,.3); }
+        .lib-desc { font-size:11px;font-weight:500;color:var(--text-dim);line-height:1.5;display:block; }
+        .lib-date { display:inline-flex;align-items:center;font-size:10px;font-weight:600;color:var(--text-secondary);background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;margin-top:4px; }
 
         /* Modal */
         .modal-overlay { position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);z-index:20000;display:none;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .3s;cursor:pointer; }
@@ -641,38 +644,69 @@
             const daysUntil=Math.ceil((start-now)/86400000);
             const dateStr=formatBannerDate(evt.startDate,evt.endDate);
             const badgeCount=evt.badges.length;
-            const rewardLabel=info.rewardLabel||(state.lang==='zh-hant'?'新徽章可獲得':'New Badge Available');
-            // 狀態：精簡，只說「何時」
+            const isSeries=badgeCount>1;
+
+            // 判斷已獲得狀態（用 badge items 的 name 反查 ownedIds）
+            const ownedBadgeIds=evt.badges.map(b=>b.imgId).filter(id=>state.ownedIds.includes(id));
+            const ownedCount=ownedBadgeIds.length;
+            const allOwned=ownedCount===badgeCount&&badgeCount>0;
+            const partialOwned=ownedCount>0&&!allOwned;
+
+            // 標頭文字
+            let headlineText, headlineClass='ub-reward-headline';
+            if(allOwned){
+                headlineText=state.lang==='zh-hant'?'✅ 徽章已全數獲得':'✅ All badges obtained';
+                headlineClass='ub-reward-headline owned-state';
+            } else if(partialOwned){
+                headlineText=(info.rewardLabel||(state.lang==='zh-hant'?'新徽章系列':'New Badge Series'))+` ${ownedCount}/${badgeCount}`;
+            } else {
+                headlineText=isSeries
+                    ?(info.rewardLabel||(state.lang==='zh-hant'?'新徽章系列可獲得':'New Badge Series Available'))
+                    :(info.rewardLabel||(state.lang==='zh-hant'?'新徽章可獲得':'New Badge Available'));
+            }
+
             const statusText=isActive
                 ?(state.lang==='zh-hant'?'進行中':'Active')
                 :(daysUntil>0?(state.lang==='zh-hant'?`${daysUntil} 天後開始`:`In ${daysUntil} days`):t.uc_soon);
-            // 徽章名稱（主要內容）
-            const firstItem=info.items&&info.items[0];
-            const badgeName=firstItem?firstItem.name:(state.lang==='zh-hant'?'限定徽章':'Limited Badge');
-            // 徽章圖示
-            const firstBadge=evt.badges[0];
-            const badgeSlotHtml=firstBadge.preview
-                ?`<div class="ub-badge-slot has-img"><img src="${CFG.img}${firstBadge.imgId}.svg" onerror="handleImgFallback(this)"><span class="ub-reward-label">${state.lang==='zh-hant'?'限定':'EX'}</span></div>`
-                :`<div class="ub-badge-slot is-mystery"><span class="ub-mystery-q">?</span><span class="ub-reward-label">${state.lang==='zh-hant'?'限定':'EX'}</span></div>`;
 
+            // 主要名稱：系列顯示活動名，單一徽章顯示徽章名稱
+            const mainName=isSeries
+                ?info.eventTitle
+                :(info.items&&info.items[0]?info.items[0].name:info.eventTitle);
+
+            // 圖示區：單徽章一個 slot；多徽章橫排最多 4 個
+            const displayBadges=evt.badges.slice(0,4);
+            const slotsHtml=displayBadges.map(b=>{
+                const slotOwned=state.ownedIds.includes(b.imgId);
+                if(b.preview){
+                    return `<div class="ub-badge-slot has-img"${slotOwned?' style="border-color:rgba(255,209,0,0.6)"':''}><img src="${CFG.img}${b.imgId}.svg" onerror="handleImgFallback(this)"><span class="ub-reward-label">${slotOwned?(state.lang==='zh-hant'?'已得':'Got'):(state.lang==='zh-hant'?'限定':'EX')}</span></div>`;
+                } else {
+                    return `<div class="ub-badge-slot is-mystery"><span class="ub-mystery-q">?</span><span class="ub-reward-label">${state.lang==='zh-hant'?'限定':'EX'}</span></div>`;
+                }
+            }).join('');
+            const rewardZoneHtml=isSeries
+                ?`<div class="ub-multi-slots">${slotsHtml}</div>`
+                :`<div class="ub-reward-zone">${slotsHtml}</div>`;
+
+            const bannerClass=`upcoming-banner ${isActive?'':'is-locked'}${allOwned?' is-owned':''}`;
             container.innerHTML=`
-                <div class="upcoming-banner ${isActive?'':'is-locked'}" onclick="openEventModal('${evt.id}')">
-                    <div class="ub-reward-zone">${badgeSlotHtml}</div>
+                <div class="${bannerClass}" onclick="openEventModal('${evt.id}')">
+                    ${rewardZoneHtml}
                     <div class="ub-info">
-                        <div class="ub-reward-headline">
-                            <div class="ub-live-dot"></div>
-                            <span>${rewardLabel}</span>
-                            ${badgeCount>1?`<span class="ub-badge-count-chip">×${badgeCount}</span>`:''}
+                        <div class="${headlineClass}">
+                            ${!allOwned?'<div class="ub-live-dot"></div>':''}
+                            <span></span>
                         </div>
                         <div class="ub-badge-main-name"></div>
                         <div class="ub-bottom-row">
                             <span class="ub-date">📅 ${dateStr}</span>
-                            <span class="ub-date" style="color:${isActive?'var(--pink)':'var(--gold)'}">· ${statusText}</span>
+                            <span class="ub-date" style="color:${allOwned?'var(--success-green)':isActive?'var(--pink)':'var(--gold)'}">· ${statusText}</span>
                         </div>
                     </div>
                     <span class="ub-more-arrow">›</span>
                 </div>`;
-            container.querySelector('.ub-badge-main-name').textContent=badgeName;
+            container.querySelector('.ub-reward-headline span').textContent=headlineText;
+            container.querySelector('.ub-badge-main-name').textContent=mainName;
             container.style.display='block';
         }
 
@@ -814,31 +848,35 @@
 
             if(entries.length===0){list.innerHTML=`<div style="text-align:center;padding:40px;color:#94a3b8;font-size:14px;font-weight:700">${t.empty_lib}</div>`;return;}
 
-            // 建立完整 groupMap（含所有 DB 成員，不只過濾後的）
+            // 完整 groupMap：有 group 的共用 group key；無 group 的用 id 作唯一 group key
             const groupMap={};
             Object.entries(GLOBAL_BADGE_DB).forEach(([id,langData])=>{
                 const info=langData[state.lang]||langData['zh-hant'];
-                if(info.group){if(!groupMap[info.group])groupMap[info.group]=[];groupMap[info.group].push([id,langData]);}
+                const grpKey=info.group||id;
+                if(!groupMap[grpKey])groupMap[grpKey]=[];
+                groupMap[grpKey].push([id,langData]);
             });
 
-            // 依 DB 原始順序渲染：單一徽章在原位，群組遇到第一個成員時渲染
+            // 依 DB 原始順序：所有徽章（含單一）一律以 group 格式呈現，視覺統一
             const seenGroups=new Set();
             let html='';
             entries.forEach(([id,langData])=>{
                 const info=langData[state.lang]||langData['zh-hant'];
-                const grp=info.group;
-                if(!grp){
-                    html+=renderLibCard(id,langData,t,'lib-card-standalone',null);
-                } else if(!seenGroups.has(grp)){
-                    seenGroups.add(grp);
-                    const groupItems=(groupMap[grp]||[]).filter(([gid,gld])=>{
+                const grpKey=info.group||id;
+                if(!seenGroups.has(grpKey)){
+                    seenGroups.add(grpKey);
+                    const groupItems=(groupMap[grpKey]||[]).filter(([gid,gld])=>{
                         const gi=gld[state.lang]||gld['zh-hant'];
                         const isOwned=gi.matchPrefix?state.ownedIds.some(oid=>oid.startsWith(gi.matchPrefix)):state.ownedIds.includes(gid);
                         if(filterType==='owned'&&!isOwned) return false;
                         if(filterType==='unowned'&&isOwned) return false;
                         return true;
                     });
-                    if(groupItems.length>0) html+=renderLibGroup(grp,groupItems,t);
+                    if(groupItems.length>0){
+                        // group 標題：有 group 用 group 名，單一徽章用徽章標題
+                        const displayName=info.group||info.title;
+                        html+=renderLibGroup(displayName,groupItems,t);
+                    }
                 }
             });
 
