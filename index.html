@@ -77,10 +77,11 @@
         .upcoming-banner.is-locked { border-color: rgba(255,209,0,0.3); box-shadow: 0 0 0 1px rgba(255,209,0,0.06) inset, 0 6px 20px rgba(0,0,0,0.3); }
         .upcoming-banner:active { transform: scale(0.99); opacity: 0.9; }
 
-        /* 左側：獎勵圖示區（最重要的視覺，放左邊讓眼睛先掃到） */
+        /* 左側：獎勵圖示區 */
         .ub-reward-zone { display: flex; align-items: center; flex-shrink: 0; }
+        .ub-slot-wrap { display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0; }
         .ub-badge-slot {
-            width: 56px; height: 56px; border-radius: 14px; flex-shrink: 0;
+            width: 52px; height: 52px; border-radius: 12px; flex-shrink: 0;
             display: flex; align-items: center; justify-content: center; position: relative;
             overflow: hidden;
         }
@@ -95,16 +96,16 @@
             border-color: rgba(255,209,0,0.4);
             animation: none;
         }
-        .ub-badge-slot img { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)); }
+        .ub-badge-slot img { width: 40px; height: 40px; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)); }
         .ub-mystery-q { font-family: var(--font-head); font-size: 26px; font-weight: 900; color: var(--pink); line-height: 1; }
         .is-locked .ub-mystery-q { color: var(--gold); }
-        .ub-reward-label {
-            position: absolute; bottom: -1px; left: 0; right: 0;
-            background: rgba(246,65,141,0.8); color: #fff;
-            font-size: 8px; font-weight: 900; text-align: center; padding: 1px 0;
-            letter-spacing: 0.3px; text-transform: uppercase;
+        /* 標籤移到圖示下方，不再遮住徽章 */
+        .ub-slot-label {
+            font-size: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.4px;
+            color: var(--pink); opacity: 0.85; white-space: nowrap;
         }
-        .is-locked .ub-reward-label { background: rgba(180,140,0,0.85); }
+        .is-locked .ub-slot-label { color: var(--gold); }
+        .ub-slot-label.owned-label { color: var(--success-green); }
 
         /* 右側：資訊區 */
         .ub-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
@@ -125,18 +126,15 @@
         }
         .is-locked .ub-badge-count-chip { color: var(--gold); background: rgba(255,209,0,0.1); border-color: rgba(255,209,0,0.25); }
         .ub-more-arrow { color: var(--text-dim); font-size: 16px; flex-shrink: 0; margin-left: auto; }
-        /* 徽章名稱（主要內容） */
         .ub-badge-main-name {
             font-family: var(--font-head); font-size: 17px; font-weight: 900;
             color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
             line-height: 1.2;
         }
         /* 多徽章時的橫排 slot 組 */
-        .ub-multi-slots { display:flex;align-items:center;gap:6px;flex-shrink:0; }
-        /* Banner 已獲得狀態 */
+        .ub-multi-slots { display:flex;align-items:flex-start;gap:8px;flex-shrink:0; }
         .upcoming-banner.is-owned { border-color:rgba(21,234,72,0.4);box-shadow:0 0 0 1px rgba(21,234,72,0.08) inset,0 6px 20px rgba(0,0,0,.3); }
         .ub-reward-headline.owned-state { color:var(--success-green); }
-        .ub-owned-check { font-size:14px;font-weight:900;color:var(--success-green); }
 
         /* ── HERO LIBRARY ── */
         .hero-banner-wrap { max-width: 600px; margin: 0 auto 20px; padding: 0 16px; }
@@ -254,7 +252,6 @@
 
         /* ── LIBRARY：分組 + 縮圖預覽 ── */
         .lib-grid { display:flex;flex-direction:column;gap:8px; }
-
         .lib-group { display:flex;flex-direction:column; }
         .lib-group-header {
             display:flex;justify-content:space-between;align-items:center;
@@ -263,22 +260,24 @@
             cursor:pointer;transition:background .2s;user-select:none;
         }
         .lib-group-header:active { background:rgba(255,255,255,.09); }
-        .lib-group-left { display:flex;flex-direction:column;gap:5px;flex:1;min-width:0; }
-        .lib-group-title-row { display:flex;align-items:center;gap:8px; }
+        .lib-group-left { display:flex;flex-direction:column;gap:4px;flex:1;min-width:0; }
+
+        /* 標題 + 日期同一行 */
+        .lib-group-title-row { display:flex;align-items:center;gap:8px;flex-wrap:wrap; }
         .lib-group-title { font-size:14px;font-weight:800;color:var(--text-primary); }
-        .lib-group-thumbs { display:flex;align-items:center;gap:6px;flex-wrap:nowrap;overflow:hidden; }
-        /* 縮圖：完整排列不交疊，已獲得金色邊框，統一全亮 */
+        .lib-group-date { font-size:10px;font-weight:600;color:var(--text-dim);white-space:nowrap; }
+
+        /* 縮圖預覽行：展開後隱藏 */
+        .lib-group-thumbs { display:flex;align-items:center;gap:6px;flex-wrap:nowrap;overflow:hidden;margin-top:2px; }
+        .lib-group-thumbs.hidden { display:none; }
         .lib-thumb {
             width:36px;height:36px;border-radius:8px;
             background:rgba(0,0,0,.4);border:1.5px solid rgba(255,255,255,.12);
-            display:flex;align-items:center;justify-content:center;overflow:hidden;
-            flex-shrink:0;
+            display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;
         }
         .lib-thumb img { width:26px;height:26px;object-fit:contain;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5)); }
-        .lib-thumb.owned-thumb { border-color:rgba(255,209,0,0.6);box-shadow:0 0 6px rgba(255,209,0,.25); }
+        .lib-thumb.owned-thumb { border-color:rgba(255,209,0,0.6);box-shadow:0 0 6px rgba(255,209,0,.2); }
         .lib-thumb-more { background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:var(--text-dim);flex-shrink:0; }
-        /* 分組日期 */
-        .lib-group-date { font-size:11px;font-weight:600;color:var(--text-dim); }
 
         .lib-group-right { display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:12px; }
         .lib-group-count { font-size:12px;font-weight:700;color:var(--gold);white-space:nowrap; }
@@ -286,23 +285,28 @@
         .lib-group-chevron { font-size:12px;color:var(--text-dim);transition:transform .25s;display:inline-block;flex-shrink:0; }
         .lib-group-chevron.open { transform:rotate(90deg); }
 
-        .lib-group-body { display:none;flex-direction:column;gap:6px;margin-top:6px; }
+        .lib-group-body { display:none;flex-direction:column;gap:8px;margin-top:8px; }
         .lib-group-body.open { display:flex; }
 
-        /* 統一卡片樣式（分組內 + 單獨） */
+        /* 徽章卡片：圖片主角，名稱 + 描述輔助，清楚標示已/未獲得 */
         .lib-card, .lib-card-standalone {
             background:rgba(255,255,255,.03);border:1px solid var(--glass-border);
-            border-radius:14px;padding:14px;display:flex;align-items:flex-start;gap:12px;
+            border-radius:14px;padding:12px;display:flex;align-items:center;gap:14px;
             transition:border-color .3s;
         }
-        .lib-card.owned, .lib-card-standalone.owned { border-color:rgba(255,209,0,.45);background:rgba(255,209,0,.04); }
-        .lib-img { width:48px;height:48px;flex-shrink:0;filter:drop-shadow(0 3px 6px rgba(0,0,0,.5));margin-top:2px; }
+        .lib-card.owned, .lib-card-standalone.owned {
+            border-color:rgba(255,209,0,.5);background:rgba(255,209,0,.04);
+        }
+        /* 徽章圖放大，成為視覺重點 */
+        .lib-img { width:60px;height:60px;flex-shrink:0;filter:drop-shadow(0 4px 10px rgba(0,0,0,.6)); }
         .lib-info { flex:1;min-width:0;text-align:left; }
-        .lib-header-row { display:flex;justify-content:space-between;align-items:flex-start;gap:6px;margin-bottom:2px; }
-        .lib-name { font-size:13px;font-weight:800;color:#fff;line-height:1.3; }
-        .owned-tag { background:rgba(255,209,0,.15);color:var(--gold);padding:2px 6px;border-radius:4px;font-size:10px;font-weight:800;flex-shrink:0;border:1px solid rgba(255,209,0,.3); }
+        .lib-header-row { display:flex;justify-content:space-between;align-items:flex-start;gap:6px;margin-bottom:3px; }
+        .lib-name { font-size:14px;font-weight:800;color:#fff;line-height:1.3; }
+        /* 已獲得標籤：清楚顯示，未獲得不顯示任何標籤（視覺乾淨） */
+        .owned-tag { background:rgba(255,209,0,.18);color:var(--gold);padding:2px 7px;border-radius:4px;font-size:10px;font-weight:800;flex-shrink:0;border:1px solid rgba(255,209,0,.35); }
         .lib-desc { font-size:11px;font-weight:500;color:var(--text-dim);line-height:1.5;display:block; }
-        .lib-date { display:inline-flex;align-items:center;font-size:10px;font-weight:600;color:var(--text-secondary);background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;margin-top:4px; }
+        /* 日期 inline 在描述後，只在有差異時顯示，不佔用單獨行 */
+        .lib-date { display:inline;font-size:10px;font-weight:600;color:rgba(155,155,155,.7);margin-left:4px; }
 
         /* Modal */
         .modal-overlay { position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);z-index:20000;display:none;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .3s;cursor:pointer; }
@@ -410,7 +414,6 @@
         <div class="overlay-filters">
             <button class="filter-btn active" onclick="renderLibrary('all',this)" id="flt-all">全部</button>
             <button class="filter-btn" onclick="renderLibrary('owned',this)" id="flt-owned">已獲得</button>
-            <button class="filter-btn" onclick="renderLibrary('unowned',this)" id="flt-unowned">未獲得</button>
         </div>
         <div class="overlay-scroll"><div class="lib-grid" id="all-badges-list"></div></div>
     </div>
@@ -543,7 +546,7 @@
         const UPCOMING_BADGE_DB = [
             { id:"campaign_2604_toy", startDate:"2026-04-03", endDate:"2026-04-06",
               eventUrl:"https://swag.live/iframe/?source=https://events.swag.app/toyparty/?user_id={UID}&title=iframe_viewer_header",
-              badges:[{ imgId:"campaign_toyparty", preview:true }],
+              badges:[{ imgId:"campaign_katohtaka_tier3", preview:false }],
               langs:{
                 "zh-hant":{ eventTitle:"大人的玩具派對", rewardLabel:"新徽章可獲得", items:[{ name:"大人的玩具師", rule:"於直播間玩指令/互動菜單滿 10,000 鑽，且觀看「私密直播」達 10 分鐘" }] },
                 "en":{ eventTitle:"Adult Toy Party", rewardLabel:"New Badge Available", items:[{ name:"Master Toymaker", rule:"Spend 10k on Play with Me & watch Private Stream for 10 mins" }] }
@@ -674,14 +677,16 @@
                 ?info.eventTitle
                 :(info.items&&info.items[0]?info.items[0].name:info.eventTitle);
 
-            // 圖示區：單徽章一個 slot；多徽章橫排最多 4 個
+            // 圖示區：slot-wrap 讓標籤在圖示下方，不遮住徽章
             const displayBadges=evt.badges.slice(0,4);
             const slotsHtml=displayBadges.map(b=>{
                 const slotOwned=state.ownedIds.includes(b.imgId);
+                const labelText=slotOwned?(state.lang==='zh-hant'?'已獲得':'Owned'):(state.lang==='zh-hant'?'限定':'EX');
+                const labelClass=slotOwned?'ub-slot-label owned-label':'ub-slot-label';
                 if(b.preview){
-                    return `<div class="ub-badge-slot has-img"${slotOwned?' style="border-color:rgba(255,209,0,0.6)"':''}><img src="${CFG.img}${b.imgId}.svg" onerror="handleImgFallback(this)"><span class="ub-reward-label">${slotOwned?(state.lang==='zh-hant'?'已得':'Got'):(state.lang==='zh-hant'?'限定':'EX')}</span></div>`;
+                    return `<div class="ub-slot-wrap"><div class="ub-badge-slot has-img"${slotOwned?' style="border-color:rgba(255,209,0,0.6)"':''}><img src="${CFG.img}${b.imgId}.svg" onerror="handleImgFallback(this)"></div><span class="${labelClass}">${labelText}</span></div>`;
                 } else {
-                    return `<div class="ub-badge-slot is-mystery"><span class="ub-mystery-q">?</span><span class="ub-reward-label">${state.lang==='zh-hant'?'限定':'EX'}</span></div>`;
+                    return `<div class="ub-slot-wrap"><div class="ub-badge-slot is-mystery"><span class="ub-mystery-q">?</span></div><span class="ub-slot-label">${state.lang==='zh-hant'?'限定':'EX'}</span></div>`;
                 }
             }).join('');
             const rewardZoneHtml=isSeries
@@ -721,7 +726,7 @@
 
         function updateUIStrings() {
             const t=I18N[state.lang];
-            const ids={'ui-username-display':t.username+(state.username||'----'),'ui-title':t.title,'lbl-my-lvl':t.my_lvl,'ui-upgrade':t.upgrade,'lbl-total':t.total,'lbl-site-lib':t.all_lib,'lbl-view-lib':t.view_lib,'ui-all-title':t.all_title,'ui-feat-h':t.feat_h,'ui-vip-pre':t.vip_pre,'ui-vip-lvl':t.vip_lvl,'ui-vip-suf':t.vip_suf,'ui-hint-pos':t.hint_pos,'lbl-count-pre':t.count_pre,'lbl-count-suf':t.count_suf,'ui-zero-msg':t.zero_msg,'ui-zero-cta':t.zero_cta,'flt-all':t.flt_all,'flt-owned':t.flt_owned,'flt-unowned':t.flt_unowned,'ui-modal-btn':t.modal_btn,'sp-lbl-1':t.sp_send,'sp-lbl-2':t.sp_processing,'sp-lbl-3':t.sp_confirm};
+            const ids={'ui-username-display':t.username+(state.username||'----'),'ui-title':t.title,'lbl-my-lvl':t.my_lvl,'ui-upgrade':t.upgrade,'lbl-total':t.total,'lbl-site-lib':t.all_lib,'lbl-view-lib':t.view_lib,'ui-all-title':t.all_title,'ui-feat-h':t.feat_h,'ui-vip-pre':t.vip_pre,'ui-vip-lvl':t.vip_lvl,'ui-vip-suf':t.vip_suf,'ui-hint-pos':t.hint_pos,'lbl-count-pre':t.count_pre,'lbl-count-suf':t.count_suf,'ui-zero-msg':t.zero_msg,'ui-zero-cta':t.zero_cta,'flt-all':t.flt_all,'flt-owned':t.flt_owned,'ui-modal-btn':t.modal_btn,'sp-lbl-1':t.sp_send,'sp-lbl-2':t.sp_processing,'sp-lbl-3':t.sp_confirm};
             Object.entries(ids).forEach(([id,text])=>{const el=document.getElementById(id);if(el)el.innerText=text;});
             for(let i=1;i<=7;i++){const el=document.getElementById(`ui-n${i}`);if(el)el.innerText=t[`n${i}`];}
         }
@@ -752,6 +757,7 @@
                 }
                 if(state.list.length>0) render();
                 check();
+                renderUpcomingBanner(); // 資料載入後重新渲染 Banner，讓已獲得狀態正確反映
             } catch(e) {
                 const t=I18N[state.lang];
                 box.innerHTML=`<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:#64748b;font-weight:700">${t.err_load}</div>`;
@@ -769,24 +775,37 @@
             const info=langData[state.lang]||langData['zh-hant'];
             const isOwned=info.matchPrefix?state.ownedIds.some(oid=>oid.startsWith(info.matchPrefix)):state.ownedIds.includes(id);
             const renderImg=info.imgId||id;
-            let descText=info.desc||'', dateHtml='';
+            let descText=info.desc||'';
             const dateMatch=descText.match(/\s*\((20\d{2}[^)]*)\)$/);
+            let inlineDateHtml='';
             if(dateMatch){
                 descText=descText.replace(dateMatch[0],'');
-                if(!groupDate || dateMatch[1]!==groupDate) {
-                    dateHtml=`<div class="lib-date">🗓 ${dateMatch[1]}</div>`;
+                // 只有當日期與分組統一日期不同時才顯示（避免重複）
+                if(!groupDate || dateMatch[1]!==groupDate){
+                    inlineDateHtml=`<span class="lib-date">${dateMatch[1]}</span>`;
                 }
             }
-            // 全亮：移除 unowned 灰階，所有徽章全彩顯示
-            return `<div class="${cssClass} ${isOwned?'owned':''}"><img class="lib-img" src="${CFG.img}${renderImg}.svg" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'"><div class="lib-info"><div class="lib-header-row"><span class="lib-name">${info.title}</span>${isOwned?`<span class="owned-tag">${t.got_it}</span>`:''}</div><span class="lib-desc">${descText}</span>${dateHtml}</div></div>`;
+            return `<div class="${cssClass} ${isOwned?'owned':''}">
+                <img class="lib-img" src="${CFG.img}${renderImg}.svg" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'">
+                <div class="lib-info">
+                    <div class="lib-header-row">
+                        <span class="lib-name">${info.title}</span>
+                        ${isOwned?`<span class="owned-tag">${t.got_it}</span>`:''}
+                    </div>
+                    <span class="lib-desc">${descText}${inlineDateHtml}</span>
+                </div>
+            </div>`;
         }
 
         function toggleLibGroup(groupId) {
             const body=document.getElementById(groupId), chevron=document.getElementById(groupId+'-chevron');
+            const thumbs=document.getElementById(groupId+'-thumbs');
             if(!body) return;
             const isOpen=body.classList.contains('open');
             body.classList.toggle('open',!isOpen);
             if(chevron) chevron.classList.toggle('open',!isOpen);
+            // 展開時隱藏縮圖（展開後可以直接看到完整徽章，縮圖多餘）
+            if(thumbs) thumbs.classList.toggle('hidden',!isOpen);
         }
 
         function renderLibGroup(groupName, items, t) {
@@ -794,21 +813,22 @@
             const total=items.length, isComplete=ownedCount===total&&total>0;
             const groupId='grp-'+encodeURIComponent(groupName);
             const uniformDate=extractGroupUniformDate(items);
-            const thumbItems=items.slice(0,4), extraCount=items.length-thumbItems.length;
+            const thumbItems=items.slice(0,6), extraCount=Math.max(0,items.length-6);
             const thumbsHtml=thumbItems.map(([id,langData])=>{
                 const info=langData[state.lang]||langData['zh-hant'];
                 const isOwned=info.matchPrefix?state.ownedIds.some(oid=>oid.startsWith(info.matchPrefix)):state.ownedIds.includes(id);
                 const renderImg=info.imgId||id;
-                // 全亮；已獲得加金色邊框
                 return `<div class="lib-thumb ${isOwned?'owned-thumb':''}"><img src="${CFG.img}${renderImg}.svg" onerror="this.style.display='none'"></div>`;
             }).join('')+(extraCount>0?`<div class="lib-thumb-more">+${extraCount}</div>`:'');
             return `
             <div class="lib-group">
                 <div class="lib-group-header" onclick="toggleLibGroup('${groupId}')">
                     <div class="lib-group-left">
-                        <div class="lib-group-title-row"><span class="lib-group-title">${groupName}</span></div>
-                        ${uniformDate?`<div class="lib-group-date">🗓 ${uniformDate}</div>`:''}
-                        <div class="lib-group-thumbs" style="margin-top:4px">${thumbsHtml}</div>
+                        <div class="lib-group-title-row">
+                            <span class="lib-group-title">${groupName}</span>
+                            ${uniformDate?`<span class="lib-group-date">· ${uniformDate}</span>`:''}
+                        </div>
+                        <div class="lib-group-thumbs" id="${groupId}-thumbs">${thumbsHtml}</div>
                     </div>
                     <div class="lib-group-right">
                         <span class="lib-group-count ${isComplete?'complete':''}">${ownedCount}/${total}</span>
