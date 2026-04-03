@@ -125,7 +125,12 @@
             padding: 1px 6px; border-radius: 4px;
         }
         .is-locked .ub-badge-count-chip { color: var(--gold); background: rgba(255,209,0,0.1); border-color: rgba(255,209,0,0.25); }
-        .ub-more-arrow { color: var(--text-dim); font-size: 16px; flex-shrink: 0; margin-left: auto; }
+        /* CSS 右向 chevron，取代 › 字元 */
+        .ub-more-arrow {
+            display:inline-block; width:7px; height:7px; flex-shrink:0; margin-left:auto;
+            border-right:2px solid var(--text-dim); border-top:2px solid var(--text-dim);
+            transform:rotate(45deg); opacity:0.7;
+        }
         .ub-badge-main-name {
             font-family: var(--font-head); font-size: 17px; font-weight: 900;
             color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
@@ -146,7 +151,12 @@
         .lh-desc { font-size: 12px; color: var(--text-secondary); font-weight: 600; }
         .lh-count { font-family: var(--font-head); font-size: 24px; font-weight: 900; color: #fff; display: flex; align-items: baseline; gap: 4px; }
         .lh-count-text { font-size: 12px; font-weight: 600; color: var(--text-dim); font-family: var(--font-body); }
-        .lh-arrow { font-size: 14px; color: var(--gold); opacity: 0.8; margin-left: 4px; }
+        /* CSS 右向箭頭，取代 ➔ emoji */
+        .lh-arrow {
+            display:inline-block; width:14px; height:14px; flex-shrink:0;
+            border-right:2.5px solid var(--gold); border-top:2.5px solid var(--gold);
+            transform:rotate(45deg); opacity:0.8; margin-left:6px; vertical-align:middle;
+        }
 
         /* ── EVENT MODAL ── */
         .event-modal-overlay { position: fixed; top:0;left:0;width:100%;height:100%; background:rgba(0,0,0,.85); backdrop-filter:blur(14px); z-index:25000; display:none; align-items:center; justify-content:center; padding:20px; opacity:0; transition:opacity .25s; cursor:pointer; }
@@ -302,8 +312,17 @@
         .lib-group-right { display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:12px; }
         .lib-group-count { font-size:12px;font-weight:700;color:var(--text-dim);white-space:nowrap; }
         .lib-group-count.complete { color:var(--success-green); }
-        .lib-group-chevron { font-size:11px;color:var(--text-dim);transition:transform .25s;display:inline-block;flex-shrink:0; }
-        .lib-group-chevron.open { transform:rotate(90deg); }
+        /* CSS border chevron — 不使用任何 emoji 或特殊字元 */
+        .lib-group-chevron {
+            display:inline-block;flex-shrink:0;
+            width:8px;height:8px;
+            border-right:2px solid var(--text-dim);
+            border-bottom:2px solid var(--text-dim);
+            transform:rotate(-45deg); /* 指向右 */
+            transition:transform .25s,border-color .2s;
+            margin-right:2px;
+        }
+        .lib-group-chevron.open { transform:rotate(45deg); border-color:var(--text-secondary); } /* 指向下 */
 
         /* body：與 header 直接相連，中間用分隔線而非間距 */
         .lib-group-body { display:none;flex-direction:column;gap:0; }
@@ -325,15 +344,6 @@
         }
         .lib-card.owned .lib-img { filter:drop-shadow(0 4px 12px rgba(255,209,0,.4)); }
 
-        /* 無分組的單一徽章：獨立卡片，有完整 border + border-radius */
-        .lib-card-standalone {
-            background:rgba(255,255,255,.03);border:1px solid var(--glass-border);
-            border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:14px;
-            transition:border-color .3s,background .2s;
-        }
-        .lib-card-standalone.owned { border-color:rgba(255,209,0,.4);background:rgba(255,209,0,.03); }
-        .lib-card-standalone.owned .lib-img { filter:drop-shadow(0 4px 12px rgba(255,209,0,.4)); }
-
         /* 徽章圖：視覺主角 */
         .lib-img { width:60px;height:60px;flex-shrink:0;filter:drop-shadow(0 4px 10px rgba(0,0,0,.6));transition:filter .3s; }
         .lib-info { flex:1;min-width:0;text-align:left; }
@@ -344,8 +354,8 @@
         .lib-check { color:var(--gold);font-size:13px;font-weight:900;line-height:1;flex-shrink:0; }
 
         /* 未獲得：輕微降低視覺重量以區分，維持可識別性 */
-        .lib-card.unowned, .lib-card-standalone.unowned { opacity:0.65; }
-        .lib-card.unowned .lib-name, .lib-card-standalone.unowned .lib-name { color:var(--text-secondary); }
+        .lib-card.unowned { opacity:0.65; }
+        .lib-card.unowned .lib-name { color:var(--text-secondary); }
 
         .lib-desc { font-size:11px;font-weight:500;color:var(--text-dim);line-height:1.5;display:block; }
         /* lib-date 使用 token 而非硬編碼 rgba */
@@ -388,7 +398,7 @@
                 <span class="lh-count-text" id="lbl-count-pre">收錄共</span>
                 <span id="ui-total-db-count">--</span>
                 <span class="lh-count-text" id="lbl-count-suf">款</span>
-                <span class="lh-arrow">➔</span>
+                <span class="lh-arrow"></span>
             </div>
         </div>
     </div>
@@ -492,13 +502,6 @@
             imgElement.parentNode.replaceChild(div, imgElement);
         };
 
-        function formatShortDateRange(startStr, endStr) {
-            const s = startStr.split('-'), e = endStr.split('-');
-            const sY=s[0], sM=parseInt(s[1],10), sD=parseInt(s[2],10);
-            const eY=e[0], eM=parseInt(e[1],10), eD=parseInt(e[2],10);
-            if (sY===eY) return `${sY}/${sM}/${sD} - ${eM}/${eD}`;
-            return `${sY}/${sM}/${sD} - ${eY}/${eM}/${eD}`;
-        }
         // Banner 專用：不顯示年份（年份只屬於歷史徽章庫）
         function formatBannerDate(startStr, endStr) {
             const s=startStr.split('-'), e=endStr.split('-');
@@ -589,7 +592,7 @@
         const UPCOMING_BADGE_DB = [
             { id:"campaign_2604_toy", startDate:"2026-04-03", endDate:"2026-04-06",
               eventUrl:"https://swag.live/iframe/?source=https://events.swag.app/toyparty/?user_id={UID}&title=iframe_viewer_header",
-              badges:[{ imgId:"campaign_katohtaka_tier3", preview:false }],
+              badges:[{ imgId:"campaign_toyparty", preview:true }],
               langs:{
                 "zh-hant":{ eventTitle:"大人的玩具派對", rewardLabel:"新徽章可獲得", items:[{ name:"大人的玩具師", rule:"於直播間玩指令/互動菜單滿 10,000 鑽，且觀看「私密直播」達 10 分鐘" }] },
                 "en":{ eventTitle:"Adult Toy Party", rewardLabel:"New Badge Available", items:[{ name:"Master Toymaker", rule:"Spend 10k on Play with Me & watch Private Stream for 10 mins" }] }
@@ -751,7 +754,7 @@
                             <span class="ub-date" style="color:${allOwned?'var(--success-green)':isActive?'var(--pink)':'var(--gold)'}">· ${statusText}</span>
                         </div>
                     </div>
-                    <span class="ub-more-arrow">›</span>
+                    <span class="ub-more-arrow"></span>
                 </div>`;
             container.querySelector('.ub-reward-headline span').textContent=headlineText;
             container.querySelector('.ub-badge-main-name').textContent=mainName;
@@ -763,7 +766,10 @@
             document.querySelectorAll('.lang-btn').forEach(b=>b.classList.toggle('active',b.id===`btn-${l}`));
             document.documentElement.lang=l==='zh-hant'?'zh-Hant':'en';
             document.title=l==='zh-hant'?'帳號徽章更換 | SWAG Premium':'Badge Manager | SWAG Premium';
-            updateUIStrings(); renderUpcomingBanner();
+            updateUIStrings();
+            // 若 uid 存在但資料尚未載入（初次進頁），不在此渲染 Banner
+            // 避免「未獲得」→「已獲得」的視覺閃爍。init() 載入完成後會重新呼叫。
+            if (!uid || state.dataLoaded) renderUpcomingBanner();
             if (uid) { if(state.dataLoaded&&!state.isLoading){const box=document.getElementById('display');box.classList.add('lang-loading');box.classList.remove('lang-loaded');rebuildTranslations().then(()=>{box.classList.remove('lang-loading');box.classList.add('lang-loaded');});}else if(!state.isLoading){init();} }
         }
 
@@ -891,8 +897,8 @@
             const isOwnedMode=filterType==='owned';
             // 全部模式：顯示進度數字 + chevron；我的成就模式：只顯示 chevron，✅ 由金色左邊框傳達
             const rightHtml=isOwnedMode
-                ?`<span class="lib-group-chevron open" id="${groupId}-chevron">▼</span>`
-                :`<span class="lib-group-count ${isComplete?'complete':''}">${ownedCount}/${total}</span><span class="lib-group-chevron" id="${groupId}-chevron">▶</span>`;
+                ?`<span class="lib-group-chevron open" id="${groupId}-chevron"></span>`
+                :`<span class="lib-group-count ${isComplete?'complete':''}">${ownedCount}/${total}</span><span class="lib-group-chevron" id="${groupId}-chevron"></span>`;
             const defaultOpen=isOwnedMode;
             const headerCursor=isOwnedMode?'style="cursor:default"':'';
             const headerClick=isOwnedMode?'':'onclick="toggleLibGroup(\''+groupId+'\')"';
@@ -979,15 +985,17 @@
             const t=I18N[state.lang], box=document.getElementById('display');
             box.innerHTML=state.list.map(b=>{
                 const isSelected=state.selected?.id===b.id;
-                // 確認按鈕用 <button>；外層 badge-item 用 <div role="button"> 避免 button-in-button 無效 HTML
-                const btnHtml=(state.level>=60&&isSelected)?`<button class="inline-confirm-btn ${state.isSubmitting?'submitting':''}" onclick="sendReq(event)">${state.isSubmitting?t.sending:t.btn}</button>`:'';
-                return `<div class="badge-item ${isSelected?'selected':''}" role="button" tabindex="0" onclick="toggleSelect('${b.id}')"><img class="badge-img" src="${CFG.img}${b.id}.svg" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'"><span class="badge-name"></span>${btnHtml}</div>`;
+                // 外層 div + 內層 <button>：button 的 onclick 可靠觸發，stopPropagation 阻斷外層 div
+                const btnHtml=(state.level>=60&&isSelected)?`<button type="button" class="inline-confirm-btn ${state.isSubmitting?'submitting':''}" onclick="sendReq(event)">${state.isSubmitting?t.sending:t.btn}</button>`:'';
+                return `<div class="badge-item ${isSelected?'selected':''}" onclick="toggleSelect(event,'${b.id}')"><img class="badge-img" src="${CFG.img}${b.id}.svg" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'"><span class="badge-name"></span>${btnHtml}</div>`;
             }).join('');
             box.querySelectorAll('.badge-name').forEach((el,i)=>{el.textContent=state.list[i].name;});
         }
 
-        function toggleSelect(id) {
+        function toggleSelect(e, id) {
             if(state.isSubmitting) return;
+            // 點擊來源是確認按鈕時立即中斷，交由 sendReq 處理
+            if(e && e.target && e.target.closest && e.target.closest('.inline-confirm-btn')) return;
             const badge=state.list.find(b=>b.id===id);
             state.selected=(state.selected&&state.selected.id===id)?null:badge;
             render(); check();
@@ -1034,7 +1042,7 @@
         function showEquippedSuccess(){const grid=document.getElementById('equipped-display-grid'),boxes=grid.querySelectorAll('.equipped-box');if(boxes.length===0)return;const lastBox=boxes[boxes.length-1];lastBox.querySelector('.eq-loading-ring')?.remove();lastBox.classList.remove('pending');lastBox.classList.add('eq-confirmed');lastBox.addEventListener('animationend',()=>lastBox.classList.remove('eq-confirmed'),{once:true});}
 
         async function sendReq(e) {
-            if(e) e.stopPropagation();
+            if(e){e.stopPropagation();e.stopImmediatePropagation();e.preventDefault();}
             if(state.isSubmitting||!state.selected) return;
             const t=I18N[state.lang], targetBadge={...state.selected};
             state.isSubmitting=true; render();
