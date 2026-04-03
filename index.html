@@ -344,14 +344,16 @@
             filter: drop-shadow(0 4px 12px rgba(255, 209, 0, 0.4));
         }
         /* 3. 狀態標籤：鏤空金框設計 */
-        .owned-tag { 
-            display: inline-flex; align-items: center; justify-content: center;
-            background: transparent; color: var(--gold); 
-            padding: 2px 6px; border-radius: 4px; 
-            font-size: 10px; font-weight: 800; flex-shrink: 0; 
-            border: 1px solid rgba(255, 209, 0, 0.5); 
-            box-shadow: 0 2px 6px rgba(255, 209, 0, 0.1);
+        .lib-check { 
+            color: var(--gold); 
+            font-size: 14px; 
+            font-weight: 900; 
+            line-height: 1; 
+            flex-shrink: 0; 
+            text-shadow: 0 2px 4px rgba(255,209,0,0.3);
         }
+        .lib-card.unowned, .lib-card-standalone.unowned { opacity: 0.65; }
+        .lib-card.unowned .lib-name, .lib-card-standalone.unowned .lib-name { color: var(--text-secondary); }
         .lib-card-standalone.owned .lib-name::after { display: none; } /* 隱藏原本硬幹的打勾文字 */
 
         .lib-desc { font-size:11px;font-weight:500;color:var(--text-dim);line-height:1.5;display:block; }
@@ -840,31 +842,45 @@
         }
 
         function renderLibCard(id, langData, t, cssClass='lib-card', groupDate=null) {
-            const info=langData[state.lang]||langData['zh-hant'];
-            const isOwned=info.matchPrefix?state.ownedIds.some(oid=>oid.startsWith(info.matchPrefix)):state.ownedIds.includes(id);
-            const renderImg=info.imgId||id;
-            let descText=info.desc||'';
-            const dateMatch=descText.match(/\s*\((20\d{2}[^)]*)\)$/);
-            let inlineDateHtml='';
+            const info = langData[state.lang] || langData['zh-hant'];
+            const isOwned = info.matchPrefix 
+                ? state.ownedIds.some(oid => oid.startsWith(info.matchPrefix)) 
+                : state.ownedIds.includes(id);
+            
+            const renderImg = info.imgId || id;
+            let descText = info.desc || '';
+            
+            const dateMatch = descText.match(/\s*\((20\d{2}[^)]*)\)$/);
+            let inlineDateHtml = '';
             if(dateMatch){
-                descText=descText.replace(dateMatch[0],'');
-                // 只有當日期與分組統一日期不同時才顯示（避免重複）
-                if(!groupDate || dateMatch[1]!==groupDate){
-                    inlineDateHtml=`<span class="lib-date">${dateMatch[1]}</span>`;
+                descText = descText.replace(dateMatch[0], '');
+                if(!groupDate || dateMatch[1] !== groupDate){
+                    inlineDateHtml = `<span class="lib-date">${dateMatch[1]}</span>`;
                 }
             }
-            return `<div class="${cssClass} ${isOwned?'owned':''}">
-                <img class="lib-img" src="${CFG.img}${renderImg}.svg" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'">
+
+            // 🚀 核心 UX 優化：情境感知 (Context-Aware)
+            // 只在「全部圖鑑 (all)」中，且「已獲得」時，才顯示極簡的打勾符號。
+            // 若在「我的成就 (owned)」Tab，則全數隱藏，保持極致乾淨。
+            const statusIndicator = (isOwned && state.currentFilter === 'all') 
+                ? `<span class="lib-check">✓</span>` 
+                : '';
+
+            const imgClass = isOwned ? 'lib-img' : 'lib-img unowned';
+            const cardStatusClass = isOwned ? 'owned' : 'unowned';
+
+            return `
+            <div class="${cssClass} ${cardStatusClass}">
+                <img class="${imgClass}" src="${CFG.img}${renderImg}.svg" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'">
                 <div class="lib-info">
                     <div class="lib-header-row">
                         <span class="lib-name">${info.title}</span>
-                        ${isOwned?`<span class="owned-tag">${t.got_it}</span>`:''}
+                        ${statusIndicator}
                     </div>
                     <span class="lib-desc">${descText}${inlineDateHtml}</span>
                 </div>
             </div>`;
         }
-
         function toggleLibGroup(groupId) {
             const body=document.getElementById(groupId), chevron=document.getElementById(groupId+'-chevron');
             const thumbs=document.getElementById(groupId+'-thumbs');
