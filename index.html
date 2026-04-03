@@ -159,9 +159,10 @@
         .em-status-badge.active { background:rgba(246,65,141,.15);color:var(--pink);border:1px solid rgba(246,65,141,.3); }
         .em-status-badge.locked { background:rgba(255,209,0,.12);color:var(--gold);border:1px solid rgba(255,209,0,.25); }
         .em-status-dot { width:6px;height:6px;border-radius:50%;background:currentColor; }
-        .em-body { padding:20px 16px;max-height:55vh;overflow-y:auto;display:flex;flex-direction:column;gap:12px; }
-        .em-badge-item { display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.04);border:1px solid var(--glass-border-subtle);border-radius:16px;padding:16px; }
-        .em-section-label { font-size:16px;font-weight:900;color:var(--text-primary);text-transform:uppercase;letter-spacing:.8px;padding:0 4px;text-align:left; }
+        .em-body { padding:16px 16px;max-height:55vh;overflow-y:auto;display:flex;flex-direction:column;gap:10px; }
+        .em-badge-item { display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.04);border:1px solid var(--glass-border-subtle);border-radius:14px;padding:14px; }
+        /* section label: 改為小型標籤，不浪費空間 */
+        .em-section-label { font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;padding:0 2px;text-align:left; }
         .em-badge-img-box { width:64px;height:64px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,.3) inset; }
         .em-badge-img-box img { width:50px;height:50px;filter:drop-shadow(0 4px 6px rgba(0,0,0,.6)); }
         .em-badge-mystery { font-family:var(--font-head);font-size:32px;font-weight:900;color:var(--text-secondary); }
@@ -183,8 +184,15 @@
         .ac-rule-top { font-size:12px;color:var(--text-secondary);font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:5px;background:var(--glass-border-subtle);border:1px solid var(--glass-border-subtle);padding:6px 16px;border-radius:100px;margin-bottom:2px; }
         .lvl-highlight { color:var(--gold);font-family:var(--font-head);font-weight:900;font-size:14px; }
         .equipped-grid { display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:4px; }
-        .equipped-box { background:rgba(255,255,255,.02);border:1px solid var(--glass-border-subtle);border-radius:24px;padding:24px 10px 14px;display:flex;flex-direction:column;align-items:center;text-align:center;width:calc(50% - 8px);max-width:180px;box-shadow:0 10px 25px rgba(0,0,0,.4);position:relative;transition:opacity .4s,border-color .4s; }
-        .equipped-box::before { content:'';position:absolute;top:0;left:0;right:0;height:1.5px;border-radius:24px 24px 0 0;background:linear-gradient(90deg,transparent,rgba(255,209,0,.6),transparent); }
+        .equipped-box {
+            background:rgba(255,255,255,.02);border:1px solid var(--glass-border-subtle);
+            border-radius:24px;padding:24px 10px 14px;
+            display:flex;flex-direction:column;align-items:center;text-align:center;
+            width:calc(50% - 8px);max-width:180px;
+            box-shadow:0 10px 25px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,209,0,0.45);
+            /* inset box-shadow 替代 ::before，完全受 border-radius 約束，不會溢出 */
+            position:relative;transition:opacity .4s,border-color .4s,box-shadow .4s;
+        }
         .equipped-box img { width:72px;height:72px;margin-bottom:12px;filter:drop-shadow(0 8px 12px rgba(0,0,0,.7));position:relative;z-index:2;transition:opacity .3s; }
         .equipped-box span { font-size:13px;font-weight:700;color:#fff;line-height:1.2;height:32px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;text-shadow:0 2px 4px rgba(0,0,0,.6);position:relative;z-index:2; }
         .equipped-box.pending { opacity:.6;border-color:rgba(255,209,0,.5); }
@@ -267,22 +275,22 @@
         .lib-group-title { font-size:14px;font-weight:800;color:var(--text-primary); }
         .lib-group-date { font-size:10px;font-weight:600;color:var(--text-dim);white-space:nowrap; }
 
-        /* 縮圖預覽：grid 自適應，自動換行，每格固定寬度 */
+        /* 縮圖預覽：grid 自適應換行 */
         .lib-group-thumbs {
             display:grid;
-            grid-template-columns:repeat(auto-fill, 44px);
+            grid-template-columns:repeat(auto-fill, 48px);
             gap:6px;
             margin-top:6px;
         }
         .lib-group-thumbs.hidden { display:none; }
         .lib-thumb {
-            width:44px;height:44px;border-radius:10px;
+            width:48px;height:48px;border-radius:10px;
             background:rgba(0,0,0,.45);border:1.5px solid rgba(255,255,255,.12);
             display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;
         }
-        .lib-thumb img { width:32px;height:32px;object-fit:contain;filter:drop-shadow(0 1px 4px rgba(0,0,0,.6)); }
+        .lib-thumb img { width:34px;height:34px;object-fit:contain;filter:drop-shadow(0 1px 4px rgba(0,0,0,.6)); }
         .lib-thumb.owned-thumb { border-color:rgba(255,209,0,0.65);box-shadow:0 0 8px rgba(255,209,0,.2); }
-        .lib-thumb-more { background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--text-dim); }
+        .lib-thumb-more { background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--text-dim); }
 
         .lib-group-right { display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:12px; }
         .lib-group-count { font-size:12px;font-weight:700;color:var(--gold);white-space:nowrap; }
@@ -684,13 +692,12 @@
                 ?info.eventTitle
                 :(info.items&&info.items[0]?info.items[0].name:info.eventTitle);
 
-            // 圖示區：slot-wrap，已獲得狀態只用金色邊框傳達，不需重複文字標籤
+            // 圖示區：已獲得用綠色邊框 + 發光，與整體已獲得狀態語言一致
             const displayBadges=evt.badges.slice(0,4);
             const slotsHtml=displayBadges.map(b=>{
                 const slotOwned=state.ownedIds.includes(b.imgId);
                 if(b.preview){
-                    // 已獲得：金色邊框 + 金色發光；不顯示文字標籤（headline 已說明狀態）
-                    return `<div class="ub-slot-wrap"><div class="ub-badge-slot has-img" style="${slotOwned?'border-color:rgba(255,209,0,0.7);box-shadow:0 0 10px rgba(255,209,0,0.25)':''}"><img src="${CFG.img}${b.imgId}.svg" onerror="handleImgFallback(this)"></div></div>`;
+                    return `<div class="ub-slot-wrap"><div class="ub-badge-slot has-img" style="${slotOwned?'border-color:rgba(21,234,72,0.7);box-shadow:0 0 10px rgba(21,234,72,0.2)':''}"><img src="${CFG.img}${b.imgId}.svg" onerror="handleImgFallback(this)"></div></div>`;
                 } else {
                     return `<div class="ub-slot-wrap"><div class="ub-badge-slot is-mystery"><span class="ub-mystery-q">?</span></div><span class="ub-slot-label">${state.lang==='zh-hant'?'限定':'EX'}</span></div>`;
                 }
@@ -833,34 +840,41 @@
             if(thumbs) thumbs.classList.toggle('hidden',!isOpen);
         }
 
-        function renderLibGroup(groupName, items, t) {
+        function renderLibGroup(groupName, items, t, filterType='all') {
             const ownedCount=items.filter(([id,langData])=>{const info=langData[state.lang]||langData['zh-hant'];return info.matchPrefix?state.ownedIds.some(oid=>oid.startsWith(info.matchPrefix)):state.ownedIds.includes(id);}).length;
             const total=items.length, isComplete=ownedCount===total&&total>0;
             const groupId='grp-'+encodeURIComponent(groupName);
             const uniformDate=extractGroupUniformDate(items);
-            // 縮圖：全部顯示（grid 自動換行，不需要 +N 截斷）
+            // 縮圖：全部顯示，grid 自動換行
             const thumbsHtml=items.map(([id,langData])=>{
                 const info=langData[state.lang]||langData['zh-hant'];
                 const isOwned=info.matchPrefix?state.ownedIds.some(oid=>oid.startsWith(info.matchPrefix)):state.ownedIds.includes(id);
                 const renderImg=info.imgId||id;
                 return `<div class="lib-thumb ${isOwned?'owned-thumb':''}"><img src="${CFG.img}${renderImg}.svg" onerror="this.style.display='none'"></div>`;
             }).join('');
+            // 「我的成就」模式：所有顯示的系列都是全部獲得，數字是冗餘資訊，改為 ✅
+            const isOwnedMode=filterType==='owned';
+            const rightHtml=isOwnedMode
+                ?`<span style="font-size:16px">✅</span>`
+                :`<span class="lib-group-count ${isComplete?'complete':''}">${ownedCount}/${total}</span><span class="lib-group-chevron" id="${groupId}-chevron">▶</span>`;
+            const chevronHtml=isOwnedMode?'':`<span class="lib-group-chevron" id="${groupId}-chevron">▶</span>`;
+            // owned 模式下預設展開（已獲得的才顯示，直接給用戶看徽章，不需要再點一下）
+            const defaultOpen=isOwnedMode;
             return `
             <div class="lib-group">
-                <div class="lib-group-header" onclick="toggleLibGroup('${groupId}')">
+                <div class="lib-group-header" ${isOwnedMode?'style="cursor:default"':''} onclick="${isOwnedMode?'':' toggleLibGroup(\''+groupId+'\')'}">
                     <div class="lib-group-left">
                         <div class="lib-group-title-row">
                             <span class="lib-group-title">${groupName}</span>
                             ${uniformDate?`<span class="lib-group-date">· ${uniformDate}</span>`:''}
                         </div>
-                        <div class="lib-group-thumbs" id="${groupId}-thumbs">${thumbsHtml}</div>
+                        <div class="lib-group-thumbs ${defaultOpen?'hidden':''}" id="${groupId}-thumbs">${thumbsHtml}</div>
                     </div>
                     <div class="lib-group-right">
-                        <span class="lib-group-count ${isComplete?'complete':''}">${ownedCount}/${total}</span>
-                        <span class="lib-group-chevron" id="${groupId}-chevron">▶</span>
+                        ${isOwnedMode?`<span style="font-size:14px">✅</span>`:(`<span class="lib-group-count ${isComplete?'complete':''}">${ownedCount}/${total}</span>${chevronHtml}`)}
                     </div>
                 </div>
-                <div class="lib-group-body" id="${groupId}">
+                <div class="lib-group-body ${defaultOpen?'open':''}" id="${groupId}">
                     ${items.map(([id,langData])=>renderLibCard(id,langData,t,'lib-card',uniformDate)).join('')}
                 </div>
             </div>`;
@@ -918,9 +932,8 @@
                         return true;
                     });
                     if(groupItems.length>0){
-                        // group 標題：有 group 用 group 名，單一徽章用徽章標題
                         const displayName=info.group||info.title;
-                        html+=renderLibGroup(displayName,groupItems,t);
+                        html+=renderLibGroup(displayName,groupItems,t,filterType);
                     }
                 }
             });
