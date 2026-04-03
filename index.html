@@ -24,6 +24,7 @@
             --text-dim: #9B9B9B;
             --glass-deep: rgba(35,35,35,0.95);
             --glass-border: rgba(255,255,255,0.15);
+            --glass-border-subtle: rgba(255,255,255,0.08);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg); color: var(--text-primary); font-family: var(--font-body); min-height: 100vh; overflow-x: hidden; }
@@ -159,7 +160,7 @@
         .em-status-badge.locked { background:rgba(255,209,0,.12);color:var(--gold);border:1px solid rgba(255,209,0,.25); }
         .em-status-dot { width:6px;height:6px;border-radius:50%;background:currentColor; }
         .em-body { padding:16px 16px;max-height:55vh;overflow-y:auto;display:flex;flex-direction:column;gap:10px; }
-        .em-badge-item { display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.04);border:1px solid var(--outline);border-radius:14px;padding:14px; }
+        .em-badge-item { display:flex;align-items:center;gap:14px;background:rgba(255,255,255,.04);border:1px solid var(--glass-border-subtle);border-radius:14px;padding:14px; }
         /* section label: 改為小型標籤，不浪費空間 */
         .em-section-label { font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:1px;padding:0 2px;text-align:left; }
         .em-badge-img-box { width:64px;height:64px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);border-radius:12px;box-shadow:0 4px 10px rgba(0,0,0,.3) inset; }
@@ -180,12 +181,12 @@
         .management-card.vip-active { border-color:rgba(255,209,0,.3); }
         .mc-header { text-align:center;display:flex;flex-direction:column;gap:10px;align-items:center; }
         .mc-title { font-size:18px;font-weight:800;color:#fff;letter-spacing:1px;font-family:var(--font-head); }
-        .ac-rule-top { font-size:12px;color:var(--text-secondary);font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:5px;background:var(--glass-border-subtle);border:1px solid var(--outline);padding:6px 16px;border-radius:100px;margin-bottom:2px; }
+        .ac-rule-top { font-size:12px;color:var(--text-secondary);font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:5px;background:var(--glass-border-subtle);border:1px solid var(--glass-border-subtle);padding:6px 16px;border-radius:100px;margin-bottom:2px; }
         .lvl-highlight { color:var(--gold);font-family:var(--font-head);font-weight:900;font-size:14px; }
         .equipped-grid { display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:4px; }
         .equipped-box {
-            background:rgba(255,255,255,.02);border:1px solid var(--glass-border);
-            border-radius:28px;padding:24px 10px 14px;
+            background:rgba(255,255,255,.02);border:1px solid var(--glass-border-subtle);
+            border-radius:24px;padding:24px 10px 14px;
             display:flex;flex-direction:column;align-items:center;text-align:center;
             width:calc(50% - 8px);max-width:180px;
             box-shadow:0 10px 25px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,209,0,0.45);
@@ -194,7 +195,7 @@
         }
         .equipped-box img { width:72px;height:72px;margin-bottom:12px;filter:drop-shadow(0 8px 12px rgba(0,0,0,.7));position:relative;z-index:2;transition:opacity .3s; }
         .equipped-box span { font-size:13px;font-weight:700;color:#fff;line-height:1.2;height:32px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;text-shadow:0 2px 4px rgba(0,0,0,.6);position:relative;z-index:2; }
-        .equipped-box.pending { opacity:.6;border-color:rgba(255,209,0,.5); }
+        .equipped-box.pending { opacity:.6;border-color:rgba(255,209,0,.5);box-shadow:0 10px 25px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,209,0,.15); }
         .eq-loading-ring { position:absolute;inset:4px;border-radius:20px;z-index:10;border:2px solid transparent;border-top-color:var(--gold);border-right-color:rgba(255,209,0,.3);animation:spin 1s linear infinite;pointer-events:none; }
         .equipped-box.eq-confirmed { opacity:1!important;animation:successPulse .9s ease-out forwards; }
         .mc-divider { height:1px;background:linear-gradient(90deg,transparent,var(--glass-border),transparent);margin:0 8px; }
@@ -306,58 +307,49 @@
 
         /* body：與 header 直接相連，中間用分隔線而非間距 */
         .lib-group-body { display:none;flex-direction:column;gap:0; }
-        .lib-group-body.open { display:flex; }
+        .lib-group-body.open { display:flex;padding-bottom:4px; } /* 底部呼吸空間 */
 
-        /* 卡片：移除獨立 border-radius，讓它們在容器內無縫堆疊 */
-       /* 卡片：移除獨立 border-radius，讓它們在容器內無縫堆疊 */
+        /* 卡片：無獨立 border-radius，在容器內無縫堆疊 */
         .lib-card {
             background:rgba(255,255,255,.02);
             border-top:1px solid var(--glass-border);
             padding:12px 14px;display:flex;align-items:center;gap:14px;
-            transition:background .2s;
+            transition:background .2s,border-color .2s;
         }
-        .lib-card:last-child { /* 最後一張卡片的底部跟隨容器的圓角 */ }
+        /* owned：只替換頂部分隔線色調 + 左側金條，不覆蓋全邊框（避免破壞容器設計） */
+        .lib-card.owned {
+            border-top-color:rgba(255,209,0,.2);
+            border-left:3px solid rgba(255,209,0,.55);
+            padding-left:11px;
+            background:rgba(255,209,0,.03);
+        }
+        .lib-card.owned .lib-img { filter:drop-shadow(0 4px 12px rgba(255,209,0,.4)); }
 
         /* 無分組的單一徽章：獨立卡片，有完整 border + border-radius */
         .lib-card-standalone {
             background:rgba(255,255,255,.03);border:1px solid var(--glass-border);
             border-radius:14px;padding:12px 14px;display:flex;align-items:center;gap:14px;
-            transition:border-color .3s;
+            transition:border-color .3s,background .2s;
         }
+        .lib-card-standalone.owned { border-color:rgba(255,209,0,.4);background:rgba(255,209,0,.03); }
+        .lib-card-standalone.owned .lib-img { filter:drop-shadow(0 4px 12px rgba(255,209,0,.4)); }
 
         /* 徽章圖：視覺主角 */
-        .lib-img { width:60px;height:60px;flex-shrink:0;filter:drop-shadow(0 4px 10px rgba(0,0,0,.6)); transition: filter 0.3s; }
+        .lib-img { width:60px;height:60px;flex-shrink:0;filter:drop-shadow(0 4px 10px rgba(0,0,0,.6));transition:filter .3s; }
         .lib-info { flex:1;min-width:0;text-align:left; }
         .lib-header-row { display:flex;justify-content:space-between;align-items:flex-start;gap:6px;margin-bottom:2px; }
         .lib-name { font-size:14px;font-weight:800;color:#fff;line-height:1.3; }
 
-        /* ── 🔥 頂級圖鑑「已獲得」視覺重構 ── */
-        /* 1. 卡片本體：極細金邊 + 極淡高光底色 */
-        .lib-card.owned, .lib-card-standalone.owned { 
-            border: 1px solid rgba(255, 209, 0, 0.4); 
-            background: rgba(255, 209, 0, 0.03); 
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            padding-left: 14px; /* 確保與未獲得的卡片 padding 一致，覆蓋原本粗邊框的縮排 */
-        }
-        /* 2. 徽章本體：加上金色光暈 */
-        .lib-card.owned .lib-img, .lib-card-standalone.owned .lib-img {
-            filter: drop-shadow(0 4px 12px rgba(255, 209, 0, 0.4));
-        }
-        /* 3. 狀態標籤：鏤空金框設計 */
-        .lib-check { 
-            color: var(--gold); 
-            font-size: 14px; 
-            font-weight: 900; 
-            line-height: 1; 
-            flex-shrink: 0; 
-            text-shadow: 0 2px 4px rgba(255,209,0,0.3);
-        }
-        .lib-card.unowned, .lib-card-standalone.unowned { opacity: 0.65; }
-        .lib-card.unowned .lib-name, .lib-card-standalone.unowned .lib-name { color: var(--text-secondary); }
-        .lib-card-standalone.owned .lib-name::after { display: none; } /* 隱藏原本硬幹的打勾文字 */
+        /* 已獲得確認符號：全部圖鑑模式中顯示，我的成就模式中省略（所有徽章皆已擁有，不需重複）*/
+        .lib-check { color:var(--gold);font-size:13px;font-weight:900;line-height:1;flex-shrink:0; }
+
+        /* 未獲得：輕微降低視覺重量以區分，維持可識別性 */
+        .lib-card.unowned, .lib-card-standalone.unowned { opacity:0.65; }
+        .lib-card.unowned .lib-name, .lib-card-standalone.unowned .lib-name { color:var(--text-secondary); }
 
         .lib-desc { font-size:11px;font-weight:500;color:var(--text-dim);line-height:1.5;display:block; }
-        .lib-date { display:inline;font-size:10px;font-weight:600;color:rgba(155,155,155,.7);margin-left:4px; }
+        /* lib-date 使用 token 而非硬編碼 rgba */
+        .lib-date { display:inline;font-size:10px;font-weight:600;color:var(--text-dim);opacity:.7;margin-left:4px; }
 
         /* Modal */
         .modal-overlay { position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);z-index:20000;display:none;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .3s;cursor:pointer; }
@@ -842,36 +834,27 @@
         }
 
         function renderLibCard(id, langData, t, cssClass='lib-card', groupDate=null) {
-            const info = langData[state.lang] || langData['zh-hant'];
-            const isOwned = info.matchPrefix 
-                ? state.ownedIds.some(oid => oid.startsWith(info.matchPrefix)) 
-                : state.ownedIds.includes(id);
-            
-            const renderImg = info.imgId || id;
-            let descText = info.desc || '';
-            
-            const dateMatch = descText.match(/\s*\((20\d{2}[^)]*)\)$/);
-            let inlineDateHtml = '';
+            const info=langData[state.lang]||langData['zh-hant'];
+            const isOwned=info.matchPrefix
+                ?state.ownedIds.some(oid=>oid.startsWith(info.matchPrefix))
+                :state.ownedIds.includes(id);
+            const renderImg=info.imgId||id;
+            let descText=info.desc||'';
+            const dateMatch=descText.match(/\s*\((20\d{2}[^)]*)\)$/);
+            let inlineDateHtml='';
             if(dateMatch){
-                descText = descText.replace(dateMatch[0], '');
-                if(!groupDate || dateMatch[1] !== groupDate){
-                    inlineDateHtml = `<span class="lib-date">${dateMatch[1]}</span>`;
+                descText=descText.replace(dateMatch[0],'');
+                if(!groupDate||dateMatch[1]!==groupDate){
+                    inlineDateHtml=`<span class="lib-date">${dateMatch[1]}</span>`;
                 }
             }
-
-            // 🚀 核心 UX 優化：情境感知 (Context-Aware)
-            // 只在「全部圖鑑 (all)」中，且「已獲得」時，才顯示極簡的打勾符號。
-            // 若在「我的成就 (owned)」Tab，則全數隱藏，保持極致乾淨。
-            const statusIndicator = (isOwned && state.currentFilter === 'all') 
-                ? `<span class="lib-check">✓</span>` 
-                : '';
-
-            const imgClass = isOwned ? 'lib-img' : 'lib-img unowned';
-            const cardStatusClass = isOwned ? 'owned' : 'unowned';
-
-            return `
-            <div class="${cssClass} ${cardStatusClass}">
-                <img class="${imgClass}" src="${CFG.img}${renderImg}.svg" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'">
+            // 情境感知：全部圖鑑模式才顯示打勾符號；我的成就模式全部已獲得，不需重複標示
+            const statusIndicator=(isOwned&&state.currentFilter==='all')
+                ?`<span class="lib-check">✓</span>`:'';
+            // 圖片統一全亮，unowned class 只掛在卡片上（由 CSS 透過 opacity 處理整體降亮）
+            const cardStatusClass=isOwned?'owned':'unowned';
+            return `<div class="${cssClass} ${cardStatusClass}">
+                <img class="lib-img" src="${CFG.img}${renderImg}.svg" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'">
                 <div class="lib-info">
                     <div class="lib-header-row">
                         <span class="lib-name">${info.title}</span>
@@ -881,6 +864,7 @@
                 </div>
             </div>`;
         }
+
         function toggleLibGroup(groupId) {
             const body=document.getElementById(groupId), chevron=document.getElementById(groupId+'-chevron');
             const thumbs=document.getElementById(groupId+'-thumbs');
@@ -992,20 +976,15 @@
         }
 
         function render() {
-    const t = I18N[state.lang], box = document.getElementById('display');
-    box.innerHTML = state.list.map(b => {
-        const isSelected = state.selected?.id === b.id;
-        const btnHtml = (state.level >= 60 && isSelected)
-            ? `<div class="inline-confirm-btn ${state.isSubmitting ? 'submitting' : ''}" onclick="sendReq(event)">${state.isSubmitting ? t.sending : t.btn}</div>`
-            : '';
-        // 🚀 最佳實踐：直接使用 <button> 標籤，拔除所有複雜的 a11y 屬性，瀏覽器原生支援最完美
-        return `<button class="badge-item ${isSelected ? 'selected' : ''}" onclick="toggleSelect('${b.id}')">
-                    <img class="badge-img" src="${CFG.img}${b.id}.svg" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'">
-                    <span class="badge-name"></span>${btnHtml}
-                </button>`;
-    }).join('');
-    box.querySelectorAll('.badge-name').forEach((el, i) => { el.textContent = state.list[i].name; });
-}
+            const t=I18N[state.lang], box=document.getElementById('display');
+            box.innerHTML=state.list.map(b=>{
+                const isSelected=state.selected?.id===b.id;
+                // 確認按鈕用 <button>；外層 badge-item 用 <div role="button"> 避免 button-in-button 無效 HTML
+                const btnHtml=(state.level>=60&&isSelected)?`<button class="inline-confirm-btn ${state.isSubmitting?'submitting':''}" onclick="sendReq(event)">${state.isSubmitting?t.sending:t.btn}</button>`:'';
+                return `<div class="badge-item ${isSelected?'selected':''}" role="button" tabindex="0" onclick="toggleSelect('${b.id}')"><img class="badge-img" src="${CFG.img}${b.id}.svg" onerror="if(!this.src.includes('default'))this.src='${CFG.img}default.svg'"><span class="badge-name"></span>${btnHtml}</div>`;
+            }).join('');
+            box.querySelectorAll('.badge-name').forEach((el,i)=>{el.textContent=state.list[i].name;});
+        }
 
         function toggleSelect(id) {
             if(state.isSubmitting) return;
