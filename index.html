@@ -184,7 +184,7 @@
         .lvl-highlight { color:var(--gold);font-family:var(--font-head);font-weight:900;font-size:14px; }
         .equipped-grid { display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-top:4px; }
         .equipped-box { background:rgba(255,255,255,.02);border:1px solid var(--glass-border-subtle);border-radius:24px;padding:24px 10px 14px;display:flex;flex-direction:column;align-items:center;text-align:center;width:calc(50% - 8px);max-width:180px;box-shadow:0 10px 25px rgba(0,0,0,.4);position:relative;transition:opacity .4s,border-color .4s; }
-        .equipped-box::before { content:'';position:absolute;top:0;left:0;right:0;height:1.5px;background:linear-gradient(90deg,transparent,rgba(255,209,0,.6),transparent); }
+        .equipped-box::before { content:'';position:absolute;top:0;left:0;right:0;height:1.5px;border-radius:24px 24px 0 0;background:linear-gradient(90deg,transparent,rgba(255,209,0,.6),transparent); }
         .equipped-box img { width:72px;height:72px;margin-bottom:12px;filter:drop-shadow(0 8px 12px rgba(0,0,0,.7));position:relative;z-index:2;transition:opacity .3s; }
         .equipped-box span { font-size:13px;font-weight:700;color:#fff;line-height:1.2;height:32px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;text-shadow:0 2px 4px rgba(0,0,0,.6);position:relative;z-index:2; }
         .equipped-box.pending { opacity:.6;border-color:rgba(255,209,0,.5); }
@@ -267,17 +267,22 @@
         .lib-group-title { font-size:14px;font-weight:800;color:var(--text-primary); }
         .lib-group-date { font-size:10px;font-weight:600;color:var(--text-dim);white-space:nowrap; }
 
-        /* 縮圖預覽行：展開後隱藏 */
-        .lib-group-thumbs { display:flex;align-items:center;gap:6px;flex-wrap:nowrap;overflow:hidden;margin-top:2px; }
+        /* 縮圖預覽：grid 自適應，自動換行，每格固定寬度 */
+        .lib-group-thumbs {
+            display:grid;
+            grid-template-columns:repeat(auto-fill, 44px);
+            gap:6px;
+            margin-top:6px;
+        }
         .lib-group-thumbs.hidden { display:none; }
         .lib-thumb {
-            width:36px;height:36px;border-radius:8px;
-            background:rgba(0,0,0,.4);border:1.5px solid rgba(255,255,255,.12);
+            width:44px;height:44px;border-radius:10px;
+            background:rgba(0,0,0,.45);border:1.5px solid rgba(255,255,255,.12);
             display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;
         }
-        .lib-thumb img { width:26px;height:26px;object-fit:contain;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5)); }
-        .lib-thumb.owned-thumb { border-color:rgba(255,209,0,0.6);box-shadow:0 0 6px rgba(255,209,0,.2); }
-        .lib-thumb-more { background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:8px;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:var(--text-dim);flex-shrink:0; }
+        .lib-thumb img { width:32px;height:32px;object-fit:contain;filter:drop-shadow(0 1px 4px rgba(0,0,0,.6)); }
+        .lib-thumb.owned-thumb { border-color:rgba(255,209,0,0.65);box-shadow:0 0 8px rgba(255,209,0,.2); }
+        .lib-thumb-more { background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.12);border-radius:10px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--text-dim); }
 
         .lib-group-right { display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:12px; }
         .lib-group-count { font-size:12px;font-weight:700;color:var(--gold);white-space:nowrap; }
@@ -412,8 +417,8 @@
             <span class="overlay-title" id="ui-all-title">全站歷史徽章圖鑑</span>
         </div>
         <div class="overlay-filters">
-            <button class="filter-btn active" onclick="renderLibrary('all',this)" id="flt-all">全部</button>
-            <button class="filter-btn" onclick="renderLibrary('owned',this)" id="flt-owned">已獲得</button>
+            <button class="filter-btn active" onclick="renderLibrary('all',this)" id="flt-all">全部圖鑑</button>
+            <button class="filter-btn" onclick="renderLibrary('owned',this)" id="flt-owned">我的成就</button>
         </div>
         <div class="overlay-scroll"><div class="lib-grid" id="all-badges-list"></div></div>
     </div>
@@ -557,8 +562,8 @@
         const CFG = { data:'https://swag-user-info-api-905468082258.asia-east1.run.app/api/badges', handler:'https://swag-request-handler-v3-905468082258.asia-east1.run.app/api/request', img:'https://public.swag.live/badges/', trs:'https://api.swag.live/translations' };
 
         const I18N = {
-            'zh-hant': { title:"我的榮耀徽章全覽", username:"帳號：", total:"徽章總數", my_lvl:"我的 VIP 等級：", btn:"確認上架", upgrade:"立即升級", feat_h:"帳號顯示與更換徽章", vip_pre:"達", vip_lvl:"VIP Lv.60", vip_suf:"解鎖徽章更換", lock:"未達標", ok:"已解鎖", hint_sel:"請選取下方想更換徽章", hint_ready:"已選取", hint_pos:"將替換左側徽章，上架之徽章呈現於右側", login:"請登入後查看徽章", cooldown:"⏳ 請等待至少 20 秒再送出請求", err_timeout:"❌ 連線逾時，請稍後再試", modal_btn:"確定", all_title:"全站歷史徽章圖鑑", got_it:"已獲得", sending:"處理中...", all_lib:"全站歷史徽章庫", view_lib:"點擊查看所有成就圖鑑", zero_msg:"您目前尚未擁有任何直播間徽章", count_pre:"收錄共", count_suf:"款", empty_lib:"您尚未獲得任何徽章", flt_all:"全部", flt_owned:"已獲得", flt_unowned:"未獲得", zero_cta:"前往圖鑑查看", err_load:"❌ 資料載入失敗，請稍後再試", n1:"本頁面呈現您的帳號所有徽章", n2:"帳號達到 VIP Lv.60 可解鎖徽章更換", n3:"每次更換需等約 20 秒，請勿頻繁送出需求", n4:"徽章更換完成，可至直播間查看", n5:"徽章與等級需登入後完整顯示", n6:"資料至少需 10 分鐘更新時間", n7:"【重要】為了保護您的帳號，切勿將徽章介面分享給他人，以免造成帳號冒用或徽章損失。", sp_send:"送出", sp_processing:"處理中", sp_confirm:"確認", success_confirmed:"✅ 已成功上架！", success_pending:"📨 請求已送出，請稍後至直播間確認", uc_active:"活動進行中", uc_soon:"即將開始", uc_days_pre:"", uc_days_suf:" 天後開始", em_badge_section:"本次活動徽章", em_btn_active:"前往查看活動詳情", em_btn_soon:"敬請期待" },
-            'en': { title:"Glory Badge Gallery", username:"Account: ", total:"Badges", my_lvl:"My VIP Level: ", btn:"Confirm", upgrade:"Upgrade", feat_h:"Display & Swap Badges", vip_pre:"Reach", vip_lvl:"VIP Lv.60", vip_suf:"to unlock badge swap", lock:"Ineligible", ok:"Unlocked", hint_sel:"Please select a badge below", hint_ready:"Selected", hint_pos:"Will replace the left badge. New badge shows on the right.", login:"Please login", cooldown:"⏳ Wait 20s", err_timeout:"❌ Request timed out. Please try again.", modal_btn:"OK", all_title:"Badge Collection", got_it:"Owned", sending:"Sending...", all_lib:"All Site Library", view_lib:"View all achievements", zero_msg:"No badges found", count_pre:"Total", count_suf:"badges", empty_lib:"You haven't obtained any badges yet.", flt_all:"All", flt_owned:"Owned", flt_unowned:"Not Owned", zero_cta:"View Collection", err_load:"❌ Failed to load data. Please try again.", n1:"This page shows all your account badges", n2:"Reach VIP Lv.60 to unlock badge swap", n3:"Wait 20s between requests. Do not spam.", n4:"Check live rooms after completion.", n5:"Login required for full display", n6:"Allow 10 mins for data updates", n7:"[Important] Do not share this interface with others to avoid misuse.", sp_send:"Send", sp_processing:"Processing", sp_confirm:"Confirm", success_confirmed:"✅ Badge equipped successfully!", success_pending:"📨 Request sent. Please check your live room shortly.", uc_active:"Event Active", uc_soon:"Coming Soon", uc_days_pre:"Starts in ", uc_days_suf:" days", em_badge_section:"Event Badges", em_btn_active:"View Event Details", em_btn_soon:"Coming Soon" }
+            'zh-hant': { title:"我的榮耀徽章全覽", username:"帳號：", total:"徽章總數", my_lvl:"我的 VIP 等級：", btn:"確認上架", upgrade:"立即升級", feat_h:"帳號顯示與更換徽章", vip_pre:"達", vip_lvl:"VIP Lv.60", vip_suf:"解鎖徽章更換", lock:"未達標", ok:"已解鎖", hint_sel:"請選取下方想更換徽章", hint_ready:"已選取", hint_pos:"將替換左側徽章，上架之徽章呈現於右側", login:"請登入後查看徽章", cooldown:"⏳ 請等待至少 20 秒再送出請求", err_timeout:"❌ 連線逾時，請稍後再試", modal_btn:"確定", all_title:"全站歷史徽章圖鑑", got_it:"已獲得", sending:"處理中...", all_lib:"全站歷史徽章庫", view_lib:"點擊查看所有成就圖鑑", zero_msg:"您目前尚未擁有任何直播間徽章", count_pre:"收錄共", count_suf:"款", empty_lib:"您尚未獲得任何徽章", flt_all:"全部圖鑑", flt_owned:"我的成就", zero_cta:"前往圖鑑查看", err_load:"❌ 資料載入失敗，請稍後再試", n1:"本頁面呈現您的帳號所有徽章", n2:"帳號達到 VIP Lv.60 可解鎖徽章更換", n3:"每次更換需等約 20 秒，請勿頻繁送出需求", n4:"徽章更換完成，可至直播間查看", n5:"徽章與等級需登入後完整顯示", n6:"資料至少需 10 分鐘更新時間", n7:"【重要】為了保護您的帳號，切勿將徽章介面分享給他人，以免造成帳號冒用或徽章損失。", sp_send:"送出", sp_processing:"處理中", sp_confirm:"確認", success_confirmed:"✅ 已成功上架！", success_pending:"📨 請求已送出，請稍後至直播間確認", uc_active:"活動進行中", uc_soon:"即將開始", uc_days_pre:"", uc_days_suf:" 天後開始", em_badge_section:"本次活動徽章", em_btn_active:"前往查看活動詳情", em_btn_soon:"敬請期待" },
+            'en': { title:"Glory Badge Gallery", username:"Account: ", total:"Badges", my_lvl:"My VIP Level: ", btn:"Confirm", upgrade:"Upgrade", feat_h:"Display & Swap Badges", vip_pre:"Reach", vip_lvl:"VIP Lv.60", vip_suf:"to unlock badge swap", lock:"Ineligible", ok:"Unlocked", hint_sel:"Please select a badge below", hint_ready:"Selected", hint_pos:"Will replace the left badge. New badge shows on the right.", login:"Please login", cooldown:"⏳ Wait 20s", err_timeout:"❌ Request timed out. Please try again.", modal_btn:"OK", all_title:"Badge Collection", got_it:"Owned", sending:"Sending...", all_lib:"All Site Library", view_lib:"View all achievements", zero_msg:"No badges found", count_pre:"Total", count_suf:"badges", empty_lib:"You haven't obtained any badges yet.", flt_all:"All Badges", flt_owned:"My Badges", zero_cta:"View Collection", err_load:"❌ Failed to load data. Please try again.", n1:"This page shows all your account badges", n2:"Reach VIP Lv.60 to unlock badge swap", n3:"Wait 20s between requests. Do not spam.", n4:"Check live rooms after completion.", n5:"Login required for full display", n6:"Allow 10 mins for data updates", n7:"[Important] Do not share this interface with others to avoid misuse.", sp_send:"Send", sp_processing:"Processing", sp_confirm:"Confirm", success_confirmed:"✅ Badge equipped successfully!", success_pending:"📨 Request sent. Please check your live room shortly.", uc_active:"Event Active", uc_soon:"Coming Soon", uc_days_pre:"Starts in ", uc_days_suf:" days", em_badge_section:"Event Badges", em_btn_active:"View Event Details", em_btn_soon:"Coming Soon" }
         };
 
         let state = { lang:'zh-hant', level:0, selected:null, list:[], ownedIds:[], username:'', isSubmitting:false, currentFilter:'all', dataLoaded:false, isLoading:false };
@@ -655,10 +660,12 @@
             const allOwned=ownedCount===badgeCount&&badgeCount>0;
             const partialOwned=ownedCount>0&&!allOwned;
 
-            // 標頭文字
+            // 標頭文字：單一徽章用「已獲得」，多枚全獲才用「全數獲得」
             let headlineText, headlineClass='ub-reward-headline';
             if(allOwned){
-                headlineText=state.lang==='zh-hant'?'✅ 徽章已全數獲得':'✅ All badges obtained';
+                headlineText=state.lang==='zh-hant'
+                    ?(isSeries?'✅ 徽章已全數獲得':'✅ 徽章已獲得')
+                    :(isSeries?'✅ All badges obtained':'✅ Badge obtained');
                 headlineClass='ub-reward-headline owned-state';
             } else if(partialOwned){
                 headlineText=(info.rewardLabel||(state.lang==='zh-hant'?'新徽章系列':'New Badge Series'))+` ${ownedCount}/${badgeCount}`;
@@ -677,14 +684,13 @@
                 ?info.eventTitle
                 :(info.items&&info.items[0]?info.items[0].name:info.eventTitle);
 
-            // 圖示區：slot-wrap 讓標籤在圖示下方，不遮住徽章
+            // 圖示區：slot-wrap，已獲得狀態只用金色邊框傳達，不需重複文字標籤
             const displayBadges=evt.badges.slice(0,4);
             const slotsHtml=displayBadges.map(b=>{
                 const slotOwned=state.ownedIds.includes(b.imgId);
-                const labelText=slotOwned?(state.lang==='zh-hant'?'已獲得':'Owned'):(state.lang==='zh-hant'?'限定':'EX');
-                const labelClass=slotOwned?'ub-slot-label owned-label':'ub-slot-label';
                 if(b.preview){
-                    return `<div class="ub-slot-wrap"><div class="ub-badge-slot has-img"${slotOwned?' style="border-color:rgba(255,209,0,0.6)"':''}><img src="${CFG.img}${b.imgId}.svg" onerror="handleImgFallback(this)"></div><span class="${labelClass}">${labelText}</span></div>`;
+                    // 已獲得：金色邊框 + 金色發光；不顯示文字標籤（headline 已說明狀態）
+                    return `<div class="ub-slot-wrap"><div class="ub-badge-slot has-img" style="${slotOwned?'border-color:rgba(255,209,0,0.7);box-shadow:0 0 10px rgba(255,209,0,0.25)':''}"><img src="${CFG.img}${b.imgId}.svg" onerror="handleImgFallback(this)"></div></div>`;
                 } else {
                     return `<div class="ub-slot-wrap"><div class="ub-badge-slot is-mystery"><span class="ub-mystery-q">?</span></div><span class="ub-slot-label">${state.lang==='zh-hant'?'限定':'EX'}</span></div>`;
                 }
@@ -767,8 +773,27 @@
 
         function toggleAllBadges(show) {
             const overlay=document.getElementById('all-badges-overlay');
-            if (show) { overlay.style.display='flex'; if(!isInIframe){document.body.style.overflow='hidden';document.body.style.position='fixed';document.body.style.width='100%';} document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active')); document.getElementById('flt-all').classList.add('active'); renderLibrary('all'); }
-            else { overlay.style.display='none'; if(!isInIframe){document.body.style.overflow='';document.body.style.position='';document.body.style.width='';} }
+            if (show) {
+                overlay.style.display='flex';
+                if(!isInIframe){document.body.style.overflow='hidden';document.body.style.position='fixed';document.body.style.width='100%';}
+                // 更新 tab 顯示：注入數量讓用戶一眼知道各 tab 內容
+                const t=I18N[state.lang];
+                const totalDB=Object.keys(GLOBAL_BADGE_DB).length;
+                const ownedDB=Object.keys(GLOBAL_BADGE_DB).filter(id=>{
+                    const info=GLOBAL_BADGE_DB[id][state.lang]||GLOBAL_BADGE_DB[id]['zh-hant'];
+                    return info.matchPrefix?state.ownedIds.some(oid=>oid.startsWith(info.matchPrefix)):state.ownedIds.includes(id);
+                }).length;
+                const fltAll=document.getElementById('flt-all');
+                const fltOwned=document.getElementById('flt-owned');
+                if(fltAll) fltAll.textContent=`${t.flt_all} (${totalDB})`;
+                if(fltOwned) fltOwned.textContent=`${t.flt_owned} (${ownedDB})`;
+                document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+                if(fltAll) fltAll.classList.add('active');
+                renderLibrary('all');
+            } else {
+                overlay.style.display='none';
+                if(!isInIframe){document.body.style.overflow='';document.body.style.position='';document.body.style.width='';}
+            }
         }
 
         function renderLibCard(id, langData, t, cssClass='lib-card', groupDate=null) {
@@ -813,13 +838,13 @@
             const total=items.length, isComplete=ownedCount===total&&total>0;
             const groupId='grp-'+encodeURIComponent(groupName);
             const uniformDate=extractGroupUniformDate(items);
-            const thumbItems=items.slice(0,6), extraCount=Math.max(0,items.length-6);
-            const thumbsHtml=thumbItems.map(([id,langData])=>{
+            // 縮圖：全部顯示（grid 自動換行，不需要 +N 截斷）
+            const thumbsHtml=items.map(([id,langData])=>{
                 const info=langData[state.lang]||langData['zh-hant'];
                 const isOwned=info.matchPrefix?state.ownedIds.some(oid=>oid.startsWith(info.matchPrefix)):state.ownedIds.includes(id);
                 const renderImg=info.imgId||id;
                 return `<div class="lib-thumb ${isOwned?'owned-thumb':''}"><img src="${CFG.img}${renderImg}.svg" onerror="this.style.display='none'"></div>`;
-            }).join('')+(extraCount>0?`<div class="lib-thumb-more">+${extraCount}</div>`:'');
+            }).join('');
             return `
             <div class="lib-group">
                 <div class="lib-group-header" onclick="toggleLibGroup('${groupId}')">
