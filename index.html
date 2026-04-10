@@ -328,6 +328,7 @@
         .lib-desc { font-size:11px;font-weight:500;color:var(--text-dim);line-height:1.5;display:block; }
         .lib-date { display:inline;font-size:10px;font-weight:600;color:var(--text-dim);opacity:.7;margin-left:4px; }
 
+        /* Modal */
         .modal-overlay { position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);backdrop-filter:blur(10px);z-index:20000;display:none;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .3s;cursor:pointer; }
         .modal-overlay.show { display:flex;opacity:1; }
         .modal-content { background:var(--surface-container);border:1px solid var(--glass-border);border-radius:16px;padding:28px 22px;width:100%;max-width:300px;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.5);cursor:default; }
@@ -399,7 +400,7 @@
                     <div class="cb-title" id="ui-cb-title">訂製專屬徽章</div>
                     <div class="cb-desc" id="ui-cb-desc">提交您的設計，打造獨一無二的個人徽章</div>
                 </div>
-                <a href="https://swag.live/settings/vvip" target="_blank" class="cb-cta" id="ui-cb-cta">申請訂製</a>
+                <a href="https://swag.live/settings/vvip" target="_blank" class="cb-cta" id="ui-cb-cta" style="display:none;">立即申請</a>
             </div>
 
         </div>
@@ -583,9 +584,8 @@
 
         const CFG = { data:'https://swag-user-info-api-905468082258.asia-east1.run.app/api/badges', handler:'https://swag-request-handler-v3-905468082258.asia-east1.run.app/api/request', img:'https://public.swag.live/badges/', trs:'https://api.swag.live/translations' };
 
-        // Updated I18N configurations to reflect the refined UI copy
         const I18N = {
-            'zh-hant': { title:"我的榮耀徽章全覽", username:"帳號：", total:"徽章總數", my_lvl:"VIP 等級", btn:"確認上架", upgrade:"立即升級", feat_h:"專屬徽章管理", vip_lock_msg:"達 VIP Lv.60 解鎖徽章更換", custom_lock_msg:"達 VIP Lv.70 解鎖訂製專屬徽章", hint_sel:"請選取下方想更換徽章", hint_ready:"已選取", hint_pos:"將替換左側徽章，上架之徽章呈現於右側", login:"請登入後查看徽章", cooldown:"⏳ 請等待至少 20 秒再送出請求", err_timeout:"❌ 連線逾時，請稍後再試", modal_btn:"確定", all_title:"全站歷史徽章圖鑑", got_it:"已獲得", sending:"處理中...", all_lib:"全站歷史徽章庫", view_lib:"點擊查看所有成就圖鑑", zero_msg:"您目前尚未擁有任何直播間徽章", count_pre:"收錄共", count_suf:"款", empty_lib:"您尚未獲得任何徽章", flt_all:"全部圖鑑", flt_owned:"我的成就", zero_cta:"前往圖鑑查看", err_load:"❌ 資料載入失敗，請稍後再試", cb_title:"訂製專屬徽章", cb_desc:"提交您的設計，打造獨一無二的個人徽章", cb_cta:"申請訂製", n1:"本頁面呈現您的帳號所有徽章", n2:"帳號達到 VIP Lv.60 可解鎖徽章更換", n3:"帳號達到 VIP Lv.70 可申請訂製專屬徽章", n4:"每次更換需等約 20 秒，請勿頻繁送出需求", n5:"徽章更換完成，可至直播間查看", n6:"徽章與等級需登入後完整顯示", n7:"資料至少需 10 分鐘更新時間", n8:"【重要】為了保護您的帳號，切勿將徽章介面分享給他人，以免造成帳號冒用或徽章損失。", sp_send:"送出", sp_processing:"處理中", sp_confirm:"確認", success_confirmed:"✅ 已成功上架！", success_pending:"📨 請求已送出，請稍後至直播間確認", uc_active:"活動進行中", uc_soon:"即將開始", uc_days_pre:"", uc_days_suf:" 天後開始", em_badge_section:"本次活動徽章", em_btn_active:"前往查看活動詳情", em_btn_soon:"敬請期待" },
+            'zh-hant': { title:"我的榮耀徽章全覽", username:"帳號：", total:"徽章總數", my_lvl:"VIP 等級", btn:"確認上架", upgrade:"立即升級", feat_h:"專屬徽章管理", vip_lock_msg:"達 VIP Lv.60 解鎖徽章更換", custom_lock_msg:"達 VIP Lv.70 解鎖訂製專屬徽章", hint_sel:"請選取下方想更換徽章", hint_ready:"已選取", hint_pos:"將替換左側徽章，上架之徽章呈現於右側", login:"請登入後查看徽章", cooldown:"⏳ 請等待至少 20 秒再送出請求", err_timeout:"❌ 連線逾時，請稍後再試", modal_btn:"確定", all_title:"全站歷史徽章圖鑑", got_it:"已獲得", sending:"處理中...", all_lib:"全站歷史徽章庫", view_lib:"點擊查看所有成就圖鑑", zero_msg:"您目前尚未擁有任何直播間徽章", count_pre:"收錄共", count_suf:"款", empty_lib:"您尚未獲得任何徽章", flt_all:"全部圖鑑", flt_owned:"我的成就", zero_cta:"前往圖鑑查看", err_load:"❌ 資料載入失敗，請稍後再試", cb_title:"訂製專屬徽章", cb_desc:"提交您的設計，打造獨一無二的個人徽章", cb_cta:"立即申請", n1:"本頁面呈現您的帳號所有徽章", n2:"帳號達到 VIP Lv.60 可解鎖徽章更換", n3:"帳號達到 VIP Lv.70 可申請訂製專屬徽章", n4:"每次更換需等約 20 秒，請勿頻繁送出需求", n5:"徽章更換完成，可至直播間查看", n6:"徽章與等級需登入後完整顯示", n7:"資料至少需 10 分鐘更新時間", n8:"【重要】為了保護您的帳號，切勿將徽章介面分享給他人，以免造成帳號冒用或徽章損失。", sp_send:"送出", sp_processing:"處理中", sp_confirm:"確認", success_confirmed:"✅ 已成功上架！", success_pending:"📨 請求已送出，請稍後至直播間確認", uc_active:"活動進行中", uc_soon:"即將開始", uc_days_pre:"", uc_days_suf:" 天後開始", em_badge_section:"本次活動徽章", em_btn_active:"前往查看活動詳情", em_btn_soon:"敬請期待" },
             'en': { title:"Glory Badge Gallery", username:"Account: ", total:"Badges", my_lvl:"VIP Level", btn:"Confirm", upgrade:"Upgrade", feat_h:"Exclusive Badges", vip_lock_msg:"Reach VIP Lv.60 to unlock badge swap", custom_lock_msg:"Reach VIP Lv.70 to unlock custom badge", hint_sel:"Please select a badge below", hint_ready:"Selected", hint_pos:"Will replace the left badge. New badge shows on the right.", login:"Please login", cooldown:"⏳ Wait 20s", err_timeout:"❌ Request timed out. Please try again.", modal_btn:"OK", all_title:"Badge Collection", got_it:"Owned", sending:"Sending...", all_lib:"All Site Library", view_lib:"View all achievements", zero_msg:"No badges found", count_pre:"Total", count_suf:"badges", empty_lib:"You haven't obtained any badges yet.", flt_all:"All Badges", flt_owned:"My Badges", zero_cta:"View Collection", err_load:"❌ Failed to load data. Please try again.", cb_title:"Custom Badge", cb_desc:"Submit your design for a unique personal badge", cb_cta:"Apply Now", n1:"This page shows all your account badges", n2:"Reach VIP Lv.60 to unlock badge swap", n3:"Reach VIP Lv.70 to apply for a custom badge", n4:"Wait 20s between requests. Do not spam.", n5:"Check live rooms after completion.", n6:"Login required for full display", n7:"Allow 10 mins for data updates", n8:"[Important] Do not share this interface with others to avoid misuse.", sp_send:"Send", sp_processing:"Processing", sp_confirm:"Confirm", success_confirmed:"✅ Badge equipped successfully!", success_pending:"📨 Request sent. Please check your live room shortly.", uc_active:"Event Active", uc_soon:"Coming Soon", uc_days_pre:"Starts in ", uc_days_suf:" days", em_badge_section:"Event Badges", em_btn_active:"View Event Details", em_btn_soon:"Coming Soon" }
         };
 
@@ -737,7 +737,6 @@
             check(); 
         }
 
-        // The core check function cleanly handles lock states & UI
         function check() {
             const t = I18N[state.lang];
             const instArea = document.getElementById('ui-instruction');
@@ -749,7 +748,6 @@
             const cbCta = document.getElementById('ui-cb-cta');
             const cbDesc = document.getElementById('ui-cb-desc');
 
-            // --- Swap State Check ---
             if(state.level >= 60){
                 if(swapLockArea) swapLockArea.style.display = 'none';
                 if(state.list.length > 0) instArea.style.display = 'block';
@@ -773,17 +771,25 @@
                 instArea.style.display = 'none';
             }
 
-            // --- Custom Badge State Check ---
             if(state.level >= 70){
                 cbArea.classList.remove('is-locked-tier');
                 cbDesc.innerText = t.cb_desc;
+                cbCta.style.display = 'inline-block';
                 cbCta.textContent = t.cb_cta;
                 cbCta.className = 'cb-cta'; 
+                cbCta.href = 'https://swag.live/settings/vvip';
             } else {
                 cbArea.classList.add('is-locked-tier');
                 cbDesc.innerText = t.custom_lock_msg; 
-                cbCta.textContent = t.upgrade;
-                cbCta.className = 'cb-cta upgrade-mode'; 
+                
+                if (state.level < 60) {
+                    cbCta.style.display = 'none';
+                } else {
+                    cbCta.style.display = 'inline-block';
+                    cbCta.textContent = t.upgrade;
+                    cbCta.className = 'cb-cta upgrade-mode'; 
+                    cbCta.href = 'https://swag.live/settings/vvip';
+                }
             }
         }
 
