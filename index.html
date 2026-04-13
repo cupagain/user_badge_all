@@ -415,7 +415,7 @@
                     <span class="cb-title" id="ui-cb-title">訂製專屬徽章</span>
                     <div class="cb-desc" id="ui-cb-desc"></div>
                 </div>
-                <a href="https://events.swag.app/vipbooking/?user_id={USER_ID}" target="_blank" class="cb-cta" id="ui-cb-cta">立即申請</a>
+                <a href="#" target="_blank" class="cb-cta" id="ui-cb-cta">立即申請</a>
             </div>
         </div>
     </section>
@@ -868,11 +868,15 @@
                     cbDesc.innerHTML = t.cb_desc_unlocked;
                     cbCta.textContent = t.cb_cta_apply;
                     cbCta.className = 'cb-cta';
+                    // 加入這行：寫入「立即申請」連結，並動態帶入真實的 uid
+                    cbCta.href = `https://swag.live/iframe?source=https://events.swag.app/vipbooking/?user_id=${uid || ''}`;
                 } else {
                     cbArea.classList.add('is-locked-tier');
                     cbDesc.innerHTML = t.cb_desc_locked;
                     cbCta.textContent = t.cb_cta_upgrade;
                     cbCta.className = 'cb-cta upgrade-mode';
+                    // 加入這行：等級不夠時，把按鈕連結強制改成「立即升級」的連結
+                    cbCta.href = 'https://swag.live/settings/vvip';
                 }
             } else {
                 unifiedLockArea.style.display = 'flex';
