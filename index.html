@@ -155,12 +155,11 @@
         /* ── MANAGEMENT ── */
         .management-section { max-width:600px;margin:0 auto 20px;padding:0 16px; }
         .management-card { background:var(--glass-deep);border:1px solid var(--glass-border);border-radius:28px;padding:24px 20px;display:flex;flex-direction:column;gap:16px;box-shadow:0 8px 25px rgba(0,0,0,.3);transition:border-color .3s; }
-        
-        /* Centered Header */
+        .management-card.vip-active { border-color:rgba(255,209,0,.3); }
+
         .mc-header-centered { text-align: center; margin-bottom: 4px; }
         .mc-title { font-size:18px;font-weight:800;color:#fff;letter-spacing:1px;font-family:var(--font-head); }
-        
-        /* Unified VIP & Status Pill */
+
         .vip-status-block {
             display: inline-flex; align-items: center; justify-content: center; gap: 8px;
             border: 1px solid rgba(255,209,0,0.3); background: rgba(255,209,0,0.08);
@@ -185,9 +184,9 @@
         .equipped-box.pending { opacity:.6;border-color:rgba(255,209,0,.5);box-shadow:inset 0 1px 0 rgba(255,209,0,.15); }
         .eq-loading-ring { position:absolute;inset:4px;border-radius:20px;z-index:10;border:2px solid transparent;border-top-color:var(--gold);border-right-color:rgba(255,209,0,.3);animation:spin 1s linear infinite;pointer-events:none; }
         .equipped-box.eq-confirmed { opacity:1!important;animation:successPulse .9s ease-out forwards; }
-        
+
         .mc-divider { height:1px;background:linear-gradient(90deg,transparent,var(--glass-border),transparent);margin:0 8px; }
-        
+
         .swap-progress-bar { display:none;align-items:center;justify-content:center;gap:8px;padding:10px 0 4px;font-size:11px;font-weight:700;color:var(--text-dim); }
         .swap-progress-bar.visible { display:flex; }
         .sp-step { display:flex;flex-direction:column;align-items:center;gap:4px;opacity:.35;transition:opacity .4s; }
@@ -197,7 +196,7 @@
         .sp-line { width:24px;height:2px;background:var(--glass-border);border-radius:1px;align-self:center;margin-bottom:12px; }
         .sp-line.done { background:var(--success-green); }
 
-        /* ── UNIFIED LOCK SECTION (Lv < 60) ── */
+        /* ── UNIFIED LOCK SECTION ── */
         .unified-lock-section {
             display: flex; align-items: center; justify-content: space-between; gap: 14px;
             background: rgba(255,255,255,0.03); border: 1px dashed rgba(255,255,255,0.15);
@@ -209,7 +208,6 @@
         .ul-desc { font-size: 12px; font-weight: 600; color: var(--text-secondary); line-height: 1.5; }
         .ul-desc-line { display: flex; align-items: center; gap: 5px; }
         .ul-desc-line::before { content: '•'; color: var(--pink); font-size: 14px; line-height: 1; font-weight: bold; }
-        
         .ul-cta {
             flex-shrink: 0; background: var(--pink); color: #fff;
             font-size: 12px; font-weight: 800; padding: 0 16px; border-radius: 8px;
@@ -217,7 +215,7 @@
             box-shadow: 0 4px 10px rgba(246,65,141,.3); white-space: nowrap; text-align: center;
         }
 
-        /* ── CUSTOM BADGE SECTION (Lv >= 60) ── */
+        /* ── CUSTOM BADGE SECTION ── */
         .custom-badge-section {
             display:flex;align-items:center;gap:14px;
             background:rgba(255,209,0,0.05); border:1px solid rgba(255,209,0,0.25);
@@ -231,11 +229,9 @@
         .cb-desc { font-size:12px;font-weight:500;color:var(--text-dim);line-height:1.4; }
         .cb-highlight {
             font-family: var(--font-head); font-weight: 900; font-size: 14px;
-            background: linear-gradient(90deg, #FFD100, #FFAA00);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            color: var(--gold);
             letter-spacing: 0.5px; margin: 0 2px;
         }
-        
         .cb-cta {
             flex-shrink:0; background:var(--gold);color:#000;
             font-size:12px;font-weight:800; padding:0 16px;border-radius:8px;
@@ -273,13 +269,30 @@
         .hero-btn { background:rgba(255,255,255,.1);color:#fff;padding:12px 24px;border-radius:100px;font-size:14px;font-weight:700;border:1px solid var(--glass-border);cursor:pointer;transition:background .3s;min-height:40px; }
 
         /* ── FOOTER ── */
-        .footer { max-width:600px;margin:40px auto 0;padding:24px 20px 80px;border-top:1px solid var(--glass-border); }
-        .notice-list { list-style:none;padding:0; }
-        .notice-item { font-size:12px;color:var(--text-dim);font-weight:600;line-height:1.6;margin-bottom:8px;display:flex;gap:8px;text-align:left;align-items:flex-start; }
-        .notice-item::before { content:"•";color:var(--text-dim);font-weight:900;font-size:16px;line-height:1.2;flex-shrink:0;margin-top:1px; }
-        .notice-alert { color:var(--pink)!important;font-weight:800!important; }
+        .footer { max-width:600px;margin:40px auto 0;padding:32px 20px 88px;border-top:1px solid var(--glass-border); }
+        .footer-notices { display:flex;flex-direction:column;gap:20px;margin-bottom:24px; }
+        .notice-group { display:flex;flex-direction:column;gap:0; }
+        .notice-group-label {
+            font-size:9px;font-weight:900;color:var(--text-dim);text-transform:uppercase;
+            letter-spacing:2px;margin-bottom:8px;opacity:0.6;
+        }
+        .notice-group-items {
+            border-left:1px solid var(--glass-border);
+            padding-left:12px;
+            display:flex;flex-direction:column;gap:6px;
+        }
+        .notice-item { font-size:12px;color:var(--text-dim);font-weight:500;line-height:1.6; }
+        .notice-alert-card {
+            display:flex;align-items:flex-start;gap:12px;
+            background:rgba(246,65,141,0.06);
+            border:1px solid rgba(246,65,141,0.2);
+            border-left:3px solid var(--pink);
+            border-radius:12px;padding:14px 16px;
+        }
+        .notice-alert-icon { font-size:16px;flex-shrink:0;line-height:1.6; }
+        .notice-alert-text { font-size:12px;color:rgba(246,65,141,0.9);font-weight:700;line-height:1.6; }
 
-        /* ── OVERLAY & MODALS ── */
+        /* ── OVERLAY ── */
         .full-overlay { position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.98);backdrop-filter:blur(20px);z-index:15000;display:none;flex-direction:column;overflow:hidden;animation:fadeIn .2s ease; }
         .overlay-header { padding:24px 16px 16px;text-align:center;position:relative;flex-shrink:0; touch-action: none; }
         .overlay-title { font-family:var(--font-head);font-size:20px;font-weight:900;color:#fff; }
@@ -371,20 +384,16 @@
 
     <section class="management-section" id="management-area" style="display:none;">
         <div class="management-card" id="status-card">
-            
             <div class="mc-header-centered">
                 <span class="mc-title" id="ui-feat-h">帳號徽章顯示與更換</span>
             </div>
-            
             <div class="vip-status-block">
                 <span class="vs-label" id="lbl-my-lvl">VIP 等級</span>
                 <span class="vs-val" id="ui-level">--</span>
                 <div class="vs-divider" id="vs-divider" style="display:none;"></div>
                 <span class="vs-unlocked" id="swap-unlocked-text" style="display:none;">✅ <span id="ui-su-text">更換已解鎖</span></span>
             </div>
-            
             <div class="equipped-grid" id="equipped-display-grid"></div>
-            
             <div class="swap-progress-bar" id="swap-progress">
                 <div class="sp-step" id="sp-1"><div class="sp-dot"></div><span id="sp-lbl-1">送出</span></div>
                 <div class="sp-line" id="sp-line-1"></div>
@@ -392,28 +401,22 @@
                 <div class="sp-line" id="sp-line-2"></div>
                 <div class="sp-step" id="sp-3"><div class="sp-dot"></div><span id="sp-lbl-3">確認</span></div>
             </div>
-
             <div class="mc-divider" id="mc-divider-1"></div>
-
             <div class="unified-lock-section" id="unified-lock-area" style="display:none;">
                 <div class="ul-icon">🔒</div>
                 <div class="ul-info">
                     <div class="ul-title" id="ui-ul-title">升級解鎖專屬特權</div>
-                    <div class="ul-desc" id="ui-ul-desc">
-                        </div>
+                    <div class="ul-desc" id="ui-ul-desc"></div>
                 </div>
                 <a href="https://swag.live/settings/vvip" target="_blank" class="ul-cta" id="ui-ul-cta">立即升級</a>
             </div>
-
             <div class="custom-badge-section" id="custom-badge-area" style="display:none;">
                 <div class="cb-info">
                     <span class="cb-title" id="ui-cb-title">訂製專屬徽章</span>
-                    <div class="cb-desc" id="ui-cb-desc">
-                        </div>
+                    <div class="cb-desc" id="ui-cb-desc"></div>
                 </div>
-                <a href="https://swag.live/settings/vvip" target="_blank" class="cb-cta" id="ui-cb-cta">立即申請</a>
+                <a href="https://events.swag.app/vipbooking/?user_id={USER_ID}" target="_blank" class="cb-cta" id="ui-cb-cta">立即申請</a>
             </div>
-
         </div>
     </section>
 
@@ -431,16 +434,23 @@
     <main class="badge-grid" id="display"></main>
 
     <footer class="footer">
-        <ul class="notice-list">
-            <li class="notice-item" id="ui-n1">---</li>
-            <li class="notice-item" id="ui-n2">---</li>
-            <li class="notice-item" id="ui-n3">---</li>
-            <li class="notice-item" id="ui-n4">---</li>
-            <li class="notice-item" id="ui-n5">---</li>
-            <li class="notice-item" id="ui-n6">---</li>
-            <li class="notice-item" id="ui-n7">---</li>
-            <li class="notice-item notice-alert" id="ui-n8">---</li>
-        </ul>
+        <div class="footer-notices">
+            <div class="notice-group">
+                <span class="notice-group-label" id="ns-lbl-feature">功能說明</span>
+                <div class="notice-group-items">
+                    <span class="notice-item" id="ui-n1">---</span>
+                    <span class="notice-item" id="ui-n2">---</span>
+                    <span class="notice-item" id="ui-n3">---</span>
+                </div>
+            </div>
+            <div class="notice-group">
+                <span class="notice-group-label" id="ns-lbl-usage">使用須知</span>
+                <div class="notice-group-items">
+                    <span class="notice-item" id="ui-n4">---</span>
+                    <span class="notice-item" id="ui-n5">---</span>
+                </div>
+            </div>
+        </div>
         <nav class="top-nav">
             <button class="lang-btn active" id="btn-zh-hant" onclick="setLang('zh-hant')">繁中</button>
             <button class="lang-btn" id="btn-en" onclick="setLang('en')">EN</button>
@@ -479,7 +489,6 @@
             <div class="em-footer"><button class="em-cta-btn" id="em-cta-btn"></button></div>
         </div>
     </div>
-
     <script>
         window.handleImgFallback = function(imgElement) {
             const div = document.createElement('div');
@@ -596,54 +605,53 @@
         const CFG = { data:'https://swag-user-info-api-905468082258.asia-east1.run.app/api/badges', handler:'https://swag-request-handler-v3-905468082258.asia-east1.run.app/api/request', img:'https://public.swag.live/badges/', trs:'https://api.swag.live/translations' };
 
         const I18N = {
-            'zh-hant': { 
-                title: "我的榮耀徽章全覽", username: "帳號：", total: "徽章總數", my_lvl: "VIP 等級", btn: "確認上架", 
+            'zh-hant': {
+                title: "我的榮耀徽章全覽", username: "帳號：", total: "徽章總數", my_lvl: "VIP 等級", btn: "確認上架",
                 feat_h: "帳號徽章顯示與更換",
                 su_text: "更換已解鎖",
                 ul_title: "升級解鎖專屬特權",
                 ul_desc: "<div class='ul-desc-line'>Lv.60 解鎖徽章更換</div><div class='ul-desc-line'>Lv.70 解鎖訂製徽章</div>",
                 cb_title: "訂製專屬徽章",
                 cb_desc_locked: "達 <span class='cb-highlight'>VIP Lv.70</span> 解鎖",
-                cb_desc_unlocked: "提交設計，打造獨一無二的個人徽章",
+                cb_desc_unlocked: "打造獨一無二的個人徽章",
                 cb_cta_apply: "立即申請",
                 cb_cta_upgrade: "立即升級",
-                hint_sel: "請選取下方想更換徽章", hint_ready: "已選取", hint_pos: "將替換左側徽章，上架之徽章呈現於右側", 
-                login: "請登入後查看徽章", cooldown: "⏳ 請等待至少 20 秒再送出請求", err_timeout: "❌ 連線逾時，請稍後再試", modal_btn: "確定", 
-                all_title: "全站歷史徽章圖鑑", got_it: "已獲得", sending: "處理中...", all_lib: "全站歷史徽章庫", view_lib: "點擊查看所有成就圖鑑", 
-                zero_msg: "您目前尚未擁有任何直播間徽章", count_pre: "收錄共", count_suf: "款", empty_lib: "您尚未獲得任何徽章", flt_all: "全部圖鑑", 
-                flt_owned: "我的成就", zero_cta: "前往圖鑑查看", err_load: "❌ 資料載入失敗，請稍後再試", 
-                n1: "本頁面呈現您的帳號所有徽章", n2: "帳號達到 VIP Lv.60 可解鎖徽章更換", n3: "帳號達到 VIP Lv.70 可申請訂製專屬徽章", 
-                n4: "每次更換需等約 20 秒，請勿頻繁送出需求", n5: "徽章更換完成，可至直播間查看", n6: "徽章與等級需登入後完整顯示", 
-                n7: "資料至少需 10 分鐘更新時間", n8: "【重要】為了保護您的帳號，切勿將徽章介面分享給他人，以免造成帳號冒用或徽章損失。", 
-                sp_send: "送出", sp_processing: "處理中", sp_confirm: "確認", success_confirmed: "✅ 已成功上架！", 
-                success_pending: "📨 請求已送出，請稍後至直播間確認", uc_active: "活動進行中", uc_soon: "即將開始", uc_days_pre: "", 
-                uc_days_suf: " 天後開始", em_badge_section: "本次活動徽章", em_btn_active: "前往查看活動詳情", em_btn_soon: "敬請期待" 
+                hint_sel: "請選取下方想更換徽章", hint_ready: "已選取", hint_pos: "將替換左側徽章，上架之徽章呈現於右側",
+                login: "請登入後查看徽章", cooldown: "⏳ 請等待至少 20 秒再送出請求", err_timeout: "❌ 連線逾時，請稍後再試", modal_btn: "確定",
+                all_title: "全站歷史徽章圖鑑", got_it: "已獲得", sending: "處理中...", all_lib: "全站歷史徽章庫", view_lib: "點擊查看所有成就圖鑑",
+                zero_msg: "您目前尚未擁有任何直播間徽章", count_pre: "收錄共", count_suf: "款", empty_lib: "您尚未獲得任何徽章", flt_all: "全部圖鑑",
+                flt_owned: "我的成就", zero_cta: "前往圖鑑查看", err_load: "❌ 資料載入失敗，請稍後再試",
+                ns_feature: "功能說明", ns_usage: "使用須知",
+                n1: "呈現帳號所有徽章及目前上架中的顯示狀態", n2: "圖鑑收錄全站歷史徽章資料", n3: "有新徽章活動時自動顯示預告",
+                n4: "VIP Lv.60 解鎖徽章更換，Lv.70 可申請訂製徽章", n5: "每次更換請等候約 20 秒，請勿重複送出",
+                sp_send: "送出", sp_processing: "處理中", sp_confirm: "確認", success_confirmed: "✅ 已成功上架！",
+                success_pending: "📨 請求已送出，請稍後至直播間確認", uc_active: "活動進行中", uc_soon: "即將開始", uc_days_pre: "",
+                uc_days_suf: " 天後開始", em_badge_section: "本次活動徽章", em_btn_active: "前往查看活動詳情", em_btn_soon: "敬請期待"
             },
-            'en': { 
-                title: "Glory Badge Gallery", username: "Account: ", total: "Badges", my_lvl: "VIP Level", btn: "Confirm", 
+            'en': {
+                title: "Glory Badge Gallery", username: "Account: ", total: "Badges", my_lvl: "VIP Level", btn: "Confirm",
                 feat_h: "Badge Display & Swap",
                 su_text: "Swap Unlocked",
                 ul_title: "Upgrade for Privileges",
                 ul_desc: "<div class='ul-desc-line'>Lv.60 for Badge Swap</div><div class='ul-desc-line'>Lv.70 for Custom Badge</div>",
                 cb_title: "Custom Badge",
                 cb_desc_locked: "Unlock at <span class='cb-highlight'>VIP Lv.70</span>",
-                cb_desc_unlocked: "Submit design for a unique badge",
+                cb_desc_unlocked: "Create a one-of-a-kind personal badge",
                 cb_cta_apply: "Apply Now",
                 cb_cta_upgrade: "Upgrade",
-                hint_sel: "Please select a badge below", hint_ready: "Selected", hint_pos: "Will replace the left badge. New badge shows on the right.", 
-                login: "Please login", cooldown: "⏳ Wait 20s", err_timeout: "❌ Request timed out. Please try again.", modal_btn: "OK", 
-                all_title: "Badge Collection", got_it: "Owned", sending: "Sending...", all_lib: "All Site Library", view_lib: "View all achievements", 
-                zero_msg: "No badges found", count_pre: "Total", count_suf: "badges", empty_lib: "You haven't obtained any badges yet.", flt_all: "All Badges", 
-                flt_owned: "My Badges", zero_cta: "View Collection", err_load: "❌ Failed to load data. Please try again.", 
-                n1: "This page shows all your account badges", n2: "Reach VIP Lv.60 to unlock badge swap", n3: "Reach VIP Lv.70 to apply for a custom badge", 
-                n4: "Wait 20s between requests. Do not spam.", n5: "Check live rooms after completion.", n6: "Login required for full display", 
-                n7: "Allow 10 mins for data updates", n8: "[Important] Do not share this interface with others to avoid misuse.", 
-                sp_send: "Send", sp_processing: "Processing", sp_confirm: "Confirm", success_confirmed: "✅ Badge equipped successfully!", 
-                success_pending: "📨 Request sent. Please check your live room shortly.", uc_active: "Event Active", uc_soon: "Coming Soon", 
-                uc_days_pre: "Starts in ", uc_days_suf: " days", em_badge_section: "Event Badges", em_btn_active: "View Event Details", em_btn_soon: "Coming Soon" 
+                hint_sel: "Please select a badge below", hint_ready: "Selected", hint_pos: "Will replace the left badge. New badge shows on the right.",
+                login: "Please login", cooldown: "⏳ Wait 20s", err_timeout: "❌ Request timed out. Please try again.", modal_btn: "OK",
+                all_title: "Badge Collection", got_it: "Owned", sending: "Sending...", all_lib: "All Site Library", view_lib: "View all achievements",
+                zero_msg: "No badges found", count_pre: "Total", count_suf: "badges", empty_lib: "You haven't obtained any badges yet.", flt_all: "All Badges",
+                flt_owned: "My Badges", zero_cta: "View Collection", err_load: "❌ Failed to load data. Please try again.",
+                ns_feature: "Features", ns_usage: "Usage Notes",
+                n1: "Shows all account badges and the currently equipped badge", n2: "Library covers the full history of all site badges", n3: "Event banner previews upcoming badge activities",
+                n4: "VIP Lv.60 unlocks badge swap, Lv.70 unlocks custom badge", n5: "Wait ~20 seconds between swaps; avoid duplicate requests",
+                sp_send: "Send", sp_processing: "Processing", sp_confirm: "Confirm", success_confirmed: "✅ Badge equipped successfully!",
+                success_pending: "📨 Request sent. Please check your live room shortly.", uc_active: "Event Active", uc_soon: "Coming Soon",
+                uc_days_pre: "Starts in ", uc_days_suf: " days", em_badge_section: "Event Badges", em_btn_active: "View Event Details", em_btn_soon: "Coming Soon"
             }
         };
-
         let state = { lang:'zh-hant', level:0, selected:null, list:[], ownedIds:[], username:'', isSubmitting:false, currentFilter:'all', dataLoaded:false, isLoading:false };
         const TRANSLATION_CACHE = {};
 
@@ -809,18 +817,17 @@
                 'ui-cb-title':t.cb_title,
                 'ui-su-text':t.su_text,
                 'ui-ul-title':t.ul_title,
-                'ui-ul-cta':t.cb_cta_upgrade
+                'ui-ul-cta':t.cb_cta_upgrade,
+                'ns-lbl-feature':t.ns_feature,
+                'ns-lbl-usage':t.ns_usage
             };
             Object.entries(ids).forEach(([id,text])=>{
                 const el=document.getElementById(id);
                 if(el) el.innerText=text;
             });
-            // Handle innerHTML for specific elements
             const ulDesc = document.getElementById('ui-ul-desc');
             if (ulDesc) ulDesc.innerHTML = t.ul_desc;
-
-            for(let i=1;i<=8;i++){const el=document.getElementById(`ui-n${i}`);if(el)el.innerText=t[`n${i}`];}
-            check(); 
+            for(let i=1;i<=5;i++){const el=document.getElementById(`ui-n${i}`);if(el)el.innerText=t[`n${i}`];}
         }
 
         function check() {
@@ -828,18 +835,18 @@
             const instArea = document.getElementById('ui-instruction');
             const hintLbl = document.getElementById('ui-hint-label');
             const hintVal = document.getElementById('ui-hint-value');
-            
             const vsDivider = document.getElementById('vs-divider');
             const vsUnlocked = document.getElementById('swap-unlocked-text');
             const unifiedLockArea = document.getElementById('unified-lock-area');
             const cbArea = document.getElementById('custom-badge-area');
             const divider = document.getElementById('mc-divider-1');
-            
             const cbCta = document.getElementById('ui-cb-cta');
             const cbDesc = document.getElementById('ui-cb-desc');
+            const card = document.getElementById('status-card');
 
             if(state.level >= 60) {
                 unifiedLockArea.style.display = 'none';
+                if(card) card.classList.add('vip-active');
                 vsDivider.style.display = 'block';
                 vsUnlocked.style.display = 'flex';
                 cbArea.style.display = 'flex';
@@ -860,15 +867,16 @@
                     cbArea.classList.remove('is-locked-tier');
                     cbDesc.innerHTML = t.cb_desc_unlocked;
                     cbCta.textContent = t.cb_cta_apply;
-                    cbCta.className = 'cb-cta'; 
+                    cbCta.className = 'cb-cta';
                 } else {
                     cbArea.classList.add('is-locked-tier');
-                    cbDesc.innerHTML = t.cb_desc_locked; 
+                    cbDesc.innerHTML = t.cb_desc_locked;
                     cbCta.textContent = t.cb_cta_upgrade;
-                    cbCta.className = 'cb-cta upgrade-mode'; 
+                    cbCta.className = 'cb-cta upgrade-mode';
                 }
             } else {
                 unifiedLockArea.style.display = 'flex';
+                if(card) card.classList.remove('vip-active');
                 vsDivider.style.display = 'none';
                 vsUnlocked.style.display = 'none';
                 cbArea.style.display = 'none';
@@ -892,10 +900,8 @@
                 const rawIds=(r.badges||[]).filter(i=>i.startsWith('campaign_'));
                 state.ownedIds=rawIds;
                 state.list=await Promise.all(rawIds.map(async id=>({id,name:await fetchBadgeName(id,state.lang)})));
-                
                 if(rawIds.length===0){hero.style.display='block';box.style.display='none';instArea.style.display='none';mgmtArea.style.display='none';}
                 else{hero.style.display='none';box.style.display='grid';}
-                
                 if(rawIds.length>0){
                     mgmtArea.style.display='block';
                     const lastId=rawIds[rawIds.length-1], secondLastId=rawIds.length>1?state.ownedIds[state.ownedIds.length-2]:null, eqList=[];
@@ -903,7 +909,6 @@
                     eqList.push({id:lastId,name:findNameInList(lastId)});
                     renderEquippedGrid(eqList);
                 }
-                
                 if(state.list.length>0) render();
                 check();
                 renderUpcomingBanner();
@@ -1009,7 +1014,7 @@
             });
             list.innerHTML=html;
         }
-        
+
         function render() {
             const t=I18N[state.lang], box=document.getElementById('display');
             box.innerHTML=state.list.map(b=>{
@@ -1086,7 +1091,7 @@
         const overlayFilters = document.querySelector('.overlay-filters');
         if (overlayHeader) overlayHeader.addEventListener('touchmove', preventScroll, { passive: false });
         if (overlayFilters) overlayFilters.addEventListener('touchmove', preventScroll, { passive: false });
-        
+
         document.getElementById('ui-total-db-count').innerText=Object.keys(GLOBAL_BADGE_DB).length;
         setupPwaLinkInterceptor();
         setLang('zh-hant');
