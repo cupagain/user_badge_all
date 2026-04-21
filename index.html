@@ -592,16 +592,38 @@
         };
 
         const UPCOMING_BADGE_DB = [
-            { id:"campaign_2604_power", startDate:"2026-04-22", endDate:"2026-04-24",
-              eventUrl:"https://swag.live/iframe/?source=https://events.swag.app/earthday/&title=iframe_viewer_header",
-              badges:[{ imgId:"campaign_powerbank", preview:true }],
-              badges:[{ imgId:"campaign_thunderbolt", preview:true }],
-              langs:{
-                "zh-hant":{ eventTitle:"深夜發電廠", rewardLabel:"新徽章可獲得", items:[{ name:"超級行動電源", rule:"直播間達成玩具與挑逗指令 10,000 鑽" }] },
-                "en":{ eventTitle:"Adult Toy Party", rewardLabel:"New Badge Available", items:[{ name:"Master Toymaker", rule:"Spend 10k on Play with Me & watch Private Stream for 10 mins" }] }
-              }
+    {
+        id: "campaign_2604_power",
+        startDate: "2026-04-22",
+        endDate: "2026-04-24",
+        eventUrl: "https://swag.live/iframe/?source=https://events.swag.app/earthday/&title=iframe_viewer_header",
+        // ✅ 一個活動可放多個徽章(建議最多 4 個,畫面會 slice(0,4))
+        badges: [
+            { imgId: "campaign_powerbank",   preview: true },
+            { imgId: "campaign_thunderbolt", preview: true }
+            // 未公布的神秘徽章可用:  { preview: false }
+        ],
+        langs: {
+            "zh-hant": {
+                eventTitle: "深夜發電廠",
+                rewardLabel: "新徽章系列可獲得",
+                // ✅ items 的順序要對應上面 badges 的順序
+                items: [
+                    { name: "超級行動電源", rule: "直播間達成玩具與挑逗指令 10,000 鑽" },
+                    { name: "十萬伏特發電家", rule: "直播間達成玩具與挑逗指令 100,000 鑽" }
+                ]
+            },
+            "en": {
+                eventTitle: "Midnight Power Plant",
+                rewardLabel: "New Badge Series Available",
+                items: [
+                    { name: "Super Power Bank", rule: "Spend 10k on Play with Me" },
+                    { name: "100K Volt Master",   rule: "Spend 100k on Play with Me" }
+                ]
             }
-        ];
+        }
+    }
+];
 
         const CFG = { data:'https://swag-user-info-api-905468082258.asia-east1.run.app/api/badges', handler:'https://swag-request-handler-v3-905468082258.asia-east1.run.app/api/request', img:'https://public.swag.live/badges/', trs:'https://api.swag.live/translations' };
 
