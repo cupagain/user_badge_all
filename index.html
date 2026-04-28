@@ -513,6 +513,8 @@
         }
 
         const GLOBAL_BADGE_DB = {
+            "campaign_powerbank": { "zh-hant": { title:"超級行動電源", sub:"深夜發電廠活動", desc:"直播間按「互動菜單」指令達 10,000 鑽 (2026/4/22 - 4/24)", group:"深夜發電廠" }, "en": { title:"Super Power Bank", sub:"Midnight Power Plant", desc:"Spend 10k on Play with Me", group:"Midnight Power Plant" } },
+            "campaign_thunderbolt": { "zh-hant": { title:"十萬伏特發電家", sub:"深夜發電廠活動", desc:"直播間按「互動菜單」指令達 100,000 鑽 (2026/4/22 - 4/24)", group:"深夜發電廠" }, "en": { title:"100K Volt Master", sub:"Midnight Power Plant", desc:"Spend 100k on Play with Me", group:"Midnight Power Plant" } },
             "campaign_toyparty": { "zh-hant": { title:"大人的玩具師", sub:"大人的玩具派對活動", desc:"玩互動菜單滿 10,000 鑽，且觀看達 10 分鐘 (2026/4/3 - 4/6)", group:"大人的玩具派對" }, "en": { title:"Adult Toy Master", sub:"Adult Toy Party", desc:"Spend 10k on Play with Me & watch for 10 mins", group:"Adult Toy Party" } },
             "campaign_2603_vip_event": { "zh-hant": { title:"3 月同樂會榮耀", sub:"VIP 線下同樂會", desc:"VIP 參加線下同樂會活動紀念 (2026/3/29)", group:"VIP 同樂會" }, "en": { title:"Mar Meetup Glory", sub:"Mar VIP Meetup Badge", desc:"Mar VIP Offline Meetup participation badge", group:"VIP Meetup" } },
             "campaign_foolsday_1": { "zh-hant": { title:"愚人節紀念", sub:"愚人節惡搞大挑戰活動", desc:"送「愚妳有約」系列禮物贈送 (2026/3/28 - 4/1)" }, "en": { title:"Fool Day", sub:"April Fools' Prank Challenge", desc:"Memorial badge for sending an April fool's Day gift" } },
@@ -609,8 +611,8 @@
                 rewardLabel: "新徽章系列可獲得",
                 // ✅ items 的順序要對應上面 badges 的順序
                 items: [
-                    { name: "超級行動電源", rule: "直播間達成玩具與挑逗指令 10,000 鑽" },
-                    { name: "十萬伏特發電家", rule: "直播間達成玩具與挑逗指令 100,000 鑽" }
+                    { name: "超級行動電源", rule: "直播間按「互動菜單」指令達 10,000 鑽" },
+                    { name: "十萬伏特發電家", rule: "直播間按「互動菜單」指令達 100,000 鑽" }
                 ]
             },
             "en": {
@@ -723,13 +725,14 @@
         function closeModal() { document.getElementById('custom-modal').classList.remove('show'); }
         function handleModalBackdrop(e) { if(e.target===document.getElementById('custom-modal')) closeModal(); }
         const isInIframe = window.self!==window.top;
+        const parentOrigin = (()=>{ try { return document.referrer ? new URL(document.referrer).origin : '*'; } catch(e) { return '*'; } })();
 
         function setupPwaLinkInterceptor() {
             if (!isInIframe) return;
             document.addEventListener('click', function(e) {
                 const link = e.target.closest('a[target="_blank"]');
                 if (!link) return;
-                try { const url=new URL(link.href); if(url.hostname==='swag.live'||url.hostname==='www.swag.live'){e.preventDefault();window.parent.postMessage({type:'PWA_NAVIGATE',url:link.href},'https://swag.live');} } catch(err){}
+                try { const url=new URL(link.href); if(url.hostname==='swag.live'||url.hostname==='www.swag.live'){e.preventDefault();window.parent.postMessage({type:'PWA_NAVIGATE',url:link.href},parentOrigin);} } catch(err){}
             });
         }
 
@@ -750,7 +753,7 @@
             const btn=document.getElementById('em-cta-btn');
             btn.textContent=isActive?t.em_btn_active:t.em_btn_soon;
             btn.className=`em-cta-btn ${isActive?'em-btn-active':'em-btn-disabled'}`;
-            btn.onclick=isActive&&evt.eventUrl?()=>{ const finalUrl=evt.eventUrl.replace('{UID}',uid||''); if(isInIframe) window.parent.postMessage({type:'PWA_NAVIGATE',url:finalUrl},'https://swag.live'); else window.open(finalUrl,'_blank'); }:null;
+            btn.onclick=isActive&&evt.eventUrl?()=>{ const finalUrl=evt.eventUrl.replace('{UID}',uid||''); if(isInIframe) window.parent.postMessage({type:'PWA_NAVIGATE',url:finalUrl},parentOrigin); else window.open(finalUrl,'_blank'); }:null;
             document.getElementById('event-modal-overlay').classList.add('show');
             if (!isInIframe) document.body.style.overflow='hidden';
         }
